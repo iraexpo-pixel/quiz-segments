@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Почему ты всё знаешь - но ничего не меняется?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark: #1a1410;
+    --amber: #c8922a;
+    --amber-light: #e8b84b;
+    --cream: #f5efe6;
+    --warm-white: #fdf9f3;
+    --text-dark: #2c2416;
+    --text-mid: #5c4a32;
+    --text-light: #8c7a62;
+    --border: rgba(200,146,42,0.2);
+    --border-soft: rgba(200,146,42,0.12);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:'Raleway',sans-serif;
+    background:var(--warm-white);
+    color:var(--text-dark);
+    min-height:100vh;
+  }
+
+  .quiz-header {
+    background:var(--dark);
+    padding:40px 20px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .quiz-header::before {
+    content:'';
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse at center, rgba(200,146,42,0.12) 0%, transparent 70%);
+  }
+  .quiz-header > * { position:relative; z-index:1; }
+  .quiz-eyebrow {
+    font-size:10px; letter-spacing:4px; text-transform:uppercase;
+    color:var(--amber); margin-bottom:12px; display:block;
+  }
+  .quiz-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(28px,6vw,52px); font-weight:300;
+    color:var(--cream); line-height:1.1; margin-bottom:12px;
+  }
+  .quiz-title em { font-style:italic; color:var(--amber-light); }
+  .quiz-sub {
+    font-size:14px; font-weight:300;
+    color:rgba(245,239,230,0.6); max-width:480px;
+    margin:0 auto; line-height:1.7;
+  }
+
+  .progress-wrap {
+    max-width:600px; margin:32px auto 0;
+    padding:0 20px;
+  }
+  .progress-bar-bg {
+    height:3px; background:rgba(200,146,42,0.2);
+    border-radius:2px; overflow:hidden;
+  }
+  .progress-bar-fill {
+    height:100%; background:var(--amber);
+    border-radius:2px;
+    transition:width 0.5s ease;
+    width:0%;
+  }
+  .progress-text {
+    font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color:rgba(245,239,230,0.4); margin-top:8px;
+    text-align:right;
+  }
+
+  .quiz-body {
+    max-width:600px; margin:0 auto;
+    padding:40px 20px 80px;
+  }
+
+  .screen { display:none; }
+  .screen.active { display:block; animation:fadeUp 0.5s ease; }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .q-num {
+    font-size:10px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--amber); margin-bottom:16px; display:block;
+  }
+  .q-text {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(22px,4vw,32px); font-weight:400;
+    color:var(--text-dark); line-height:1.35;
+    margin-bottom:32px;
+  }
+
+  .options { display:flex; flex-direction:column; gap:12px; }
+  .option {
+    padding:18px 22px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:white;
+    cursor:pointer;
+    font-size:15px; font-weight:300;
+    color:var(--text-mid);
+    line-height:1.5;
+    transition:all 0.25s ease;
+    text-align:left;
+    font-family:'Raleway',sans-serif;
+  }
+  .option:hover {
+    border-color:var(--amber);
+    background:var(--cream);
+    color:var(--text-dark);
+    transform:translateX(4px);
+  }
+  .option.selected {
+    border-color:var(--amber);
+    background:var(--dark);
+    color:var(--cream);
+  }
+
+  /* ══════════════════════════════════════
+     RESULT PAGE - новый дизайн
+  ══════════════════════════════════════ */
+
+  .result-wrap { text-align:center; }
+
+  /* Иконка */
+  .result-icon {
+    font-size:52px; margin-bottom:20px; display:block;
+    animation:pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform:scale(1); }
+    50% { transform:scale(1.07); }
+  }
+
+  /* Надпись над типом */
+  .result-label {
+    font-size:10px; letter-spacing:4px; text-transform:uppercase;
+    color:var(--amber); margin-bottom:10px; display:block;
+  }
+
+  /* Название типа */
+  .result-type {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(26px,5vw,40px); font-style:italic;
+    color:var(--text-dark); margin-bottom:6px; line-height:1.2;
+  }
+
+  /* Девиз */
+  .result-tagline {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(14px,2.5vw,17px); font-weight:300;
+    color:var(--text-light); margin-bottom:32px; font-style:italic;
+  }
+
+  /* Разделитель */
+  .result-divider {
+    display:flex; align-items:center; gap:16px;
+    max-width:280px; margin:0 auto 36px;
+  }
+  .rd-line { flex:1; height:1px; background:var(--border); }
+  .rd-dot { color:var(--amber); font-size:11px; }
+
+  /* Основной текст - абзацы */
+  .result-body { text-align:left; margin-bottom:8px; }
+
+  .result-lead {
+    font-size:17px; font-weight:300;
+    color:var(--text-mid); line-height:1.9;
+    margin-bottom:20px;
+  }
+  .result-lead strong { color:var(--text-dark); font-weight:500; }
+
+  /* Блок с паттернами */
+  .result-patterns {
+    margin: 24px 0;
+    padding: 24px 28px;
+    background: white;
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    text-align: left;
+  }
+  .result-patterns-title {
+    font-size:10px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--amber); margin-bottom:16px; display:block;
+  }
+  .pattern-item {
+    display:flex; align-items:flex-start; gap:12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-soft);
+    font-size:14px; font-weight:300;
+    color:var(--text-mid); line-height:1.6;
+  }
+  .pattern-item:last-child { border-bottom:none; padding-bottom:0; }
+  .pattern-dash {
+    color:var(--amber); font-size:16px; margin-top:1px;
+    flex-shrink:0; line-height:1.5;
+  }
+
+  /* Блок «Что это значит для тебя» */
+  .result-meaning {
+    margin: 24px 0;
+    padding: 28px 28px 24px;
+    background: var(--cream);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 12px 12px 0;
+    text-align: left;
+  }
+  .result-meaning-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:20px; font-weight:500;
+    color:var(--text-dark); margin-bottom:14px; display:block;
+  }
+  .result-meaning-text {
+    font-size:15px; font-weight:300;
+    color:var(--text-mid); line-height:1.85;
+  }
+
+  /* CTA блок */
+  .result-cta-block {
+    margin-top: 32px;
+    padding: 28px 24px;
+    background: var(--dark);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .result-cta-hint {
+    font-size:13px; font-weight:300;
+    color: rgba(245,239,230,0.55);
+    line-height:1.7; margin-bottom:20px;
+    font-style:italic;
+  }
+  .cta-btn {
+    display:inline-block;
+    background:var(--amber); color:var(--dark);
+    font-family:'Raleway',sans-serif;
+    font-size:11px; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase;
+    padding:18px 40px; border-radius:4px;
+    text-decoration:none; border:none; cursor:pointer;
+    transition:all 0.3s ease;
+  }
+  .cta-btn:hover {
+    background:var(--amber-light);
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px rgba(200,146,42,0.35);
+  }
+  .restart-btn {
+    display:block;
+    margin-top:16px;
+    font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color:rgba(245,239,230,0.3); cursor:pointer;
+    background:none; border:none;
+    font-family:'Raleway',sans-serif;
+    transition: color 0.2s;
+  }
+  .restart-btn:hover { color:var(--amber); }
+
+  /* Intro & start */
+  .intro-text {
+    font-size:16px; font-weight:300;
+    color:var(--text-mid); line-height:1.9;
+    margin-bottom:32px;
+  }
+  .start-btn {
+    display:inline-block;
+    background:var(--amber); color:var(--dark);
+    font-family:'Raleway',sans-serif;
+    font-size:12px; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase;
+    padding:18px 48px; border-radius:4px;
+    border:none; cursor:pointer;
+    transition:all 0.3s ease;
+  }
+  .start-btn:hover {
+    background:var(--amber-light);
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px rgba(200,146,42,0.35);
+  }
+</style>
+</head>
+<body>
+
+<div class="quiz-header">
+  <span class="quiz-eyebrow">Тест · 7 вопросов</span>
+  <h1 class="quiz-title">Почему ты всё знаешь -<br><em>но ничего не меняется?</em></h1>
+  <p class="quiz-sub">7 вопросов - и ты получишь точное описание того, что именно держит тебя на месте.</p>
+  <div class="progress-wrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress"></div>
+    </div>
+    <p class="progress-text" id="progress-text"></p>
+  </div>
+</div>
+
+<div class="quiz-body">
+
+  <!-- INTRO -->
+  <div class="screen active" id="screen-intro">
+    <p class="intro-text">
+      Ответь так, как есть на самом деле - не как «правильно».<br><br>
+      7 вопросов. 3 минуты. И ты увидишь кое-что важное о себе.
+    </p>
+    <button class="start-btn" onclick="startQuiz()">Начать тест</button>
+  </div>
+
+  <!-- ВОПРОС 1 -->
+  <div class="screen" id="screen-q1">
+    <span class="q-num">Вопрос 1 из 7</span>
+    <p class="q-text">Когда ты думаешь о своей жизни - какая мысль приходит первой?</p>
+    <div class="options">
+      <button class="option" onclick="answer('q1','a')">«Я отдаю всё другим. На себя не остаётся ни сил, ни времени.»</button>
+      <button class="option" onclick="answer('q1','b')">«Хочу как в сказке - но непонятно кто её должен организовать.»</button>
+      <button class="option" onclick="answer('q1','c')">«Чувствую что могу больше - но как начать, непонятно.»</button>
+      <button class="option" onclick="answer('q1','d')">«Знаю что надо делать. Но всё равно ничего не меняется.»</button>
+      <button class="option" onclick="answer('q1','e')">«Плыву куда вынесет. Нет сил даже хотеть чего-то другого.»</button>
+    </div>
+  </div>
+
+  <!-- ВОПРОС 2 -->
+  <div class="screen" id="screen-q2">
+    <span class="q-num">Вопрос 2 из 7</span>
+    <p class="q-text">Что происходит, когда ты думаешь о своих желаниях?</p>
+    <div class="options">
+      <button class="option" onclick="answer('q2','a')">Какие желания? Я давно живу не для себя - есть семья, дети, все остальные.</button>
+      <button class="option" onclick="answer('q2','b')">Мечтаю и фантазирую - но до реальных шагов дело не доходит.</button>
+      <button class="option" onclick="answer('q2','c')">Желания есть, но боюсь попробовать - вдруг не получится и это докажет что я недостаточна.</button>
+      <button class="option" onclick="answer('q2','d')">Желания есть, я их понимаю - но между «хочу» и «делаю» пропасть.</button>
+      <button class="option" onclick="answer('q2','e')">Я как будто разучилась хотеть. Внутри пусто и серо.</button>
+    </div>
+  </div>
+
+  <!-- ВОПРОС 3 -->
+  <div class="screen" id="screen-q3">
+    <span class="q-num">Вопрос 3 из 7</span>
+    <p class="q-text">Когда в жизни что-то идёт не так - твоя первая реакция?</p>
+    <div class="options">
+      <button class="option" onclick="answer('q3','a')">Стараюсь всё исправить для других - про себя забываю.</button>
+      <button class="option" onclick="answer('q3','b')">Жду. Надеюсь что само рассосётся или кто-то поможет.</button>
+      <button class="option" onclick="answer('q3','c')">Откладываю. Говорю себе «начну потом, когда буду готова».</button>
+      <button class="option" onclick="answer('q3','d')">Анализирую, читаю, ищу ответы - но к действию так и не прихожу.</button>
+      <button class="option" onclick="answer('q3','e')">Закрываюсь. Ухожу в сериалы, скроллинг, шопинг - лишь бы не чувствовать.</button>
+    </div>
+  </div>
+
+  <!-- ВОПРОС 4 -->
+  <div class="screen" id="screen-q4">
+    <span class="q-num">Вопрос 4 из 7</span>
+    <p class="q-text">Что мешает тебе жить так, как хочется?</p>
+    <div class="options">
+      <button class="option" onclick="answer('q4','a')">Я потеряла себя. Не знаю кто я без своих ролей - мамы, жены, дочери.</button>
+      <button class="option" onclick="answer('q4','b')">Страх взрослой ответственности. Проще мечтать чем делать.</button>
+      <button class="option" onclick="answer('q4','c')">Страх. Что не получится, осудят, окажется что я переоценила себя.</button>
+      <button class="option" onclick="answer('q4','d')">Я сама. Знаю всё - но не делаю. Это злит и обессиливает.</button>
+      <button class="option" onclick="answer('q4','e')">Обстоятельства и люди. Жизнь происходит со мной - я не управляю ничем.</button>
+    </div>
+  </div>
+
+  <!-- ВОПРОС 5 -->
+  <div class="screen" id="screen-q5">
+    <span class="q-num">Вопрос 5 из 7</span>
+    <p class="q-text">Как давно ты делала что-то только для себя - без пользы, без оправданий?</p>
+    <div class="options">
+      <button class="option" onclick="answer('q5','a')">Не помню. Всё моё время принадлежит другим.</button>
+      <button class="option" onclick="answer('q5','b')">Иногда - но это скорее побег от реальности, чем настоящая радость.</button>
+      <button class="option" onclick="answer('q5','c')">Иногда. Но потом чувствую вину - как будто не заслужила.</button>
+      <button class="option" onclick="answer('q5','d')">Редко. Чаще читаю или учусь - это же «полезно», не просто удовольствие.</button>
+      <button class="option" onclick="answer('q5','e')">Да, но это редкие островки. В целом жизнь серая и бесконечная.</button>
+    </div>
+  </div>
+
+  <!-- ВОПРОС 6 -->
+  <div class="screen" id="screen-q6">
+    <span class="q-num">Вопрос 6 из 7</span>
+    <p class="q-text">Если честно - ты веришь, что твоя жизнь может измениться?</p>
+    <div class="options">
+      <button class="option" onclick="answer('q6','a')">Хочу верить - но не знаю даже кем я хочу быть. Образ не складывается.</button>
+      <button class="option" onclick="answer('q6','b')">Верю - но жду знака, человека, правильного момента.</button>
+      <button class="option" onclick="answer('q6','c')">Умом верю. Но внутри - нет. Слишком много раз не получалось начать.</button>
+      <button class="option" onclick="answer('q6','d')">Верю. Но почему-то всё равно не делаю - и это самое непонятное.</button>
+      <button class="option" onclick="answer('q6','e')">Нет. Слишком устала. Да и поздно уже что-то менять.</button>
+    </div>
+  </div>
+
+  <!-- ВОПРОС 7 -->
+  <div class="screen" id="screen-q7">
+    <span class="q-num">Вопрос 7 из 7</span>
+    <p class="q-text">Что ты чувствуешь, когда представляешь себя через 3 года - другой, более живой?</p>
+    <div class="options">
+      <button class="option" onclick="answer('q7','a')">Тоску. Я так давно не думала о себе, что этот образ кажется чужим.</button>
+      <button class="option" onclick="answer('q7','b')">Радость - и тут же страх. Хочу, но не верю что смогу.</button>
+      <button class="option" onclick="answer('q7','c')">Что-то сжимается. Хочу - но боюсь снова разочаровать себя.</button>
+      <button class="option" onclick="answer('q7','d')">Что-то сжимается. Знаю как - но не делаю. И это больно.</button>
+      <button class="option" onclick="answer('q7','e')">Усталость. Даже думать об этом тяжело.</button>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       РЕЗУЛЬТАТ A: ВЫГОРЕВШАЯ
+  ══════════════════════════════════════ -->
+  <div class="screen" id="result-a">
+    <div class="result-wrap">
+      <span class="result-icon">🕯️</span>
+      <span class="result-label">Твой психологический тип</span>
+      <p class="result-type">«Выгоревшая»</p>
+      <p class="result-tagline">«Меня нет. Есть мама, жена, дочь - но меня нет»</p>
+      <div class="result-divider"><div class="rd-line"></div><span class="rd-dot">✦</span><div class="rd-line"></div></div>
+
+      <div class="result-body">
+        <p class="result-lead">
+          Ты отдаёшь всё - семье, детям, всем кто рядом. Ты невероятно заботливая, терпеливая, ответственная. За всех - кроме себя. Смотришь в зеркало - и не узнаёшь себя. Потому что тебя там давно нет.
+        </p>
+        <p class="result-lead">
+          Это не слабость и не эгоизм. Это результат того, что тебя с детства учили быть <strong>удобной функцией</strong>. Хорошая мать. Хорошая жена. Хорошая дочь. А просто ты - где-то потерялась по дороге.
+        </p>
+      </div>
+
+      <div class="result-patterns">
+        <span class="result-patterns-title">На практике это выглядит так</span>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Твои желания кажутся тебе последними в очереди - и даже это тебя не злит, просто больно</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Ты не знаешь, чего хочешь. Для себя. Без ролей</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Деньги на себя - с чувством вины. Время на себя - с оправданиями</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Внутри накопилась обида - и стыд за эту обиду</span></div>
+      </div>
+
+      <div class="result-meaning">
+        <span class="result-meaning-title">Что это значит для тебя</span>
+        <p class="result-meaning-text">
+          Первый шаг - не «взять себя в руки». Первый шаг - позволить себе существовать. Не для кого-то. Просто так. Один тихий вечер - только твой. Это и есть начало возвращения к себе.
+        </p>
+      </div>
+
+      <div class="result-cta-block">
+        <p class="result-cta-hint">В Telegram тебя ждёт полная расшифровка твоего типа</p>
+        <a href="https://t.me/Isakova_test_bot?start=69ccda24b72cc5d53702f373" target="_blank" class="cta-btn">Получить расшифровку</a>
+        <button class="restart-btn" onclick="restartQuiz()">Пройти заново</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       РЕЗУЛЬТАТ B: МЕЧТАТЕЛЬНИЦА
+  ══════════════════════════════════════ -->
+  <div class="screen" id="result-b">
+    <div class="result-wrap">
+      <span class="result-icon">🌸</span>
+      <span class="result-label">Твой психологический тип</span>
+      <p class="result-type">«Мечтательница»</p>
+      <p class="result-tagline">«Хочу как в сказке - но чтобы кто-то другой её организовал»</p>
+      <div class="result-divider"><div class="rd-line"></div><span class="rd-dot">✦</span><div class="rd-line"></div></div>
+
+      <div class="result-body">
+        <p class="result-lead">
+          Ты творческая, тонкая, с богатым внутренним миром. Умеешь мечтать - и это твоя настоящая сила. Но между мечтой и первым шагом - стена. Ты ждёшь: знак, человека, момент, волшебную таблетку. Начинаешь - и бросаешь. А сказка всё не начинается.
+        </p>
+        <p class="result-lead">
+          Это не лень и не слабость характера. Когда-то давно <strong>твои желания не были в безопасности</strong>. Психика запомнила: хотеть - опасно. Начинать - больно. И защищает тебя до сих пор. Даже когда ты уже взрослая.
+        </p>
+      </div>
+
+      <div class="result-patterns">
+        <span class="result-patterns-title">На практике это выглядит так</span>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Ты начинаешь с горящими глазами - и гаснешь через две недели</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Ты ждёшь спасителя - человека, который придёт и всё организует</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Стыд за «лень» копится - и превращается в недоверие к себе</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Ты видишь успех подруг и злишься - а потом стыдишься злости</span></div>
+      </div>
+
+      <div class="result-meaning">
+        <span class="result-meaning-title">Что это значит для тебя</span>
+        <p class="result-meaning-text">
+          Тебе не нужен прыжок. Тебе не нужна дисциплина через силу. Тебе нужен маленький безопасный шаг - красивый, лёгкий, без насилия над собой. Один. Потом ещё один. Так строится доверие к себе.
+        </p>
+      </div>
+
+      <div class="result-cta-block">
+        <p class="result-cta-hint">В Telegram тебя ждёт полная расшифровка твоего типа</p>
+        <a href="https://t.me/Isakova_test_bot?start=69ccdc13e7b30620c600373b" target="_blank" class="cta-btn">Получить расшифровку</a>
+        <button class="restart-btn" onclick="restartQuiz()">Пройти заново</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       РЕЗУЛЬТАТ C: ЗАСТРЯВШАЯ
+  ══════════════════════════════════════ -->
+  <div class="screen" id="result-c">
+    <div class="result-wrap">
+      <span class="result-icon">🌊</span>
+      <span class="result-label">Твой психологический тип</span>
+      <p class="result-type">«Застрявшая»</p>
+      <p class="result-tagline">«Я всё знаю. Я всё понимаю. И всё равно - то же самое утро»</p>
+      <div class="result-divider"><div class="rd-line"></div><span class="rd-dot">✦</span><div class="rd-line"></div></div>
+
+      <div class="result-body">
+        <p class="result-lead">
+          Ты читаешь, анализируешь, проходишь курсы. Можешь назвать свои паттерны по учебнику. И при этом - продолжаешь жить по-старому.
+        </p>
+        <p class="result-lead">
+          Это не лень. Это <strong>разрыв между знанием и живым опытом</strong>. Нейробиологи называют это «знание без переживания» - оно не меняет поведение. Меняет только то, что прожито телом. А саморазвитие без действия стало красивой клеткой.
+        </p>
+      </div>
+
+      <div class="result-patterns">
+        <span class="result-patterns-title">На практике это выглядит так</span>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Ты понимаешь свои паттерны - и продолжаешь их повторять</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Ты начинаешь - и бросаешь. Потом корищь себя за это</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Внутри давит ощущение: потенциал есть, а жизнь проходит</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>«Кто я такая, чтобы хотеть большего» - этот голос тебе знаком</span></div>
+      </div>
+
+      <div class="result-meaning">
+        <span class="result-meaning-title">Что это значит для тебя</span>
+        <p class="result-meaning-text">
+          Тебе не нужен ещё один курс. Тебе нужен первый разрешённый акт доброты к себе - живой, телесный, настоящий. Не изучение. Действие. Один маленький доказуемый результат, который скажет: я смогла. Дальше будет легче.
+        </p>
+      </div>
+
+      <div class="result-cta-block">
+        <p class="result-cta-hint">В Telegram тебя ждёт полная расшифровка твоего типа</p>
+        <a href="https://t.me/Isakova_test_bot?start=69ccdc33ca359c9d830301ba" target="_blank" class="cta-btn">Получить расшифровку</a>
+        <button class="restart-btn" onclick="restartQuiz()">Пройти заново</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       РЕЗУЛЬТАТ D: ПРОБУЖДАЮЩАЯСЯ
+  ══════════════════════════════════════ -->
+  <div class="screen" id="result-d">
+    <div class="result-wrap">
+      <span class="result-icon">✨</span>
+      <span class="result-label">Твой психологический тип</span>
+      <p class="result-type">«Пробуждающаяся»</p>
+      <p class="result-tagline">«Я готова. Но боюсь, что снова не получится»</p>
+      <div class="result-divider"><div class="rd-line"></div><span class="rd-dot">✦</span><div class="rd-line"></div></div>
+
+      <div class="result-body">
+        <p class="result-lead">
+          Ты уже прошла через многое. Через боль, выгорание, осознание. Ты видишь свои паттерны. Понимаешь откуда они. И по-настоящему, болезненно хочешь меняться.
+        </p>
+        <p class="result-lead">
+          Но каждый раз что-то останавливает. Срыв. Откат. «Опять не получилось». Это не слабость воли. Это <strong>самый сложный момент трансформации</strong> - когда ты уже видишь куда идти, но тело ещё не верит что безопасно.
+        </p>
+      </div>
+
+      <div class="result-patterns">
+        <span class="result-patterns-title">На практике это выглядит так</span>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Ты осознаёшь - но всё равно не делаешь. И это мучает</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Малейший срыв воспринимается как полный крах</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Тебе нужна поддержка - но стыдно в этом признаться</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Ты «вечно в процессе» - и устала от этого ощущения</span></div>
+      </div>
+
+      <div class="result-meaning">
+        <span class="result-meaning-title">Что это значит для тебя</span>
+        <p class="result-meaning-text">
+          Тебе не нужен ещё один старт с понедельника. Тебе нужен бережный проводник и структура, которая не давит - а держит. Ты ближе к своей настоящей жизни, чем думаешь.
+        </p>
+      </div>
+
+      <div class="result-cta-block">
+        <p class="result-cta-hint">В Telegram тебя ждёт полная расшифровка твоего типа</p>
+        <a href="https://t.me/Isakova_test_bot?start=69ccdc4dacdb896b300bc39a" target="_blank" class="cta-btn">Получить расшифровку</a>
+        <button class="restart-btn" onclick="restartQuiz()">Пройти заново</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       РЕЗУЛЬТАТ E: ЖЕРТВА ОБСТОЯТЕЛЬСТВ
+  ══════════════════════════════════════ -->
+  <div class="screen" id="result-e">
+    <div class="result-wrap">
+      <span class="result-icon">🌿</span>
+      <span class="result-label">Твой психологический тип</span>
+      <p class="result-type">«Жертва обстоятельств»</p>
+      <p class="result-tagline">«Жизнь происходит со мной. Нет сил даже хотеть»</p>
+      <div class="result-divider"><div class="rd-line"></div><span class="rd-dot">✦</span><div class="rd-line"></div></div>
+
+      <div class="result-body">
+        <p class="result-lead">
+          Жизнь происходит с тобой - а не через тебя. Работа. Дом. Телефон. Сон. Снова. Внутри - усталость и обиды, которые копятся годами. И уже почти не верится, что бывает иначе.
+        </p>
+        <p class="result-lead">
+          Это не слабость. Это то, что происходит, когда психика слишком долго работает в режиме выживания. Она <strong>отключила желания как защиту</strong> - чтобы не было больно от несбывшегося. Но где-то глубоко - ещё что-то живое есть.
+        </p>
+      </div>
+
+      <div class="result-patterns">
+        <span class="result-patterns-title">На практике это выглядит так</span>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Бесконечный «день сурка» - и цинизм как защита</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Обиды которые держишь годами - и от них же страдаешь</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Призывы «просто начни» вызывают раздражение - ты пробовала</span></div>
+        <div class="pattern-item"><span class="pattern-dash">-</span><span>Где-то глубоко ещё есть что-то живое. Но сил до него не добраться</span></div>
+      </div>
+
+      <div class="result-meaning">
+        <span class="result-meaning-title">Что это значит для тебя</span>
+        <p class="result-meaning-text">
+          Тебе не нужна мотивация. Не нужны большие цели. Тебе нужно просто снова начать что-то чувствовать - тихо, бережно, без рывков. Не трансформация. Просто один вечер, когда ты - живая.
+        </p>
+      </div>
+
+      <div class="result-cta-block">
+        <p class="result-cta-hint">В Telegram тебя ждёт полная расшифровка твоего типа</p>
+        <a href="https://t.me/Isakova_test_bot?start=69cd0c7c9110f27db601308f" target="_blank" class="cta-btn">Получить расшифровку</a>
+        <button class="restart-btn" onclick="restartQuiz()">Пройти заново</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const answers = {};
+  const totalQ = 7;
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(current) {
+    const pct = Math.round((current / totalQ) * 100);
+    document.getElementById('progress').style.width = pct + '%';
+    document.getElementById('progress-text').textContent =
+      current > 0 ? current + ' из ' + totalQ : '';
+  }
+
+  function startQuiz() {
+    updateProgress(0);
+    showScreen('screen-q1');
+  }
+
+  const questionOrder = ['q1','q2','q3','q4','q5','q6','q7'];
+
+  function answer(q, val) {
+    answers[q] = val;
+    const screen = document.getElementById('screen-' + q);
+    screen.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    event.target.classList.add('selected');
+    const idx = questionOrder.indexOf(q);
+    updateProgress(idx + 1);
+    setTimeout(() => {
+      if (idx < questionOrder.length - 1) {
+        showScreen('screen-' + questionOrder[idx + 1]);
+      } else {
+        showResult();
+      }
+    }, 350);
+  }
+
+  function showResult() {
+    const counts = { a:0, b:0, c:0, d:0, e:0 };
+    Object.values(answers).forEach(v => { if (counts[v] !== undefined) counts[v]++; });
+    let winner = 'a';
+    let max = 0;
+    for (const [k, v] of Object.entries(counts)) {
+      if (v > max) { max = v; winner = k; }
+    }
+    updateProgress(totalQ);
+    showScreen('result-' + winner);
+  }
+
+  function restartQuiz() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    updateProgress(0);
+    showScreen('screen-intro');
+  }
+</script>
+</body>
+</html>
