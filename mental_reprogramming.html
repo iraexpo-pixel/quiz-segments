@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ментальная перепрошивка · Ирина Исакова</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF8F4;
+    --stone: #E8E2D9;
+    --sand: #D6CDBC;
+    --text: #2C2620;
+    --text-soft: #6B5E52;
+    --text-muted: #A0917F;
+
+    --a: #C4956A; --a-light: #FDF5EC;
+    --b: #8E7BAA; --b-light: #F5F2FA;
+    --c: #6A8FA0; --c-light: #EFF5F8;
+    --d: #7A9E7E; --d-light: #F0F6F1;
+    --e: #B07070; --e-light: #FAF0F0;
+  }
+
+  body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; padding-bottom: 48px; }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,248,244,0.96); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--stone);
+    display: flex; gap: 6px; padding: 10px 16px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex-shrink: 0; border: 1px solid transparent; background: none;
+    font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted);
+    padding: 6px 12px; border-radius: 20px; cursor: pointer; transition: all 0.2s;
+  }
+  .nav-btn.active, .nav-btn:hover { color: var(--text); background: white; border-color: var(--stone); }
+  .nav-btn[data-seg="a"].active { color: var(--a); border-color: var(--a); background: var(--a-light); }
+  .nav-btn[data-seg="b"].active { color: var(--b); border-color: var(--b); background: var(--b-light); }
+  .nav-btn[data-seg="c"].active { color: var(--c); border-color: var(--c); background: var(--c-light); }
+  .nav-btn[data-seg="d"].active { color: var(--d); border-color: var(--d); background: var(--d-light); }
+  .nav-btn[data-seg="e"].active { color: var(--e); border-color: var(--e); background: var(--e-light); }
+
+  /* HEADER */
+  .page-header { padding: 28px 20px 16px; text-align: center; }
+  .page-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); }
+  .page-header .subtitle { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--text); margin-top: 6px; line-height: 1.2; }
+  .page-header .sub2 { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 300; font-style: italic; color: var(--text-soft); margin-top: 4px; }
+
+  /* STRUCTURE LEGEND */
+  .legend { margin: 0 16px 16px; background: white; border-radius: 16px; padding: 16px 18px; box-shadow: 0 2px 12px rgba(44,38,32,0.06); }
+  .legend-title { font-size: 9px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+  .legend-items { display: flex; flex-direction: column; gap: 6px; }
+  .legend-item { display: flex; gap: 10px; align-items: center; }
+  .legend-icon { font-size: 14px; width: 22px; text-align: center; flex-shrink: 0; }
+  .legend-text { font-size: 12px; color: var(--text-soft); }
+  .legend-text strong { color: var(--text); }
+
+  /* SEGMENTS */
+  .segments { padding: 0 16px; }
+  .segment { background: white; border-radius: 20px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 2px 14px rgba(44,38,32,0.07); display: none; }
+  .segment.active { display: block; }
+  .show-all .segment { display: block; }
+
+  /* SEG HEAD */
+  .seg-head { padding: 22px 20px 18px; position: relative; }
+  .seg-head::after { content: ''; position: absolute; bottom: 0; left: 20px; right: 20px; height: 1px; background: var(--stone); }
+  .seg-type { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 6px; }
+  .seg-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; line-height: 1.1; margin-bottom: 6px; }
+  .seg-tagline { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: var(--text-soft); line-height: 1.5; }
+  .seg-icon { position: absolute; top: 18px; right: 18px; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+
+  [data-segment="a"] .seg-type, [data-segment="a"] .seg-name { color: var(--a); }
+  [data-segment="a"] .seg-icon { background: var(--a-light); }
+  [data-segment="b"] .seg-type, [data-segment="b"] .seg-name { color: var(--b); }
+  [data-segment="b"] .seg-icon { background: var(--b-light); }
+  [data-segment="c"] .seg-type, [data-segment="c"] .seg-name { color: var(--c); }
+  [data-segment="c"] .seg-icon { background: var(--c-light); }
+  [data-segment="d"] .seg-type, [data-segment="d"] .seg-name { color: var(--d); }
+  [data-segment="d"] .seg-icon { background: var(--d-light); }
+  [data-segment="e"] .seg-type, [data-segment="e"] .seg-name { color: var(--e); }
+  [data-segment="e"] .seg-icon { background: var(--e-light); }
+
+  /* BODY */
+  .seg-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .seg-divider { border-bottom: 1px solid var(--stone); padding-bottom: 16px; }
+  .seg-divider:last-child { border-bottom: none; padding-bottom: 0; }
+  .section-label { font-size: 9px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .section-label .lbl-icon { font-size: 13px; }
+
+  /* BELIEFS */
+  .beliefs-list { display: flex; flex-direction: column; gap: 7px; }
+  .belief-item {
+    padding: 10px 12px; border-radius: 10px;
+    background: var(--cream); border-left: 3px solid var(--sand);
+    font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic;
+    line-height: 1.4; color: var(--text-soft);
+  }
+  [data-segment="a"] .belief-item { border-color: var(--a); }
+  [data-segment="b"] .belief-item { border-color: var(--b); }
+  [data-segment="c"] .belief-item { border-color: var(--c); }
+  [data-segment="d"] .belief-item { border-color: var(--d); }
+  [data-segment="e"] .belief-item { border-color: var(--e); }
+
+  /* ANALYSIS BLOCK */
+  .analysis-box { padding: 12px 14px; border-radius: 12px; background: var(--cream); border: 1px solid var(--stone); display: flex; flex-direction: column; gap: 8px; }
+  .analysis-row { display: flex; gap: 8px; }
+  .analysis-key { font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); min-width: 80px; flex-shrink: 0; padding-top: 2px; }
+  .analysis-val { font-size: 12px; line-height: 1.55; color: var(--text-soft); }
+  .analysis-val strong { color: var(--text); }
+
+  /* DESTROY BLOCK */
+  .destroy-box { padding: 14px 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 10px; }
+  [data-segment="a"] .destroy-box { background: var(--a-light); }
+  [data-segment="b"] .destroy-box { background: var(--b-light); }
+  [data-segment="c"] .destroy-box { background: var(--c-light); }
+  [data-segment="d"] .destroy-box { background: var(--d-light); }
+  [data-segment="e"] .destroy-box { background: var(--e-light); }
+  .destroy-q { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; font-weight: 600; line-height: 1.4; }
+  [data-segment="a"] .destroy-q { color: var(--a); }
+  [data-segment="b"] .destroy-q { color: var(--b); }
+  [data-segment="c"] .destroy-q { color: var(--c); }
+  [data-segment="d"] .destroy-q { color: var(--d); }
+  [data-segment="e"] .destroy-q { color: var(--e); }
+  .destroy-text { font-size: 13px; line-height: 1.6; color: var(--text-soft); }
+
+  /* REWRITE */
+  .rewrite-list { display: flex; flex-direction: column; gap: 8px; }
+  .rewrite-item { display: flex; gap: 10px; align-items: flex-start; }
+  .rewrite-dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; }
+  [data-segment="a"] .rewrite-dot { background: var(--a); }
+  [data-segment="b"] .rewrite-dot { background: var(--b); }
+  [data-segment="c"] .rewrite-dot { background: var(--c); }
+  [data-segment="d"] .rewrite-dot { background: var(--d); }
+  [data-segment="e"] .rewrite-dot { background: var(--e); }
+  .rewrite-text { font-size: 13px; line-height: 1.55; color: var(--text-soft); }
+  .rewrite-text strong { color: var(--text); }
+
+  /* MANTRAS */
+  .mantras-list { display: flex; flex-direction: column; gap: 8px; }
+  .mantra {
+    padding: 10px 14px; border-radius: 10px;
+    font-family: 'Cormorant Garamond', serif; font-size: 16px;
+    font-weight: 600; line-height: 1.4;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  [data-segment="a"] .mantra { background: var(--a-light); color: var(--a); }
+  [data-segment="b"] .mantra { background: var(--b-light); color: var(--b); }
+  [data-segment="c"] .mantra { background: var(--c-light); color: var(--c); }
+  [data-segment="d"] .mantra { background: var(--d-light); color: var(--d); }
+  [data-segment="e"] .mantra { background: var(--e-light); color: var(--e); }
+  .mantra-star { opacity: 0.5; flex-shrink: 0; font-size: 14px; }
+
+  /* TRANSFORM BAR */
+  .transform-bar { padding: 14px 20px; display: flex; align-items: center; gap: 10px; }
+  [data-segment="a"] .transform-bar { background: var(--a-light); }
+  [data-segment="b"] .transform-bar { background: var(--b-light); }
+  [data-segment="c"] .transform-bar { background: var(--c-light); }
+  [data-segment="d"] .transform-bar { background: var(--d-light); }
+  [data-segment="e"] .transform-bar { background: var(--e-light); }
+  .transform-label { font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); flex-shrink: 0; }
+  .transform-text { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; }
+  [data-segment="a"] .transform-text { color: var(--a); }
+  [data-segment="b"] .transform-text { color: var(--b); }
+  [data-segment="c"] .transform-text { color: var(--c); }
+  [data-segment="d"] .transform-text { color: var(--d); }
+  [data-segment="e"] .transform-text { color: var(--e); }
+
+  /* TOGGLE */
+  .toggle-wrap { text-align: center; padding: 8px 16px 0; }
+  .toggle-all { background: none; border: 1px solid var(--sand); color: var(--text-muted); font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+  .toggle-all:hover { border-color: var(--text-soft); color: var(--text); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="nav-btn active" data-seg="a" onclick="showSeg('a',this)">🕯️ Выгоревшая</button>
+  <button class="nav-btn" data-seg="b" onclick="showSeg('b',this)">🌸 Мечтательница</button>
+  <button class="nav-btn" data-seg="c" onclick="showSeg('c',this)">🌊 Застрявшая</button>
+  <button class="nav-btn" data-seg="d" onclick="showSeg('d',this)">✨ Пробуждающаяся</button>
+  <button class="nav-btn" data-seg="e" onclick="showSeg('e',this)">🌿 Жертва обстоятельств</button>
+</nav>
+
+<div class="page-header">
+  <h1>Ирина Исакова · Письма из Будущего</h1>
+  <div class="subtitle">Ментальная перепрошивка</div>
+  <div class="sub2">5 версий для 5 сегментов аудитории</div>
+</div>
+
+<div class="legend">
+  <div class="legend-title">Структура работы с убеждением</div>
+  <div class="legend-items">
+    <div class="legend-item"><span class="legend-icon">🔍</span><div class="legend-text"><strong>Внутренний анализ</strong> — когнитивные искажения, корни, ловушки идентичности</div></div>
+    <div class="legend-item"><span class="legend-icon">💥</span><div class="legend-text"><strong>Уничтожение</strong> — вопросы, разрушающие убеждение логикой и опытом</div></div>
+    <div class="legend-item"><span class="legend-icon">🔄</span><div class="legend-text"><strong>Перепрошивка</strong> — новый паттерн, питающий силу и действие</div></div>
+    <div class="legend-item"><span class="legend-icon">✨</span><div class="legend-text"><strong>Интеграция</strong> — мантры и языковые формулы для нейронной перенастройки</div></div>
+  </div>
+</div>
+
+<div class="segments" id="segments">
+
+  <!-- A: ВЫГОРЕВШАЯ -->
+  <div class="segment active" data-segment="a" id="seg-a">
+    <div class="seg-head">
+      <div class="seg-type">Тип А</div>
+      <div class="seg-icon">🕯️</div>
+      <div class="seg-name">«Выгоревшая»</div>
+      <div class="seg-tagline">«Меня нет. Есть мама, жена, дочь — но меня нет»</div>
+    </div>
+    <div class="seg-body">
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🚫</span>Ограничивающие убеждения</div>
+        <div class="beliefs-list">
+          <div class="belief-item">«Я не справлюсь — я слишком устала даже думать об этом»</div>
+          <div class="belief-item">«Нет сил и энергии, чтобы что-то изменить»</div>
+          <div class="belief-item">«Если я начну жить для себя — всё рухнет, меня перестанут любить»</div>
+          <div class="belief-item">«Я должна дотерпеть. Потом будет лучше»</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔍</span>Внутренний анализ</div>
+        <div class="analysis-box">
+          <div class="analysis-row"><div class="analysis-key">Искажение</div><div class="analysis-val"><strong>Катастрофизация</strong> + «я последняя в очереди»</div></div>
+          <div class="analysis-row"><div class="analysis-key">Корень</div><div class="analysis-val">Сценарий «хорошая девочка — та, которая не просит». Годы растворения в ролях матери / жены / дочери</div></div>
+          <div class="analysis-row"><div class="analysis-key">Паттерн</div><div class="analysis-val">Самопожертвование как способ заслужить любовь. Отдых воспринимается как <strong>предательство близких</strong></div></div>
+          <div class="analysis-row"><div class="analysis-key">НС</div><div class="analysis-val">Хронический стресс → реакция <strong>freeze</strong> (оцепенение, не страх)</div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">💥</span>Уничтожение убеждения</div>
+        <div class="destroy-box">
+          <div class="destroy-q">«Если ты выгоришь окончательно — кто тогда будет заботиться о тех, кого ты любишь?»</div>
+          <div class="destroy-text">Самолёт учит надевать маску сначала на себя — не потому что ты важнее, а потому что без кислорода не поможешь никому. Твоя усталость — не слабость характера. Это сигнал <strong>пустого бака</strong>. Пустой бак не едет. Это физика.</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔄</span>Перепрошивка</div>
+        <div class="rewrite-list">
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Новый паттерн:</strong> забота о себе — условие заботы о других, не эгоизм</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text">Смещение фокуса: от «сколько я отдаю» к <strong>«есть ли у меня что отдавать»</strong></div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text">Разрешение на отдых как <strong>акт зрелости</strong>, а не слабости</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Практика:</strong> каждый день — одно микродействие для себя. Даже если это просто чашка чая в тишине</div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">✨</span>Интеграция — мантры</div>
+        <div class="mantras-list">
+          <div class="mantra"><span class="mantra-star">✦</span>Я восстанавливаю себя — и тогда у меня есть что дать.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Мои потребности реальны. Им можно доверять.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Я возвращаюсь к себе — и это самое ответственное, что я могу сделать.</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Отдающей — к Живущей для себя</span>
+    </div>
+  </div>
+
+  <!-- B: МЕЧТАТЕЛЬНИЦА -->
+  <div class="segment" data-segment="b" id="seg-b">
+    <div class="seg-head">
+      <div class="seg-type">Тип Б</div>
+      <div class="seg-icon">🌸</div>
+      <div class="seg-name">«Мечтательница»</div>
+      <div class="seg-tagline">«Я знаю, что во мне есть что-то большее. Просто пока не время»</div>
+    </div>
+    <div class="seg-body">
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🚫</span>Ограничивающие убеждения</div>
+        <div class="beliefs-list">
+          <div class="belief-item">«Я не справлюсь — у меня нет нужных знаний и умений»</div>
+          <div class="belief-item">«Я не доведу до конца — я уже знаю, что брошу»</div>
+          <div class="belief-item">«Настоящее время ещё не пришло. Нужно ещё чуть-чуть подготовиться»</div>
+          <div class="belief-item">«Другим просто повезло. У меня нет их таланта / связей / условий»</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔍</span>Внутренний анализ</div>
+        <div class="analysis-box">
+          <div class="analysis-row"><div class="analysis-key">Искажение</div><div class="analysis-val"><strong>Магическое мышление</strong> + обесценивание реальных усилий</div></div>
+          <div class="analysis-row"><div class="analysis-key">Корень</div><div class="analysis-val">Хвалили за потенциал, не за результат — или так боялись провала, что предпочитали не начинать</div></div>
+          <div class="analysis-row"><div class="analysis-key">Ловушка</div><div class="analysis-val">«Ожидание идеального момента» — <strong>защитный механизм</strong> от встречи с реальностью</div></div>
+          <div class="analysis-row"><div class="analysis-key">НС</div><div class="analysis-val">Дофамин от мечты без активации системы действия. Мечта приносит удовольствие — <strong>реальность приносит тревогу</strong></div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">💥</span>Уничтожение убеждения</div>
+        <div class="destroy-box">
+          <div class="destroy-q">«Сколько лет ты уже ждёшь "правильного момента"? Что изменится через ещё один год ожидания?»</div>
+          <div class="destroy-text">Знания и умения не появляются до начала — они появляются в процессе. Никто не научился плавать, стоя на берегу. «Другим повезло» — это история, которую ты рассказываешь себе, чтобы не начинать.</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔄</span>Перепрошивка</div>
+        <div class="rewrite-list">
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Новый паттерн:</strong> совершенство — враг начала. Первый шаг не должен быть красивым</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text">Действие создаёт мотивацию — <strong>не наоборот</strong>. Начни, и силы появятся в процессе</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text">Заменить <strong>«я не готова»</strong> на <strong>«я учусь прямо сейчас»</strong></div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Практика:</strong> одно маленькое действие сегодня. Не план — действие. Результат — письменно</div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">✨</span>Интеграция — мантры</div>
+        <div class="mantras-list">
+          <div class="mantra"><span class="mantra-star">✦</span>Я достаточно готова, чтобы начать прямо сейчас.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Мои действия — это и есть мой потенциал в реальности.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Я не жду разрешения. Я сама его даю.</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Мечтающей — к Создающей</span>
+    </div>
+  </div>
+
+  <!-- C: ЗАСТРЯВШАЯ -->
+  <div class="segment" data-segment="c" id="seg-c">
+    <div class="seg-head">
+      <div class="seg-type">Тип В</div>
+      <div class="seg-icon">🌊</div>
+      <div class="seg-name">«Застрявшая»</div>
+      <div class="seg-tagline">«Я всё знаю. Я всё понимаю. И всё равно — то же самое утро»</div>
+    </div>
+    <div class="seg-body">
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🚫</span>Ограничивающие убеждения</div>
+        <div class="beliefs-list">
+          <div class="belief-item">«Что-то со мной не так, раз я всё понимаю — но ничего не меняется»</div>
+          <div class="belief-item">«Я начинаю и бросаю. Я себе не доверяю»</div>
+          <div class="belief-item">«Поезд ушёл. Слишком поздно»</div>
+          <div class="belief-item">«Кто я такая, чтобы хотеть большего?»</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔍</span>Внутренний анализ</div>
+        <div class="analysis-box">
+          <div class="analysis-row"><div class="analysis-key">Искажение</div><div class="analysis-val"><strong>«Знание = изменение»</strong> — классическая интеллектуальная ловушка</div></div>
+          <div class="analysis-row"><div class="analysis-key">Корень</div><div class="analysis-val">Префронтальная кора активна (мышление), лимбическая система не затронута (поведение). Знание без переживания не создаёт нейронных путей</div></div>
+          <div class="analysis-row"><div class="analysis-key">Паттерн</div><div class="analysis-val">Саморазвитие как <strong>безопасный способ не рисковать</strong> по-настоящему</div></div>
+          <div class="analysis-row"><div class="analysis-key">Ловушка</div><div class="analysis-val">Глубинный страх: «если попробую и не получится — это подтвердит, что я недостаточна»</div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">💥</span>Уничтожение убеждения</div>
+        <div class="destroy-box">
+          <div class="destroy-q">«Если бы понимание само по себе меняло жизнь — ты бы давно изменила. Значит, проблема не в незнании. В чём тогда?»</div>
+          <div class="destroy-text">Мозг меняется только через <strong>действие + эмоцию</strong>. Не через анализ. «Поезд ушёл» — это про прошлое. Но ты живёшь сейчас. Прямо сейчас ты читаешь это. Это и есть поезд.</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔄</span>Перепрошивка</div>
+        <div class="rewrite-list">
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Новый паттерн:</strong> переход от понимания к переживанию. Знание становится настоящим только когда прожито телом</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text">Разрешение на <strong>несовершенный старт</strong>: первое действие не обязано быть правильным — оно обязано быть</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text">Переформулировка: <strong>«Я не бросаю — я ищу свой ритм. И теперь я его нашла»</strong></div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Практика:</strong> одно телесное действие в день (прогулка, дыхание, движение), привязанное к новому убеждению</div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">✨</span>Интеграция — мантры</div>
+        <div class="mantras-list">
+          <div class="mantra"><span class="mantra-star">✦</span>Моё тело знает путь. Я следую за ним.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Я перехожу от понимания к проживанию — и это меняет всё.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Я доверяю себе. Одно действие за раз.</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Сомневающейся — к Реализованной</span>
+    </div>
+  </div>
+
+  <!-- D: ПРОБУЖДАЮЩАЯСЯ -->
+  <div class="segment" data-segment="d" id="seg-d">
+    <div class="seg-head">
+      <div class="seg-type">Тип Г</div>
+      <div class="seg-icon">✨</div>
+      <div class="seg-name">«Пробуждающаяся»</div>
+      <div class="seg-tagline">«Я готова. Но боюсь, что снова не получится»</div>
+    </div>
+    <div class="seg-body">
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🚫</span>Ограничивающие убеждения</div>
+        <div class="beliefs-list">
+          <div class="belief-item">«Я не выдержу напряжение — у меня не хватит длительной мотивации»</div>
+          <div class="belief-item">«Я снова сорвусь — я уже знаю этот сценарий»</div>
+          <div class="belief-item">«Взрослая жизнь — это скучно и тяжело»</div>
+          <div class="belief-item">«Я осознаю — но всё равно не делаю. И это больно»</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔍</span>Внутренний анализ</div>
+        <div class="analysis-box">
+          <div class="analysis-row"><div class="analysis-key">Искажение</div><div class="analysis-val"><strong>Предсказание провала</strong> на основе прошлого опыта (ретроспективное программирование)</div></div>
+          <div class="analysis-row"><div class="analysis-key">Корень</div><div class="analysis-val">Прошлые срывы закрепились как доказательство «я не могу». НС выучила: <strong>попытка = боль</strong></div></div>
+          <div class="analysis-row"><div class="analysis-key">Парадокс</div><div class="analysis-val">Чем больше она осознаёт паттерны и не действует — тем сильнее самокритика. Критика забирает энергию для действия. Замкнутый круг</div></div>
+          <div class="analysis-row"><div class="analysis-key">Барьер</div><div class="analysis-val">Самый тонкий: она уже всё понимает, уже хочет. Между «хочу» и «делаю» стоит <strong>страх повторения провала</strong></div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">💥</span>Уничтожение убеждения</div>
+        <div class="destroy-box">
+          <div class="destroy-q">«Каждый раз, когда ты "срывалась" — ты начинала снова. Значит, твой настоящий паттерн — не "бросать". Это "возвращаться".»</div>
+          <div class="destroy-text">Прошлые попытки — это не провалы. Это обучение. Мотивация не должна быть постоянной — она приходит и уходит как погода. Действие — это не про мотивацию. Это про <strong>решение</strong>.</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔄</span>Перепрошивка</div>
+        <div class="rewrite-list">
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Новый паттерн:</strong> я не человек, который срывается — я человек, который возвращается. Это сила</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Микроструктура</strong> вместо героических усилий: маленькие ежедневные действия надёжнее редких подвигов</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text">Самосострадание как стратегия: строгость не создаёт дисциплину — она создаёт <strong>избегание</strong></div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Практика:</strong> записывать каждое «возвращение» — не каждый срыв. Коллекционировать возвращения</div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">✨</span>Интеграция — мантры</div>
+        <div class="mantras-list">
+          <div class="mantra"><span class="mantra-star">✦</span>Я — человек, который возвращается. Всегда.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Каждый день — новое решение. Не продолжение вчерашней борьбы.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Я не иду к совершенству. Я иду к себе.</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Знающей — к Действующей</span>
+    </div>
+  </div>
+
+  <!-- E: ЖЕРТВА ОБСТОЯТЕЛЬСТВ -->
+  <div class="segment" data-segment="e" id="seg-e">
+    <div class="seg-head">
+      <div class="seg-type">Тип Д</div>
+      <div class="seg-icon">🌿</div>
+      <div class="seg-name">«Жертва обстоятельств»</div>
+      <div class="seg-tagline">«Жизнь происходит со мной. Нет сил даже хотеть»</div>
+    </div>
+    <div class="seg-body">
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🚫</span>Ограничивающие убеждения</div>
+        <div class="beliefs-list">
+          <div class="belief-item">«Нет смысла — всё равно ничего не изменится»</div>
+          <div class="belief-item">«Все виноваты — но легче не становится»</div>
+          <div class="belief-item">«Я пустая. Во мне нечего искать»</div>
+          <div class="belief-item">«Я безнадёжна. Другие меняются — я нет»</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔍</span>Внутренний анализ</div>
+        <div class="analysis-box">
+          <div class="analysis-row"><div class="analysis-key">Искажение</div><div class="analysis-val"><strong>Выученная беспомощность</strong> + глобальная генерализация («всегда», «никогда», «все»)</div></div>
+          <div class="analysis-row"><div class="analysis-key">Корень</div><div class="analysis-val">Длительный опыт, где действия не давали результата — мозг сделал вывод: «действовать бессмысленно». Не характер — <strong>адаптация нервной системы</strong></div></div>
+          <div class="analysis-row"><div class="analysis-key">Защита</div><div class="analysis-val">Психика отключила желания — охранительное торможение. <strong>Апатия — не лень</strong>. Способ не чувствовать боли от несбывшегося</div></div>
+          <div class="analysis-row"><div class="analysis-key">Ловушка</div><div class="analysis-val">Под апатией — огромный страх: «если захочу и не получу снова, боль будет невыносимой». Проще не хотеть</div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">💥</span>Уничтожение убеждения</div>
+        <div class="destroy-box">
+          <div class="destroy-q">«Если всё безнадёжно — почему ты ещё здесь? Почему читаешь это? Что-то в тебе ещё не сдалось.»</div>
+          <div class="destroy-text">Выученная беспомощность — это не правда о тебе. Это эксперимент, который мозг поставил в тяжёлых условиях. Условия изменились. «Я пустая» — это <strong>ощущение, а не факт</strong>. Ощущения меняются. Тебе не нужно верить в изменения, чтобы сделать один шаг. Вера приходит после — не до.</div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">🔄</span>Перепрошивка</div>
+        <div class="rewrite-list">
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Новый паттерн:</strong> я не меняю жизнь — я возвращаю себе одно маленькое ощущение. Одного достаточно</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Минимальный порог:</strong> не «стать другим человеком», а «почувствовать одно приятное ощущение сегодня»</div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text">Тело раньше головы: соматика (тепло, дыхание, тактильность) <strong>обходит ментальные блоки</strong></div></div>
+          <div class="rewrite-item"><div class="rewrite-dot"></div><div class="rewrite-text"><strong>Практика:</strong> каждый день — одно сенсорное удовольствие. Без цели «стать лучше». Просто: я сделала это для себя</div></div>
+        </div>
+      </div>
+
+      <div class="seg-divider">
+        <div class="section-label"><span class="lbl-icon">✨</span>Интеграция — мантры</div>
+        <div class="mantras-list">
+          <div class="mantra"><span class="mantra-star">✦</span>Я выбираю одно маленькое ощущение. Прямо сейчас.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Моя жизнь начинается с этого вдоха. Не с завтра.</div>
+          <div class="mantra"><span class="mantra-star">✦</span>Я не обязана верить в изменения. Я просто делаю один шаг.</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Выживающей — к Живущей</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="toggle-wrap">
+  <button class="toggle-all" id="toggleAll" onclick="toggleAll()">Показать все сегменты</button>
+</div>
+
+<script>
+  let allVisible = false;
+  function showSeg(seg, btn) {
+    if (allVisible) {
+      allVisible = false;
+      document.getElementById('segments').classList.remove('show-all');
+      document.getElementById('toggleAll').textContent = 'Показать все сегменты';
+    }
+    document.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('seg-' + seg).classList.add('active');
+    btn.classList.add('active');
+  }
+  function toggleAll() {
+    allVisible = !allVisible;
+    const wrap = document.getElementById('segments');
+    const btn = document.getElementById('toggleAll');
+    if (allVisible) {
+      wrap.classList.add('show-all');
+      btn.textContent = 'Свернуть';
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    } else {
+      wrap.classList.remove('show-all');
+      btn.textContent = 'Показать все сегменты';
+      document.querySelector('[data-seg="a"]').classList.add('active');
+      document.getElementById('seg-a').classList.add('active');
+      document.querySelectorAll('.segment').forEach((s,i) => { if(i>0) s.classList.remove('active'); });
+    }
+  }
+</script>
+</body>
+</html>

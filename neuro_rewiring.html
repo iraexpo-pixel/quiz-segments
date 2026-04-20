@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Нейроперепрошивка · Методология Исаковой</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0b08;
+  --bg2: #131007;
+  --bg3: #1a1610;
+  --bg4: #221e14;
+  --amber: #c8922a;
+  --amber2: #e8b84b;
+  --amber3: rgba(200,146,42,0.15);
+  --amber4: rgba(200,146,42,0.07);
+  --cream: #f5efe6;
+  --cream2: #d4c9b8;
+  --cream3: #8c7a62;
+  --red: #c0392b;
+  --red-l: rgba(192,57,43,0.12);
+  --red-m: rgba(192,57,43,0.25);
+  --yellow: #d4a017;
+  --yellow-l: rgba(212,160,23,0.12);
+  --blue: #2471a3;
+  --blue-l: rgba(36,113,163,0.12);
+  --brown: #7d6608;
+  --brown-l: rgba(125,102,8,0.12);
+  --green: #1e8449;
+  --green-l: rgba(30,132,73,0.12);
+  --green2: #27ae60;
+  --border: rgba(200,146,42,0.15);
+  --border2: rgba(200,146,42,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Raleway',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(13,11,8,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+  display:flex;align-items:center;gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none;}
+.nav-item{
+  flex-shrink:0;
+  padding:14px 16px;
+  font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--cream3);cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+  white-space:nowrap;
+}
+.nav-item:hover,.nav-item.active{color:var(--amber2);border-color:var(--amber);}
+
+/* PAGE */
+.page{max-width:1100px;margin:0 auto;padding:48px 24px 80px;}
+
+/* SECTION HEADER */
+.sec-header{margin-bottom:40px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.sec-eyebrow{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:10px;}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,44px);font-weight:300;line-height:1.15;color:var(--cream);}
+.sec-title em{font-style:italic;color:var(--amber2);}
+.sec-sub{margin-top:10px;font-size:13px;line-height:1.8;color:var(--cream3);max-width:680px;}
+
+/* SECTION */
+.section{padding:56px 0;border-bottom:1px solid var(--border2);}
+.section:last-child{border-bottom:none;}
+
+/* GRID 2 */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+@media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+/* CARD */
+.card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:24px;
+}
+.card-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;display:block;}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--cream);margin-bottom:10px;line-height:1.3;}
+.card-title em{font-style:italic;color:var(--amber2);}
+.card-body{font-size:12.5px;line-height:1.75;color:var(--cream3);}
+.card-body strong{color:var(--cream);font-weight:500;}
+
+/* MECHANSIM CARDS */
+.mech{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+}
+.mech-head{padding:18px 20px;display:flex;align-items:center;gap:12px;}
+.mech-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.mech-title{font-size:13px;font-weight:600;letter-spacing:.05em;}
+.mech-body{padding:4px 20px 20px;font-size:12px;line-height:1.75;color:var(--cream3);}
+.mech-body strong{color:var(--cream);font-weight:500;}
+
+/* POLYVAGAL ZONES */
+.zones{display:flex;flex-direction:column;gap:12px;}
+.zone{
+  border-radius:12px;padding:16px 18px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.zone-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.zone-name{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;}
+.zone-desc{font-size:12px;line-height:1.65;color:var(--cream3);}
+.zone-desc strong{font-weight:500;}
+.zone.green{background:var(--green-l);border:1px solid rgba(30,132,73,0.3);}
+.zone.green .zone-name{color:var(--green2);}
+.zone.yellow{background:var(--yellow-l);border:1px solid rgba(212,160,23,0.3);}
+.zone.yellow .zone-name{color:var(--yellow);}
+.zone.red{background:var(--red-l);border:1px solid rgba(192,57,43,0.3);}
+.zone.red .zone-name{color:var(--red);}
+
+/* REACTIONS */
+.reactions{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:700px){.reactions{grid-template-columns:1fr 1fr;}}
+.react{
+  border-radius:14px;padding:18px 16px;text-align:center;
+}
+.react-icon{font-size:24px;margin-bottom:8px;}
+.react-name{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;}
+.react-desc{font-size:11px;line-height:1.65;color:var(--cream3);}
+.react-quote{
+  margin-top:10px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;font-style:italic;
+  line-height:1.55;
+  color:var(--cream2);
+  padding-top:8px;
+  border-top:1px solid rgba(255,255,255,0.08);
+}
+.react.r-red{background:var(--red-l);border:1px solid rgba(192,57,43,0.25);}
+.react.r-red .react-name{color:var(--red);}
+.react.r-yellow{background:var(--yellow-l);border:1px solid rgba(212,160,23,0.25);}
+.react.r-yellow .react-name{color:var(--yellow);}
+.react.r-blue{background:var(--blue-l);border:1px solid rgba(36,113,163,0.25);}
+.react.r-blue .react-name{color:#5dade2;}
+.react.r-brown{background:var(--brown-l);border:1px solid rgba(125,102,8,0.25);}
+.react.r-brown .react-name{color:#f0b429;}
+
+/* BLINK */
+.blink-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+@media(max-width:700px){.blink-grid{grid-template-columns:1fr;}}
+.blink-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:20px;
+}
+.blink-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:300;color:var(--amber);
+  line-height:1;margin-bottom:8px;
+}
+.blink-name{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);margin-bottom:8px;}
+.blink-body{font-size:11.5px;line-height:1.7;color:var(--cream3);}
+.blink-body strong{color:var(--cream);font-weight:500;}
+
+/* MEMORY RECONSOLIDATION */
+.recon-steps{display:flex;flex-direction:column;gap:0;}
+.recon-step{
+  display:flex;gap:20px;
+  padding:20px 0;
+  border-bottom:1px solid var(--border2);
+}
+.recon-step:last-child{border-bottom:none;}
+.recon-n{
+  flex-shrink:0;
+  width:36px;height:36px;
+  border-radius:50%;
+  background:var(--amber3);
+  border:1px solid var(--amber);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:500;
+  color:var(--amber2);
+  margin-top:2px;
+}
+.recon-content{}
+.recon-title{font-size:13px;font-weight:600;color:var(--cream);margin-bottom:6px;letter-spacing:.04em;}
+.recon-body{font-size:12px;line-height:1.75;color:var(--cream3);}
+.recon-body strong{color:var(--cream);font-weight:500;}
+.recon-tool{
+  display:inline-block;
+  margin-top:8px;
+  font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--amber);
+  background:var(--amber4);
+  border:1px solid rgba(200,146,42,0.2);
+  border-radius:20px;
+  padding:3px 10px;
+}
+
+/* FULL CYCLE */
+.cycle{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:32px;
+}
+.cycle-flow{display:flex;flex-direction:column;gap:0;}
+.cycle-row{
+  display:flex;align-items:stretch;
+  gap:0;
+}
+.cycle-block{
+  flex:1;
+  background:var(--bg4);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px 18px;
+  margin:4px;
+}
+.cycle-block.highlight{
+  background:var(--amber3);
+  border-color:var(--amber);
+}
+.cycle-block.outcome{
+  background:var(--green-l);
+  border-color:rgba(30,132,73,0.4);
+}
+.cycle-block-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;display:block;}
+.cycle-block-label.red-l{color:var(--red);}
+.cycle-block-label.green-l{color:var(--green2);}
+.cycle-block-text{font-size:12.5px;line-height:1.6;color:var(--cream3);}
+.cycle-block-text strong{color:var(--cream);font-weight:500;}
+.cycle-arrow{
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--amber);
+  padding:4px 0;
+  opacity:.6;
+}
+
+/* SEGMENTS MAP */
+.seg-table{width:100%;border-collapse:collapse;}
+.seg-table th{
+  padding:12px 14px;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber);
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  font-weight:500;
+}
+.seg-table td{
+  padding:14px 14px;
+  font-size:12px;line-height:1.6;color:var(--cream3);
+  border-bottom:1px solid var(--border2);
+  vertical-align:top;
+}
+.seg-table td strong{color:var(--cream);font-weight:500;}
+.seg-table tr:last-child td{border-bottom:none;}
+.seg-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--cream);}
+.pat-badge{
+  display:inline-block;
+  font-size:10px;font-weight:600;
+  padding:2px 8px;border-radius:20px;
+  margin-right:4px;margin-top:4px;
+}
+.pat-red{background:var(--red-l);color:#e74c3c;border:1px solid rgba(231,76,60,.3);}
+.pat-yellow{background:var(--yellow-l);color:#f4d03f;border:1px solid rgba(244,208,63,.3);}
+.pat-blue{background:var(--blue-l);color:#5dade2;border:1px solid rgba(93,173,226,.3);}
+.pat-brown{background:var(--brown-l);color:#f0b429;border:1px solid rgba(240,180,41,.3);}
+
+/* PROTOCOLS */
+.protocol{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  margin-bottom:20px;
+}
+.protocol-head{
+  padding:20px 24px;
+  display:flex;align-items:center;gap:14px;
+  border-bottom:1px solid var(--border2);
+}
+.protocol-icon{font-size:22px;}
+.protocol-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--cream);}
+.protocol-tag{
+  margin-left:auto;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;
+  color:var(--cream3);
+  background:var(--bg4);
+  border:1px solid var(--border);
+}
+.protocol-pattern{
+  font-size:10.5px;color:var(--cream3);margin-top:2px;
+}
+.protocol-body{padding:20px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:700px){.protocol-body{grid-template-columns:1fr;}}
+.proto-level{
+  background:var(--bg4);border-radius:12px;padding:16px;
+}
+.proto-level-name{
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  margin-bottom:12px;display:flex;align-items:center;gap:6px;
+}
+.proto-level-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.proto-step{
+  display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;
+}
+.proto-step:last-child{margin-bottom:0;}
+.proto-step-n{
+  flex-shrink:0;
+  width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;
+  color:white;margin-top:1px;
+}
+.proto-step-body{font-size:11.5px;line-height:1.6;color:var(--cream3);}
+.proto-step-body strong{color:var(--cream);font-weight:500;}
+.proto-affirmation{
+  grid-column:1/-1;
+  background:var(--amber4);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 18px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-style:italic;
+  line-height:1.55;color:var(--cream);
+  text-align:center;
+}
+
+/* PROTOCOLS COLORS */
+.p-red .protocol-head{border-left:3px solid var(--red);}
+.p-red .proto-level-dot.t1{background:var(--red);}
+.p-red .proto-step-n.t1{background:var(--red);}
+
+.p-yellow .protocol-head{border-left:3px solid var(--yellow);}
+.p-yellow .proto-level-dot.t1{background:var(--yellow);}
+.p-yellow .proto-step-n.t1{background:var(--yellow);}
+
+.p-blue .protocol-head{border-left:3px solid #2471a3;}
+.p-blue .proto-level-dot.t1{background:#2471a3;}
+.p-blue .proto-step-n.t1{background:#2471a3;}
+
+.p-violet .protocol-head{border-left:3px solid #7d3c98;}
+.p-violet .proto-level-dot.t1{background:#7d3c98;}
+.p-violet .proto-step-n.t1{background:#7d3c98;}
+
+.p-dark .protocol-head{border-left:3px solid #5d6d7e;}
+.p-dark .proto-level-dot.t1{background:#5d6d7e;}
+.p-dark .proto-step-n.t1{background:#5d6d7e;}
+
+.t2{background:var(--amber) !important;}
+.t3{background:var(--green) !important;}
+
+/* IDENTITY */
+.identity-pyramid{
+  display:flex;flex-direction:column;gap:8px;align-items:stretch;max-width:500px;margin:0 auto;
+}
+.pyramid-level{
+  border-radius:10px;padding:14px 20px;
+  text-align:center;position:relative;
+}
+.pyramid-level-name{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;}
+.pyramid-level-desc{font-size:11.5px;color:var(--cream3);}
+.pyr-1{background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);}
+.pyr-1 .pyramid-level-name{color:#e74c3c;}
+.pyr-2{background:rgba(244,208,63,.12);border:1px solid rgba(244,208,63,.25);}
+.pyr-2 .pyramid-level-name{color:#f4d03f;}
+.pyr-3{background:rgba(93,173,226,.12);border:1px solid rgba(93,173,226,.25);}
+.pyr-3 .pyramid-level-name{color:#5dade2;}
+.pyr-4{background:rgba(200,146,42,.12);border:1px solid rgba(200,146,42,.25);}
+.pyr-4 .pyramid-level-name{color:var(--amber2);}
+.pyr-5{background:rgba(200,146,42,.22);border:1px solid var(--amber);}
+.pyr-5 .pyramid-level-name{color:var(--amber2);font-size:13px;}
+.pyr-arrow{text-align:center;color:var(--amber);opacity:.5;font-size:12px;margin:-2px 0;}
+
+/* AUDIO SCRIPTS */
+.script-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:16px;
+  overflow:hidden;margin-bottom:16px;
+}
+.script-head{
+  padding:16px 20px;
+  display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--border2);
+}
+.script-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--cream);}
+.script-meta{font-size:10.5px;color:var(--cream3);}
+.script-badge{
+  margin-left:auto;
+  font-size:9.5px;font-weight:600;
+  padding:3px 10px;border-radius:20px;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.script-body{padding:16px 20px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+@media(max-width:700px){.script-body{grid-template-columns:1fr 1fr;}}
+.script-block{
+  background:var(--bg4);border-radius:10px;padding:12px;
+  font-size:11px;line-height:1.6;
+}
+.script-block-time{font-size:9px;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;display:block;}
+.script-block-name{font-size:11px;font-weight:600;color:var(--cream);margin-bottom:4px;}
+.script-block-body{font-size:10.5px;color:var(--cream3);line-height:1.6;}
+.script-affirmation{
+  grid-column:1/-1;
+  border-top:1px solid var(--border2);
+  padding-top:12px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;font-style:italic;color:var(--cream2);
+  text-align:center;
+}
+
+/* HIGHLIGHT BOX */
+.highlight-box{
+  background:var(--amber4);border:1px solid var(--border);border-radius:14px;
+  padding:20px 22px;margin:20px 0;
+}
+.highlight-box p{font-size:13px;line-height:1.8;color:var(--cream3);}
+.highlight-box p strong{color:var(--cream);font-weight:500;}
+.highlight-box .hl-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:400;color:var(--amber2);
+  margin-bottom:8px;
+}
+
+/* TAGS ROW */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.tag{
+  font-size:10.5px;padding:4px 12px;border-radius:20px;
+  background:var(--bg4);border:1px solid var(--border);
+  color:var(--cream3);
+}
+.tag.amber{background:var(--amber3);border-color:var(--amber);color:var(--amber2);}
+
+/* DOPAMINE CHAIN */
+.dopa-chain{display:flex;flex-direction:column;gap:0;}
+.dopa-row{
+  display:flex;gap:12px;align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid var(--border2);
+}
+.dopa-row:last-child{border-bottom:none;}
+.dopa-seg{font-size:12.5px;font-weight:500;color:var(--cream);width:160px;flex-shrink:0;}
+.dopa-arrow{color:var(--amber);flex-shrink:0;opacity:.5;}
+.dopa-text{font-size:12px;line-height:1.6;color:var(--cream3);}
+
+/* QUOTE */
+.science-quote{
+  border-left:2px solid var(--amber);
+  padding:12px 18px;
+  margin:16px 0;
+  background:var(--amber4);
+  border-radius:0 10px 10px 0;
+}
+.science-quote p{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;line-height:1.6;color:var(--cream2);}
+.science-quote span{font-size:10px;color:var(--amber);display:block;margin-top:6px;letter-spacing:.1em;}
+
+/* ANIM */
+@keyframes fadeup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.section{animation:fadeup .6s ease both;}
+.section:nth-child(2){animation-delay:.1s;}
+.section:nth-child(3){animation-delay:.15s;}
+.section:nth-child(4){animation-delay:.2s;}
+.section:nth-child(5){animation-delay:.25s;}
+.section:nth-child(6){animation-delay:.3s;}
+.section:nth-child(7){animation-delay:.35s;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-item active" onclick="scrollTo('s0')">Обзор</div>
+  <div class="nav-item" onclick="scrollTo('s1')">Бей·Беги·Замри·Фаун</div>
+  <div class="nav-item" onclick="scrollTo('s2')">Моргание</div>
+  <div class="nav-item" onclick="scrollTo('s3')">Реконсолидация</div>
+  <div class="nav-item" onclick="scrollTo('s4')">Идентичность</div>
+  <div class="nav-item" onclick="scrollTo('s5')">Протоколы</div>
+  <div class="nav-item" onclick="scrollTo('s6')">Аудио-скрипты</div>
+  <div class="nav-item" onclick="scrollTo('s7')">Продукт = Протокол</div>
+  <div class="nav-item" onclick="scrollTo('s8')">Перезапись нарратива</div>
+  <div class="nav-item" onclick="scrollTo('s9')">7 нейролайфхаков</div>
+</nav>
+
+<div class="page">
+
+<!-- ─── S0: OVERVIEW ─── -->
+<div class="section" id="s0">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Методология · Нейронаука</span>
+    <h1 class="sec-title">Нейроперепрошивка<br><em>идентичности</em></h1>
+    <p class="sec-sub">Научное основание методологии Исаковой. Всё что ниже — одна система, описанная с разных сторон.</p>
+  </div>
+
+  <!-- Big cycle -->
+  <div class="cycle">
+    <div class="cycle-flow">
+      <div class="cycle-row">
+        <div class="cycle-block" style="border-color:rgba(192,57,43,.3);background:var(--red-l);">
+          <span class="cycle-block-label red-l">Исток</span>
+          <div class="cycle-block-text"><strong>Детский опыт / хронический стресс</strong><br>Незакрытые стадии Эриксона. Миндалина записывает: «мир опасен»</div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓</div>
+      <div class="cycle-row">
+        <div class="cycle-block">
+          <span class="cycle-block-label">Нервная система</span>
+          <div class="cycle-block-text"><strong>Застряла в режиме угрозы</strong><br>Хронически жёлтая / красная зона. Поливагальная теория.</div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓</div>
+      <div class="cycle-row">
+        <div class="cycle-block" style="border-color:rgba(192,57,43,.2);background:rgba(20,14,8,.6);">
+          <span class="cycle-block-label red-l">4 паттерна</span>
+          <div class="cycle-block-text" style="display:flex;gap:12px;flex-wrap:wrap;">
+            <span><strong style="color:#e74c3c;">БЕЙ</strong> → контроль, гнев</span>
+            <span><strong style="color:#f4d03f;">БЕГИ</strong> → тревога, фантазии</span>
+            <span><strong style="color:#5dade2;">ЗАМРИ</strong> → апатия, онемение</span>
+            <span><strong style="color:#f0b429;">ФАУН</strong> → угождение, растворение</span>
+          </div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓</div>
+      <div class="cycle-row">
+        <div class="cycle-block">
+          <span class="cycle-block-label">Следствие</span>
+          <div class="cycle-block-text">Хронический кортизол → <strong>разрушение дофаминовых рецепторов</strong> → «не знаю чего хочу» · «нет смысла» · «что со мной не так»</div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓</div>
+      <div class="cycle-row">
+        <div class="cycle-block highlight">
+          <span class="cycle-block-label">Точка входа продукта</span>
+          <div class="cycle-block-text"><strong>Безопасность</strong> (свеча, ритуал, предсказуемость) → телесный опыт → новый нарратив → 21 повторение</div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓</div>
+      <div class="cycle-row">
+        <div class="cycle-block outcome">
+          <span class="cycle-block-label green-l">Результат</span>
+          <div class="cycle-block-text">Восстановление дофаминовой системы → новые нейронные пути → <strong>новая идентичность</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Two mechanisms -->
+  <div style="margin-top:20px;" class="grid2">
+    <div class="mech">
+      <div class="mech-head">
+        <div class="mech-dot" style="background:#e74c3c;"></div>
+        <div>
+          <div class="mech-title" style="color:#e74c3c;">Механизм 1: Нейронная программа выживания</div>
+        </div>
+      </div>
+      <div class="mech-body">
+        Автономная нервная система <strong>застряла в режиме угрозы</strong>. Это биологическая реальность — нельзя «уговорить» ствол мозга. Когнитивная терапия не работает с глубокой травмой, потому что логические центры уходят в офлайн во время стресса. <strong>Нужен мост между разговорной терапией и телесными подходами.</strong>
+        <br><br>
+        Три состояния по поливагальной теории:<br>
+        🟢 <strong>Зелёная</strong> — безопасность, социальный контакт<br>
+        🟡 <strong>Жёлтая</strong> — мобилизация, бей-беги<br>
+        🔴 <strong>Красная</strong> — иммобилизация, замри-отключись
+      </div>
+    </div>
+    <div class="mech">
+      <div class="mech-head">
+        <div class="mech-dot" style="background:var(--amber);"></div>
+        <div>
+          <div class="mech-title" style="color:var(--amber2);">Механизм 2: Нейронная память о боли</div>
+        </div>
+      </div>
+      <div class="mech-body">
+        Конкретная эмоциональная память, записанная в миндалине, управляет поведением. До 2000-х считалось, что подкорковые эмоциональные воспоминания <em>неизгладимы</em>.<br><br>
+        <strong>Открытие реконсолидации памяти</strong> изменило всё: болезненную память нельзя удалить, но можно <strong>переписать её эмоциональное значение</strong>. Эмоциональное обучение может быть полностью «стёрто» через опыты, которые противоречат и перезаписывают исходное обучение в течение <strong>окна реконсолидации</strong>.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── S1: REACTIONS ─── -->
+<div class="section" id="s1">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Нейробиология</span>
+    <h2 class="sec-title">Бей · Беги · Замри · <em>Фаун</em></h2>
+    <p class="sec-sub">Четыре реакции выживания × пять сегментов. Когда реакции становятся паттерном по умолчанию — они разрушают отношения, работу, здоровье.</p>
+  </div>
+
+  <div class="reactions">
+    <div class="react r-red">
+      <div class="react-icon">🔴</div>
+      <div class="react-name">БЕЙ</div>
+      <div class="react-desc">Контроль, гнев, доминирование, гиперфункция заботы о других</div>
+      <div class="react-quote">«Я справлюсь сама. Проще сделать самой.»</div>
+    </div>
+    <div class="react r-yellow">
+      <div class="react-icon">🟡</div>
+      <div class="react-name">БЕГИ</div>
+      <div class="react-desc">Тревога, уход в фантазии, прокрастинация, бросание на полпути</div>
+      <div class="react-quote">«Начну когда буду готова. Ещё один курс.»</div>
+    </div>
+    <div class="react r-blue">
+      <div class="react-icon">🔵</div>
+      <div class="react-name">ЗАМРИ</div>
+      <div class="react-desc">Оцепенение, апатия, диссоциация. Два подтипа: активный (внутри зажат) и пассивный (отключение)</div>
+      <div class="react-quote">«Нет сил даже хотеть. Нет смысла пробовать.»</div>
+    </div>
+    <div class="react r-brown">
+      <div class="react-icon">🟤</div>
+      <div class="react-name">ФАУН</div>
+      <div class="react-desc">Угождение, растворение, хроническое самопредательство, потеря идентичности</div>
+      <div class="react-quote">«Да, конечно, не волнуйся» — пока внутри пусто.</div>
+    </div>
+  </div>
+
+  <!-- Segments table -->
+  <div style="margin-top:24px;background:var(--bg3);border:1px solid var(--border);border-radius:16px;overflow:hidden;">
+    <table class="seg-table" style="width:100%;">
+      <thead>
+        <tr>
+          <th>Сегмент</th>
+          <th>Доминирующий паттерн</th>
+          <th>Незакрытые стадии (Эриксон)</th>
+          <th>Нейробиология</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="seg-name">🔴 Выгоревшая</div></td>
+          <td><span class="pat-badge pat-brown">Фаун</span> хронический</td>
+          <td>Автономия · Идентичность</td>
+          <td>Хронически высокий кортизол. Тело в мобилизации. Усталость НС, не мышц.</td>
+        </tr>
+        <tr>
+          <td><div class="seg-name">🌸 Мечтательница</div></td>
+          <td><span class="pat-badge pat-yellow">Беги</span> в фантазию</td>
+          <td>Инициатива · Трудолюбие</td>
+          <td>Дофамин от предвкушения, не от действия. При приближении к действию — угроза.</td>
+        </tr>
+        <tr>
+          <td><div class="seg-name">🧠 Застрявшая</div></td>
+          <td><span class="pat-badge pat-blue">Замри</span><span class="pat-badge pat-yellow">Беги</span></td>
+          <td>Трудолюбие · Идентичность</td>
+          <td>Высокая активность миндалины при новом опыте. Интеллект как защита.</td>
+        </tr>
+        <tr>
+          <td><div class="seg-name">⚡ Пробуждающаяся</div></td>
+          <td><span class="pat-badge pat-blue">Замри</span> перед финишем</td>
+          <td>Трудолюбие через тело · Генеративность</td>
+          <td>Понимает всё. Тело ещё не знает как быть в безопасности без привычной тревоги.</td>
+        </tr>
+        <tr>
+          <td><div class="seg-name">🌑 Жертва обстоятельств</div></td>
+          <td><span class="pat-badge pat-blue">Замри</span> пассивный</td>
+          <td>Базовое доверие · Автономия</td>
+          <td>Дорсальный вагус. Не депрессия — нервная система «притворилась мёртвой».</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Dopamine chain -->
+  <div style="margin-top:20px;" class="card">
+    <span class="card-label">Дофаминовая цепочка разрушения</span>
+    <div class="dopa-chain">
+      <div class="dopa-row">
+        <div class="dopa-seg" style="color:#e74c3c;">🔴 Бей хронически</div>
+        <div class="dopa-arrow">→</div>
+        <div class="dopa-text">Кортизол разрушает рецепторы → <strong>злость без дофамина после</strong></div>
+      </div>
+      <div class="dopa-row">
+        <div class="dopa-seg" style="color:#f4d03f;">🟡 Беги хронически</div>
+        <div class="dopa-arrow">→</div>
+        <div class="dopa-text">Мозг получает дофамин от <strong>избегания</strong> → реальные действия кажутся невозможными</div>
+      </div>
+      <div class="dopa-row">
+        <div class="dopa-seg" style="color:#5dade2;">🔵 Замри хронически</div>
+        <div class="dopa-arrow">→</div>
+        <div class="dopa-text">Полное угасание системы вознаграждения → <strong>анедония</strong></div>
+      </div>
+      <div class="dopa-row">
+        <div class="dopa-seg" style="color:#f0b429;">🟤 Фаун хронически</div>
+        <div class="dopa-arrow">→</div>
+        <div class="dopa-text">Дофамин привязан к одобрению других → <strong>собственные желания теряют нейрохимический отклик</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Female context -->
+  <div class="highlight-box" style="margin-top:20px;">
+    <div class="hl-title">Женский специфический контекст</div>
+    <p>У женщин реакция «беги» может быть заторможена — и вместо неё активируется паттерн <strong>«заботься и объединяйся»</strong> через окситоцин. Это эволюционно обусловлено: кормящая мать с ребёнком не может просто убежать. Большинство женщин в пяти сегментах <strong>не убегают и не борются — они заботятся о других вместо себя (фаун) или замирают</strong>. Это не слабость. Это эволюционная программа. Которую можно переписать.</p>
+  </div>
+</div>
+
+<!-- ─── S2: BLINK ─── -->
+<div class="section" id="s2">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Нейропсихология</span>
+    <h2 class="sec-title">Моргание как<br><em>терапия</em></h2>
+    <p class="sec-sub">Глаза — прямая связь с мозгом и лимбической системой. Моргание — не случайный физиологический акт, а инструмент нейроперепрошивки.</p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="hl-title">Почему это работает: анатомический факт</div>
+    <p>Всё контролируется через <strong>Латеральное Коленчатое Тело (LGN)</strong>, прикреплённое к лимбической системе — эмоциональной части мозга. Когда ты смотришь глазами, это обрабатывается сначала эмоциональной частью, и только потом передаётся в остальной мозг. <strong>Ты никогда не смотришь просто на то, что видишь — ты всегда смотришь и чувствуешь то, что видишь.</strong><br><br>
+    Быстрое моргание создаёт «второй взгляд» — активирует LGN и лимбические структуры. Стресс-мигательной ассоциацией можно управлять: трансформировать «стресс → моргание → страх» в «стресс → моргание → <strong>освобождение</strong>».</p>
+  </div>
+
+  <div class="blink-grid" style="margin-top:20px;">
+    <div class="blink-card">
+      <div class="blink-num">EMDR</div>
+      <div class="blink-name">Движения глаз</div>
+      <div class="blink-body">
+        Горизонтальные движения глаз снижают <strong>асимметрию полушарий</strong>, приводя к равной активации обоих. Это буквально имитация <strong>REM-сна в сознательном состоянии</strong>. ЭЭГ показывает синхронизацию на дельта-частоте — окно максимальной пластичности.<br><br>
+        Движения глаз нагружают рабочую память → <strong>подавляется активность амигдалы</strong> → тормозится страх. Дозозависимый эффект: чем больше нагружена РП, тем сильнее торможение.
+      </div>
+    </div>
+    <div class="blink-card">
+      <div class="blink-num">RET</div>
+      <div class="blink-name">Rapid Eye Technology</div>
+      <div class="blink-body">
+        Моргание — <strong>центральный метод</strong>, а не вспомогательный. Клиент входит в расслабленное <strong>альфа-состояние</strong>. Терапевт направляет взгляд по нейролингвистическим путям, где хранятся переживания.<br><br>
+        По мере высвобождения старых паттернов на их место выбираются <strong>новые позитивные варианты</strong>. Ускоряет работу с внутренним ребёнком.
+      </div>
+    </div>
+    <div class="blink-card">
+      <div class="blink-num">Flash<br>Blink</div>
+      <div class="blink-name">Протокол «мягкого» входа</div>
+      <div class="blink-body">
+        Мягкий подход: <strong>не требует заново проживать</strong> болезненные воспоминания. Краткие намеренные моргания, пока клиент фокусируется на нейтральном переживании. Мозг реконсолидирует тягостные воспоминания без перегрузки НС.<br><br>
+        После реконсолидации память <strong>больше не воспринимается как дистрессирующая</strong>. Идеально для Жертвы обстоятельств.
+      </div>
+    </div>
+  </div>
+
+  <!-- Other body hacks -->
+  <div style="margin-top:20px;" class="card">
+    <span class="card-label">Другие техники прямого входа в рептильный мозг</span>
+    <div class="grid2" style="margin-top:12px;gap:12px;">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--cream);margin-bottom:6px;">🗣 Мычание / Гудение</div>
+        <div style="font-size:11.5px;color:var(--cream3);line-height:1.65;">Стимулирует блуждающий нерв через вокальные связки. Чантинг «ом» деактивирует лимбический центр угрозы. <strong>3 секунды гудения — и амигдала уже мягче.</strong></div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--cream);margin-bottom:6px;">❄️ Холодная вода на лицо</div>
+        <div style="font-size:11.5px;color:var(--cream3);line-height:1.65;">Нырятельный рефлекс — мгновенная активация парасимпатики через тройничный нерв. Быстрее дыхания.</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--cream);margin-bottom:6px;">👆 Давление на закрытые веки</div>
+        <div style="font-size:11.5px;color:var(--cream3);line-height:1.65;">Окулокардиальный рефлекс. Стимулирует вагус через глазные ветви тройничного нерва. Снижает ЧСС.</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--cream);margin-bottom:6px;">💨 Медленный выдох через сжатые губы</div>
+        <div style="font-size:11.5px;color:var(--cream3);line-height:1.65;">Прямая стимуляция вагуса через дыхание с сопротивлением. Снижает ЧСС за <strong>90 секунд</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Candle science -->
+  <div class="highlight-box" style="margin-top:16px;">
+    <div class="hl-title">🕯 Свеча — не эстетика, это нейробиология</div>
+    <p>Пламя свечи мерцает на частоте <strong>8–12 Гц</strong> — диапазон альфа-волн мозга. Мягкая фокусировка взгляда на пламени естественно вводит мозг в <strong>альфа-состояние</strong> — пограничье между бодрствованием и сном, где критическое мышление снижается и внушаемость к новым паттернам максимальна. Именно поэтому гипноз работает в этом диапазоне. Ритмичное моргание при взгляде на пламя — это Flash Blink в мягком варианте.</p>
+  </div>
+
+  <!-- Dopamine-blink connection -->
+  <div class="card" style="margin-top:16px;">
+    <span class="card-label">Моргание и дофамин: неочевидная связь</span>
+    <div class="card-body">Спонтанная частота моргания — <strong>периферийный показатель дофаминергической функции</strong>. У людей с паттерном «беги» (Мечтательница, Застрявшая) часто нарушена дофаминовая система вознаграждения. У людей с ПТСР частота спонтанного моргания связана с эмоциональным онемением — «не могу чувствовать эмоции», «знаю что должна расстроиться, но не могу ничего почувствовать». <strong>Намеренные практики с морганием могут влиять на дофаминовую систему косвенно через активацию лимбической системы.</strong></div>
+  </div>
+</div>
+
+<!-- ─── S3: RECONSOLIDATION ─── -->
+<div class="section" id="s3">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Нейропластичность</span>
+    <h2 class="sec-title">Реконсолидация<br><em>памяти</em></h2>
+    <p class="sec-sub">Самое важное открытие нейронауки для твоей работы. Болезненную память нельзя удалить — но можно переписать её эмоциональное значение.</p>
+  </div>
+
+  <div class="recon-steps">
+    <div class="recon-step">
+      <div class="recon-n">1</div>
+      <div class="recon-content">
+        <div class="recon-title">Активация безопасности</div>
+        <div class="recon-body">Тело должно <strong>выйти из режима угрозы прежде чем любое изменение возможно</strong>. Свеча + тишина + дыхание = сигнал «угрозы нет» стволу мозга. Без этого шага — любая работа с паттернами бесполезна.<br>Поливагальные интервенции: дыхание → интероцепция → замедление вагальных ритмов → переход в вентральное состояние.</div>
+        <span class="recon-tool">Инструмент: дыхание + свеча + тишина · 5–10 мин</span>
+      </div>
+    </div>
+    <div class="recon-step">
+      <div class="recon-n">2</div>
+      <div class="recon-content">
+        <div class="recon-title">Активация памяти — открытие окна</div>
+        <div class="recon-body">Каждый раз когда воспоминание извлекается из долгосрочного хранилища — оно становится <strong>временно нестабильным и доступным для модификации</strong>. Это окно длится <strong>4–6 часов</strong>. Требуется подлинная эмоциональная активация — не интеллектуальное воспоминание. Не погружение — лёгкое касание по краю болезненного паттерна.</div>
+        <span class="recon-tool">Инструмент: письмо, вопрос, образ · открывает окно</span>
+      </div>
+    </div>
+    <div class="recon-step">
+      <div class="recon-n">3</div>
+      <div class="recon-content">
+        <div class="recon-title">Введение нового опыта — «ошибка предсказания»</div>
+        <div class="recon-body">Внутри окна — новая <strong>эмоционально заряженная информация, которая ПРОТИВОРЕЧИТ исходному убеждению</strong>. Когда поступает информация которая ощущается как убедительная через прожитый опыт — она реально изменяет исходную схему. Это трансформационное изменение — намного мощнее чем «принуждение себя к новым привычкам».</div>
+        <span class="recon-tool">Инструмент: история другой женщины, новый взгляд, телесный опыт</span>
+      </div>
+    </div>
+    <div class="recon-step">
+      <div class="recon-n">4</div>
+      <div class="recon-content">
+        <div class="recon-title">Завершение и закрепление</div>
+        <div class="recon-body">Цикл завершён — память переписана. Эффект длится <strong>минимум год</strong> и избирателен — затрагивает только реактивированные воспоминания, не влияя на другие. <strong>21 повторение</strong> — многократные циклы реконсолидации = глубокая перезапись. 66 дней — для доминирования нового пути над старым.</div>
+        <span class="recon-tool">Инструмент: ритуальное завершение, благодарность, тишина</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 conditions -->
+  <div style="margin-top:20px;" class="grid3">
+    <div class="card">
+      <span class="card-label">Условие 1</span>
+      <div class="card-title">Идентифицировать<br><em>скрытое обучение</em></div>
+      <div class="card-body">Распутать глубоко встроенные убеждения или поведения, которые закрепляют негативные эмоции</div>
+    </div>
+    <div class="card">
+      <span class="card-label">Условие 2</span>
+      <div class="card-title">Создать<br><em>противоречащий опыт</em></div>
+      <div class="card-body">Эмоционально значимый опыт, который напрямую бросает вызов исходной схеме. Не логика — живой опыт</div>
+    </div>
+    <div class="card">
+      <span class="card-label">Условие 3</span>
+      <div class="card-title">Обработать<br><em>ошибку предсказания</em></div>
+      <div class="card-body">Активировать исходную схему и новый опыт одновременно. Мозг фиксирует расхождение — и перезаписывает</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── S4: IDENTITY ─── -->
+<div class="section" id="s4">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Дилтс · Нейропластичность идентичности</span>
+    <h2 class="sec-title">Пирамида<br><em>идентичности</em></h2>
+    <p class="sec-sub">Изменение на уровне идентичности автоматически перестраивает все уровни ниже. Не нужно работать с каждым убеждением отдельно.</p>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <div class="identity-pyramid">
+        <div class="pyramid-level pyr-5">
+          <div class="pyramid-level-name">↑ Идентичность / Миссия</div>
+          <div class="pyramid-level-desc">«Кто я есть» — управляет всем снизу</div>
+        </div>
+        <div class="pyr-arrow">↓ управляет</div>
+        <div class="pyramid-level pyr-4">
+          <div class="pyramid-level-name">Убеждения / Ценности</div>
+          <div class="pyramid-level-desc">«Что правда», «что важно»</div>
+        </div>
+        <div class="pyr-arrow">↓</div>
+        <div class="pyramid-level pyr-3">
+          <div class="pyramid-level-name">Способности</div>
+          <div class="pyramid-level-desc">«Что умею делать»</div>
+        </div>
+        <div class="pyr-arrow">↓</div>
+        <div class="pyramid-level pyr-2">
+          <div class="pyramid-level-name">Поведение</div>
+          <div class="pyramid-level-desc">«Что делаю»</div>
+        </div>
+        <div class="pyr-arrow">↓</div>
+        <div class="pyramid-level pyr-1">
+          <div class="pyramid-level-name">Окружение</div>
+          <div class="pyramid-level-desc">«Что имею»</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="card">
+        <span class="card-label">Почему курсы не работают</span>
+        <div class="card-body">Большинство инструментов работают снизу вверх — пытаются изменить поведение, не трогая идентичность. Это как переставлять мебель в доме, не меняя архитектуру. Достаточно изменить «кто я» — и поведение меняется <strong>без усилий</strong>, потому что оно согласовано с новой идентичностью.</div>
+      </div>
+      <div class="card">
+        <span class="card-label">Пример: 5 утра</span>
+        <div class="card-body">На найме: идентичность «я обязательный человек, не подвожу» → НС выполняет программу автоматически. Ради себя: идентичности «я встаю ради себя» ещё <strong>не существует</strong>. Нейронного пути нет. Дело не в лени — это нейробиология. Новая идентичность: <strong>«Я человек, который себя тоже не подводит»</strong>.</div>
+      </div>
+      <div class="card">
+        <span class="card-label">Нейробиологически</span>
+        <div class="card-body">Не нужно строить новое качество с нуля. Нейронная сеть «ответственности» уже мощная. Нужно только <strong>распространить уже существующую идентичность на новый объект</strong> — на себя. Это проще и быстрее.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Own voice science -->
+  <div style="margin-top:20px;" class="card">
+    <span class="card-label">Собственный голос — нейробиология</span>
+    <div class="card-title" style="font-size:18px;margin-bottom:10px;">Почему медитация своим голосом эффективнее</div>
+    <div class="grid2" style="gap:14px;">
+      <div class="card-body">
+        Мозг обрабатывает собственный голос <strong>принципиально иначе</strong> чем чужой. При прослушивании аффирмаций своим голосом активируются области, связанные с самореференцией и эпизодической памятью — <strong>прекунеус</strong>. Собственный голос включает «сеть самоощущения».<br><br>
+        Когда слышим аффирмации в чужом голосе — мозг оценивает достоверность источника. Это создаёт <strong>скрытое сопротивление</strong>. Собственный голос этот фильтр обходит.
+      </div>
+      <div class="card-body">
+        <strong>Оптимальное время:</strong><br><br>
+        ☀️ <strong>Утро (первые 20 мин)</strong> — мозг ещё в тета-волнах, кора не включилась. Окно максимальной пластичности. Убеждение ложится глубже.<br><br>
+        🌙 <strong>Вечер (перед сном)</strong> — гиппокамп консолидирует дневной опыт. Последнее перед сном приоритизируется для записи в долгосрочную память.<br><br>
+        Идеально — <strong>оба раза. Утром сажаешь семя, вечером поливаешь.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Protocol: voice meditation -->
+  <div class="highlight-box" style="margin-top:16px;">
+    <div class="hl-title">Протокол записи медитации своим голосом</div>
+    <p><strong>3 секунды гудения</strong> → медленный выдох → <strong>лёгкое давление на закрытые веки</strong> → открыть глаза, плавное движение глаз влево-вправо 3–4 раза → <strong>свеча</strong> → рука на сердце → голосовая запись на фоне природы<br><br>
+    Это <strong>многоканальный вход в лимбическую систему через тело, минуя кору</strong>. Убеждение не встречает сопротивления — оно просто ложится.</p>
+  </div>
+</div>
+
+<!-- ─── S5: PROTOCOLS ─── -->
+<div class="section" id="s5">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Авторский протокол Исаковой</span>
+    <h2 class="sec-title">«Возвращение в себя»<br><em>5 протоколов</em></h2>
+    <p class="sec-sub">Три уровня для каждого паттерна: Тело → Мозг → Новая опора. Порядок имеет значение — сначала всегда тело.</p>
+  </div>
+
+  <!-- Выгоревшая -->
+  <div class="protocol p-red">
+    <div class="protocol-head">
+      <div class="protocol-icon">🔴</div>
+      <div>
+        <div class="protocol-name">Выгоревшая</div>
+        <div class="protocol-pattern">Активный фриз · гиперфункция заботы · «я всё делаю для всех»</div>
+      </div>
+      <div class="protocol-tag">Скрипт: «5 минут только для тебя»</div>
+    </div>
+    <div class="protocol-body">
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:#e74c3c;"><div class="proto-level-dot t1"></div>Уровень 1 — Тело</div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">1</div>
+          <div class="proto-step-body"><strong>Физическое разрешение остановиться</strong> — лечь/сесть, руки на живот, заметить дыхание</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">2</div>
+          <div class="proto-step-body"><strong>EFT тэппинг</strong> — снятие накопленного напряжения. Фраза: «Даже если я ничего не делаю — я в порядке»</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">3</div>
+          <div class="proto-step-body"><strong>Объятие бабочки + моргание</strong> — скрещённые руки, похлопывания по плечам + медленное моргание в такт. Двойной сигнал безопасности</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">4</div>
+          <div class="proto-step-body"><strong>Вибрационное дыхание</strong> — «ммм» / «хмм» на выдохе. Прямая вагусная стимуляция. Кортизол снижается за минуты</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--amber2);"><div class="proto-level-dot t2"></div>Уровень 2 — Мозг</div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">5</div>
+          <div class="proto-step-body"><strong>Послание:</strong> «Ты столько лет заботилась обо всех. Прямо сейчас ты ничего никому не должна. Эти минуты — только твои»</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">6</div>
+          <div class="proto-step-body"><strong>Вопрос для контакта с собой:</strong> «Что ты сейчас чувствуешь в теле — не что думаешь, а именно чувствуешь?»</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--green2);"><div class="proto-level-dot t3"></div>Уровень 3 — Опора</div>
+        <div class="proto-step">
+          <div class="proto-step-n t3">•</div>
+          <div class="proto-step-body"><strong>Якорь:</strong> тэппинг + вибрация голоса = «я возвращаю себе себя»</div>
+        </div>
+      </div>
+      <div class="proto-affirmation">«Прямо сейчас я существую. Этого достаточно.»</div>
+    </div>
+  </div>
+
+  <!-- Жертва -->
+  <div class="protocol p-dark">
+    <div class="protocol-head">
+      <div class="protocol-icon">🌑</div>
+      <div>
+        <div class="protocol-name">Жертва обстоятельств</div>
+        <div class="protocol-pattern">Пассивный фриз · дорсальный вагус · «нет сил даже хотеть»</div>
+      </div>
+      <div class="protocol-tag">Скрипт: «Просто побудь здесь»</div>
+    </div>
+    <div class="protocol-body">
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:#5d6d7e;"><div class="proto-level-dot t1"></div>Уровень 1 — Тело</div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">1</div>
+          <div class="proto-step-body"><strong>Сенсорная активация</strong> — свеча в руках. Почувствовать тепло ладонями. Поднести к лицу, почувствовать запах</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">2</div>
+          <div class="proto-step-body"><strong>Намеренное медленное моргание</strong> — смотреть на пламя, медленно закрыть, задержать в темноте, открыть. 5–7 раз. Без инструкций «что чувствовать»</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">3</div>
+          <div class="proto-step-body"><strong>Дыхание с удлинённым выдохом</strong> — вдох 4, выдох 6–8. Выдох длиннее = сигнал парасимпатике</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">4</div>
+          <div class="proto-step-body"><strong>Минимальное движение</strong> — пошевелить пальцами, повернуть голову влево-вправо. Выход из замирания через наименьшее возможное действие</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--amber2);"><div class="proto-level-dot t2"></div>Уровень 2 — Мозг</div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">5</div>
+          <div class="proto-step-body"><strong>Послание:</strong> «Когда нет сил хотеть — это не слабость. Твоя нервная система выбрала замирание. Это не ты. Это твоя биология. И она умеет оттаивать»</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">6</div>
+          <div class="proto-step-body"><strong>Один маленький вопрос (не задание):</strong> «Есть ли прямо сейчас хоть что-то крошечное, что приятно?»</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--green2);"><div class="proto-level-dot t3"></div>Уровень 3 — Опора</div>
+        <div class="proto-step">
+          <div class="proto-step-n t3">•</div>
+          <div class="proto-step-body"><strong>Якорь:</strong> свеча + медленное моргание = «я возвращаюсь к себе»</div>
+        </div>
+      </div>
+      <div class="proto-affirmation">«Я здесь. Я в безопасности. Этого достаточно.»</div>
+    </div>
+  </div>
+
+  <!-- Мечтательница -->
+  <div class="protocol p-yellow">
+    <div class="protocol-head">
+      <div class="protocol-icon">🌸</div>
+      <div>
+        <div class="protocol-name">Мечтательница</div>
+        <div class="protocol-pattern">Беги в фантазию · «хочу как в сказке» · дофамин от предвкушения</div>
+      </div>
+      <div class="protocol-tag">Скрипт: «Вернись. Ты здесь.»</div>
+    </div>
+    <div class="protocol-body">
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--yellow);"><div class="proto-level-dot t1"></div>Уровень 1 — Тело</div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">1</div>
+          <div class="proto-step-body"><strong>Заземление через стопы</strong> — медленно переносить вес влево-вправо. Буквальная билатеральная стимуляция через ходьбу на месте</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">2</div>
+          <div class="proto-step-body"><strong>Техника 5-4-3-2-1</strong> — 5 вижу, 4 потрогать, 3 слышу, 2 запах, 1 вкус. Возврат из фантазии через все каналы восприятия</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">3</div>
+          <div class="proto-step-body"><strong>Лёгкое движение с ритмом</strong> — покачивание, без хореографии. Дофамин через движение, а не через мечту</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--amber2);"><div class="proto-level-dot t2"></div>Уровень 2 — Мозг</div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">4</div>
+          <div class="proto-step-body"><strong>Послание:</strong> «Твои мечты настоящие. Между мечтой и реальностью не пропасть — а маленький шаг. Один. Прямо сейчас»</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">5</div>
+          <div class="proto-step-body"><strong>Вопрос:</strong> «Что самое маленькое — буквально на одну минуту — я могу сделать прямо сейчас?»</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--green2);"><div class="proto-level-dot t3"></div>Уровень 3 — Опора</div>
+        <div class="proto-step">
+          <div class="proto-step-n t3">•</div>
+          <div class="proto-step-body"><strong>Якорь:</strong> заземление + один микрошаг = «я здесь и я двигаюсь»</div>
+        </div>
+      </div>
+      <div class="proto-affirmation">«Я здесь. Один шаг — это достаточно.»</div>
+    </div>
+  </div>
+
+  <!-- Застрявшая -->
+  <div class="protocol p-blue">
+    <div class="protocol-head">
+      <div class="protocol-icon">🧠</div>
+      <div>
+        <div class="protocol-name">Застрявшая</div>
+        <div class="protocol-pattern">Беги + Замри · «понимает всё — не двигается» · интеллект как защита</div>
+      </div>
+      <div class="protocol-tag">Скрипт: «Твой мозг обновляется»</div>
+    </div>
+    <div class="protocol-body">
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:#5dade2;"><div class="proto-level-dot t1"></div>Уровень 1 — Тело</div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">1</div>
+          <div class="proto-step-body"><strong>EFT тэппинг на страх провала</strong> — «Даже если я облажаюсь — я всё равно в порядке». Прямо снижает активность миндалины</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">2</div>
+          <div class="proto-step-body"><strong>Физическое завершение прерванного действия</strong> — оттолкнуться ногами, выпрямить спину, поднять подбородок. Техника Питера Левина (SE)</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">3</div>
+          <div class="proto-step-body"><strong>Объятие бабочки (быстрее) + моргание</strong> — чуть быстрее темп. Переработка накопленного напряжения ожидания</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--amber2);"><div class="proto-level-dot t2"></div>Уровень 2 — Мозг</div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">4</div>
+          <div class="proto-step-body"><strong>Послание (для интеллекта):</strong> «Ты не ленивая. Твоя нервная система выучила останавливать тебя перед новым. Эта программа устарела. Ты можешь её обновить»</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">5</div>
+          <div class="proto-step-body"><strong>Инструмент «Петля» (КПТ)</strong> — прописать триггер → история → эмоция → реакция. Увидеть точку входа и написать альтернативную историю</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--green2);"><div class="proto-level-dot t3"></div>Уровень 3 — Опора</div>
+        <div class="proto-step">
+          <div class="proto-step-n t3">•</div>
+          <div class="proto-step-body"><strong>Якорь:</strong> тэппинг + завершение действия = «мой мозг обновляется»</div>
+        </div>
+      </div>
+      <div class="proto-affirmation">«Моя нервная система учится новому. Каждый раз — чуть легче.»</div>
+    </div>
+  </div>
+
+  <!-- Пробуждающаяся -->
+  <div class="protocol p-violet">
+    <div class="protocol-head">
+      <div class="protocol-icon">⚡</div>
+      <div>
+        <div class="protocol-name">Пробуждающаяся</div>
+        <div class="protocol-pattern">Выход из фриз · «знаю и понимаю — но снова то же утро»</div>
+      </div>
+      <div class="protocol-tag">Скрипт: «Твоё тело помнит»</div>
+    </div>
+    <div class="protocol-body">
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:#a569bd;"><div class="proto-level-dot t1"></div>Уровень 1 — Тело</div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">1</div>
+          <div class="proto-step-body"><strong>Дыхание завершения</strong> — 4 фазы: вдох → задержка → выдох → пауза. Сигнал НС: цикл закрыт, можно двигаться дальше</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">2</div>
+          <div class="proto-step-body"><strong>TRE — намеренная лёгкая дрожь</strong> — слегка согнуть колени, позволить ногам дрожать. Физический выброс стрессового возбуждения — как у животных после стресса</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t1">3</div>
+          <div class="proto-step-body"><strong>Моргание с ресурсом</strong> — вспомнить момент когда получилось + удерживать образ + медленно моргать. «Встраивание ресурса»</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--amber2);"><div class="proto-level-dot t2"></div>Уровень 2 — Мозг</div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">4</div>
+          <div class="proto-step-body"><strong>Послание:</strong> «Расстояние между пониманием и жизнью — не провал. Это зазор, который закрывается одним действием. Не пониманием действия. Самим действием»</div>
+        </div>
+        <div class="proto-step">
+          <div class="proto-step-n t2">5</div>
+          <div class="proto-step-body"><strong>Микрообязательство перед собой</strong> — одно конкретное действие прямо сегодня. Написать вслух.</div>
+        </div>
+      </div>
+      <div class="proto-level">
+        <div class="proto-level-name" style="color:var(--green2);"><div class="proto-level-dot t3"></div>Уровень 3 — Опора</div>
+        <div class="proto-step">
+          <div class="proto-step-n t3">•</div>
+          <div class="proto-step-body"><strong>Якорь:</strong> дрожь + моргание с ресурсом = «моё тело знает как двигаться вперёд»</div>
+        </div>
+      </div>
+      <div class="proto-affirmation">«Я уже в движении. Моё тело помнит как это — получаться.»</div>
+    </div>
+  </div>
+
+  <!-- Methods arsenal -->
+  <div class="card" style="margin-top:20px;">
+    <span class="card-label">Полный арсенал методов</span>
+    <div class="tags">
+      <span class="tag amber">SE — Питер Левин</span>
+      <span class="tag">EMDR</span>
+      <span class="tag">EFT Тэппинг</span>
+      <span class="tag">Flash Blink</span>
+      <span class="tag">RET</span>
+      <span class="tag">TRE</span>
+      <span class="tag">Объятие бабочки</span>
+      <span class="tag">Билатеральное рисование</span>
+      <span class="tag">Мандала</span>
+      <span class="tag">Свободное движение</span>
+      <span class="tag">Бинауральные биты</span>
+      <span class="tag amber">КПТ «Петля»</span>
+      <span class="tag">ACT — Хейс</span>
+      <span class="tag">Поливагальные интервенции</span>
+      <span class="tag">Соматическая экспозиция</span>
+      <span class="tag">Маятник (SE)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── S6: AUDIO SCRIPTS ─── -->
+<div class="section" id="s6">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Аудио-практики</span>
+    <h2 class="sec-title">Пять скриптов<br><em>по сегментам</em></h2>
+    <p class="sec-sub">Каждый скрипт — 7 минут, свой тон, своя точка входа. Записывается авторским голосом на фоне природных звуков.</p>
+  </div>
+
+  <div class="script-card">
+    <div class="script-head">
+      <div>
+        <div class="script-title">«5 минут только для тебя»</div>
+        <div class="script-meta">🔴 Выгоревшая · голос тихий, обволакивающий · природа 15–20% громкости</div>
+      </div>
+      <div class="script-badge" style="background:var(--red-l);color:#e74c3c;border:1px solid rgba(231,76,60,.3);">7 мин</div>
+    </div>
+    <div class="script-body">
+      <div class="script-block"><span class="script-block-time">0:00 — 0:40</span><div class="script-block-name">Вступление</div><div class="script-block-body">«Прямо сейчас тебе не нужно ничего решать, никуда спешить»</div></div>
+      <div class="script-block"><span class="script-block-time">0:40 — 2:30</span><div class="script-block-name">Дыхание 4-6-8</div><div class="script-block-body">Удлинённый выдох. «Выдох длиннее — сигнал НС: опасности нет»</div></div>
+      <div class="script-block"><span class="script-block-time">2:30 — 3:50</span><div class="script-block-name">Намеренное моргание</div><div class="script-block-body">Смотреть на пламя. Медленно закрыть — задержать в темноте — открыть. 5–7 раз</div></div>
+      <div class="script-block"><span class="script-block-time">3:50 — 6:10</span><div class="script-block-name">Тэппинг</div><div class="script-block-body">Ребро ладони → бровь → висок → под глазом → ключица → макушка</div></div>
+      <div class="script-block"><span class="script-block-time">6:10 — 7:00</span><div class="script-block-name">Завершение</div><div class="script-block-body">«Ты не роль. Не функция. Не мама, жена, дочь. Ты.»</div></div>
+      <div class="script-affirmation">«Прямо сейчас я существую. Этого достаточно.»</div>
+    </div>
+  </div>
+
+  <div class="script-card">
+    <div class="script-head">
+      <div>
+        <div class="script-title">«Просто побудь здесь»</div>
+        <div class="script-meta">🌑 Жертва обстоятельств · голос почти нейтральный, без давления · тихий дождь</div>
+      </div>
+      <div class="script-badge" style="background:rgba(93,109,126,.15);color:#85929e;border:1px solid rgba(93,109,126,.3);">7 мин</div>
+    </div>
+    <div class="script-body">
+      <div class="script-block"><span class="script-block-time">0:00 — 0:50</span><div class="script-block-name">Вступление</div><div class="script-block-body">«Ты включила это. Это уже что-то.» — без призывов к трансформации</div></div>
+      <div class="script-block"><span class="script-block-time">0:50 — 2:20</span><div class="script-block-name">Сенсорная активация</div><div class="script-block-body">Текстура под руками, тепло. «НС в режиме экономии — это защита, не поломка»</div></div>
+      <div class="script-block"><span class="script-block-time">2:20 — 3:40</span><div class="script-block-name">Мягкое дыхание</div><div class="script-block-body">Без счёта. Просто чуть глубже и длиннее</div></div>
+      <div class="script-block"><span class="script-block-time">3:40 — 4:50</span><div class="script-block-name">Моргание</div><div class="script-block-body">«В этих секундах темноты — сигнал мозгу: угрозы нет»</div></div>
+      <div class="script-block"><span class="script-block-time">4:50 — 7:00</span><div class="script-block-name">Минимальный тэппинг</div><div class="script-block-body">Если хочется. Два пальца на ключицу. «Прямо сейчас этого достаточно»</div></div>
+      <div class="script-affirmation">«Я здесь. Я в безопасности. Этого достаточно.»</div>
+    </div>
+  </div>
+
+  <div class="script-card">
+    <div class="script-head">
+      <div>
+        <div class="script-title">«Вернись. Ты здесь.»</div>
+        <div class="script-meta">🌸 Мечтательница · голос тёплый, лёгкий, игривый · ритмичная музыка 60–70 BPM</div>
+      </div>
+      <div class="script-badge" style="background:var(--yellow-l);color:var(--yellow);border:1px solid rgba(212,160,23,.3);">7 мин</div>
+    </div>
+    <div class="script-body">
+      <div class="script-block"><span class="script-block-time">0:00 — 0:45</span><div class="script-block-name">Вступление</div><div class="script-block-body">«Я знаю, ты сейчас где-то там. Но сейчас я хочу пригласить тебя вернуться.»</div></div>
+      <div class="script-block"><span class="script-block-time">0:45 — 2:20</span><div class="script-block-name">Заземление 5-4-3-2-1</div><div class="script-block-body">Стопы, вес тела, все каналы восприятия. Возврат из фантазии</div></div>
+      <div class="script-block"><span class="script-block-time">2:20 — 3:30</span><div class="script-block-name">Дыхание в ритм</div><div class="script-block-body">4-4. «Ритм — это то, что возвращает. Не дисциплина.»</div></div>
+      <div class="script-block"><span class="script-block-time">3:30 — 4:50</span><div class="script-block-name">Моргание + якорь</div><div class="script-block-body">«Есть ли одна маленькая вещь которую хочешь прямо сегодня?»</div></div>
+      <div class="script-block"><span class="script-block-time">4:50 — 7:00</span><div class="script-block-name">Тэппинг</div><div class="script-block-body">«Я здесь» → «Мои мечты реальны» → «Один шаг — это уже движение»</div></div>
+      <div class="script-affirmation">«Я здесь. Один шаг — это достаточно.»</div>
+    </div>
+  </div>
+
+  <div class="script-card">
+    <div class="script-head">
+      <div>
+        <div class="script-title">«Твой мозг обновляется»</div>
+        <div class="script-meta">🧠 Застрявшая · голос уверенный, объясняющий · ambient без эмоций</div>
+      </div>
+      <div class="script-badge" style="background:var(--blue-l);color:#5dade2;border:1px solid rgba(93,173,226,.3);">7 мин</div>
+    </div>
+    <div class="script-body">
+      <div class="script-block"><span class="script-block-time">0:00 — 0:50</span><div class="script-block-name">Вступление</div><div class="script-block-body">«Дело не в силе воли. Дело в биологии. И биологию можно изменить.»</div></div>
+      <div class="script-block"><span class="script-block-time">0:50 — 2:30</span><div class="script-block-name">Тэппинг на страх</div><div class="script-block-body">«Даже если снова остановлюсь — я не сломана» · «Мозг учится останавливать меня — эта программа устарела»</div></div>
+      <div class="script-block"><span class="script-block-time">2:30 — 3:40</span><div class="script-block-name">Завершение действия</div><div class="script-block-body">Оттолкнуться ногами, выпрямить спину, поднять подбородок. «Тело человека который действует»</div></div>
+      <div class="script-block"><span class="script-block-time">3:40 — 5:20</span><div class="script-block-name">Моргание с ресурсом</div><div class="script-block-body">Вспомнить успех + удерживать + медленно моргать. «Каждое моргание встраивает "у меня получается" глубже»</div></div>
+      <div class="script-block"><span class="script-block-time">5:20 — 7:00</span><div class="script-block-name">Послание + действие</div><div class="script-block-body">«Что самое маленькое я могу сделать в следующие 10 минут? Не план. Именно это.»</div></div>
+      <div class="script-affirmation">«Моя нервная система учится новому. Каждый раз — чуть легче.»</div>
+    </div>
+  </div>
+
+  <div class="script-card">
+    <div class="script-head">
+      <div>
+        <div class="script-title">«Твоё тело помнит»</div>
+        <div class="script-meta">⚡ Пробуждающаяся · голос равный, уважительный · ритмичная музыка движения</div>
+      </div>
+      <div class="script-badge" style="background:rgba(125,60,152,.15);color:#a569bd;border:1px solid rgba(125,60,152,.3);">7 мин</div>
+    </div>
+    <div class="script-body">
+      <div class="script-block"><span class="script-block-time">0:00 — 0:50</span><div class="script-block-name">Вступление</div><div class="script-block-body">«Ты уже многое знаешь. Знание и действие живут в разных частях мозга. Говорим с той, что отвечает за действие.»</div></div>
+      <div class="script-block"><span class="script-block-time">0:50 — 2:10</span><div class="script-block-name">Дыхание завершения</div><div class="script-block-body">4 фазы. «Каждый завершённый цикл говорит НС: можно двигаться дальше»</div></div>
+      <div class="script-block"><span class="script-block-time">2:10 — 3:20</span><div class="script-block-name">TRE — лёгкая дрожь</div><div class="script-block-body">Согнуть колени, позволить дрожать. «Животные делают это автоматически. У людей подавлено социальными нормами»</div></div>
+      <div class="script-block"><span class="script-block-time">3:20 — 5:00</span><div class="script-block-name">Моргание с ресурсом</div><div class="script-block-body">Ощутить успех телесно. «Где это живёт — в груди? В плечах?» Моргать удерживая</div></div>
+      <div class="script-block"><span class="script-block-time">5:00 — 7:00</span><div class="script-block-name">Тэппинг + обязательство</div><div class="script-block-body">«Я уже в движении» → «Я не готовлюсь к жизни — я живу её» → один шаг</div></div>
+      <div class="script-affirmation">«Я уже в движении. Моё тело помнит как это — получаться.»</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── S7: PRODUCT = PROTOCOL ─── -->
+<div class="section" id="s7">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Позиционирование</span>
+    <h2 class="sec-title">«Письма из Будущего» —<br><em>протокол реконсолидации</em></h2>
+    <p class="sec-sub">Когда смотришь на всё это вместе — видишь кое-что важное. Твой продукт — это буквально протокол реконсолидации памяти.</p>
+  </div>
+
+  <div class="cycle" style="max-width:700px;">
+    <div class="cycle-flow">
+      <div class="cycle-row">
+        <div class="cycle-block" style="background:var(--amber4);border-color:var(--amber);">
+          <span class="cycle-block-label">Шаг 1</span>
+          <div class="cycle-block-text"><strong>🕯 Свеча + тишина</strong> → создаёт безопасное состояние нервной системы. Альфа-волны, вагусная регуляция</div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓ открывает окно</div>
+      <div class="cycle-row">
+        <div class="cycle-block">
+          <span class="cycle-block-label">Шаг 2</span>
+          <div class="cycle-block-text"><strong>📜 Письмо обращается к болезненному паттерну</strong> → мягко активирует память. Окно реконсолидации (4–6 часов)</div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓</div>
+      <div class="cycle-row">
+        <div class="cycle-block">
+          <span class="cycle-block-label">Шаг 3</span>
+          <div class="cycle-block-text"><strong>✍️ Новый нарратив из будущего</strong> → вводит противоречащий опыт. «Ошибка предсказания» — перезаписывает память</div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓</div>
+      <div class="cycle-row">
+        <div class="cycle-block">
+          <span class="cycle-block-label">Шаг 4</span>
+          <div class="cycle-block-text"><strong>🔚 Ритуальное завершение</strong> → закрепляет новую запись. Цикл закрыт</div>
+        </div>
+      </div>
+      <div class="cycle-arrow">↓ × 21</div>
+      <div class="cycle-row">
+        <div class="cycle-block outcome">
+          <span class="cycle-block-label green-l">21 повторение</span>
+          <div class="cycle-block-text"><strong>Многократные циклы реконсолидации</strong> = глубокая перезапись нейронной памяти о боли. 66 дней — новый паттерн становится доминирующим</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:20px;">
+    <div class="hl-title">Главное научное позиционирование</div>
+    <p>Не просто коробка со свечами. Это <strong>нейробиологически точный протокол перезаписи эмоциональной памяти</strong> через безопасный телесный ритуал.<br><br>
+    Большинство инструментов работают с симптомами — с поведением и убеждениями. «Письма из Будущего» работают с источником — с <strong>идентичностью</strong>. Когда меняется «кто я» — меняется всё остальное. Не через усилие. Через согласованность.<br><br>
+    <strong>Никто на рынке не говорит об этом на таком уровне.</strong></p>
+  </div>
+
+  <div class="grid3" style="margin-top:16px;">
+    <div class="card">
+      <span class="card-label">Три научных столпа</span>
+      <div class="card-body"><strong>Эриксон</strong> — незакрытые стадии развития<br><strong>Порджес</strong> — нейробиология стрессовых паттернов<br><strong>Нейропластичность</strong> — мозг перепрограммируется в любом возрасте</div>
+    </div>
+    <div class="card">
+      <span class="card-label">Почему один формат ≠ для всех</span>
+      <div class="card-body">Выгоревшей нельзя давать интенсив — НС в активации. Жертве нельзя давать анализ — замершая НС не обрабатывает информацию. <strong>Есть научное объяснение почему форматы разные.</strong></div>
+    </div>
+    <div class="card">
+      <span class="card-label">Новый язык</span>
+      <div class="card-body">«Ты ленивая» → «твоя НС застряла в режиме выживания»<br>«Возьми себя в руки» → «сначала нужно вернуть НС в безопасность»<br>Снимает вину. Создаёт доверие мгновенно.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── S8: NARRATIVE CHANGE ─── -->
+<div class="section" id="s8">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Нарратив · Изменение идентичности</span>
+    <h2 class="sec-title">Перезапись нарратива<br><em>через эмоцию</em></h2>
+    <p class="sec-sub">Позитивная эмоция из любой сферы — научно доказанный инструмент перезаписи болезненного нарратива. Три независимых механизма подтверждают: эмоция не обязана быть «про это».</p>
+  </div>
+
+  <!-- Key discovery -->
+  <div class="highlight-box">
+    <div class="hl-title">Главное открытие · Nature Communications + MIT</div>
+    <p>Позитивная переинтерпретация негативных воспоминаний адаптивно их обновляет — приводя к повторному возникновению позитивности при будущем извлечении. Изменения содержания памяти сохраняются <strong>даже через два месяца.</strong><br><br>
+    Эксперимент MIT (лаборатория Тонегавы): искусственно активировали негативную память — пока испытуемый переживал позитивный опыт. Это <strong>ослабило ассоциацию страха и заменило её более позитивным ощущением.</strong><br><br>
+    <strong>Эмоция не обязана быть «про это». Мозгу важна сама эмоция как нейрохимическое состояние.</strong></p>
+  </div>
+
+  <!-- Three mechanisms -->
+  <div class="grid3" style="margin-top:20px;">
+    <div class="card" style="border-top:2px solid var(--amber);">
+      <span class="card-label">Механизм 1 · Nature Communications</span>
+      <div class="card-title"><em>Реконсолидация</em></div>
+      <div class="card-body">Позитивная эмоция введённая после активации болезненной памяти физически переписывает её эмоциональную окраску в гиппокампе. Эффект длится минимум 2 месяца. Мозг использует новую эмоцию чтобы переписать контекст того что было активировано рядом.</div>
+    </div>
+    <div class="card" style="border-top:2px solid #5dade2;">
+      <span class="card-label">Механизм 2 · EMDR + рабочая память</span>
+      <div class="card-title"><em>Билатеральная стимуляция</em></div>
+      <div class="card-body">Ритмичная двусторонняя стимуляция (моргание, постукивание, ходьба) нагружает рабочую память — и снижает контроль коры. Лимбическая система принимает новый нарратив <strong>напрямую, без когнитивного сопротивления.</strong> ЭЭГ фиксирует синхронизацию на дельта-частоте — окно максимальной пластичности.</div>
+    </div>
+    <div class="card" style="border-top:2px solid var(--green2);">
+      <span class="card-label">Механизм 3 · PubMed</span>
+      <div class="card-title"><em>Контркондиционирование</em></div>
+      <div class="card-body">День 1 — активировать болезненную память. День 2 — сразу ввести противоположный опыт. День 3 — исходная реакция существенно ослаблена.<br><br><strong>Схема:</strong> мягко коснись болезненной темы → введи позитивный опыт из любой сферы → 21 день → исходная реакция угасает.</div>
+    </div>
+  </div>
+
+  <!-- Protocol: 4 steps -->
+  <div class="card" style="margin-top:20px;">
+    <span class="card-label">Протокол изменения нарратива · 4 шага</span>
+    <div class="recon-steps">
+      <div class="recon-step">
+        <div class="recon-n">1</div>
+        <div class="recon-content">
+          <div class="recon-title">Ввести позитивное состояние <span style="font-size:10px;color:var(--cream3);font-weight:400;">10 минут — до работы с темой</span></div>
+          <div class="recon-body">Не связанное с проблемой — именно это ключ. Зажги свечу (сенсорный якорь) → 3 минуты музыки которая поднимает → вспомни момент когда было хорошо (любой, из любой сферы) → несколько минут движения.<br><strong>Цель:</strong> миндалина успокоена, дофамин активирован, система вознаграждения включена.</div>
+          <span class="recon-tool">Нейрохимия: дофамин фиксирует нейронные связи — говорит мозгу «это важно, запомнить»</span>
+        </div>
+      </div>
+      <div class="recon-step">
+        <div class="recon-n">2</div>
+        <div class="recon-content">
+          <div class="recon-title">Мягкая активация темы <span style="font-size:10px;color:var(--cream3);font-weight:400;">не погружение — касание · 30–60 сек</span></div>
+          <div class="recon-body">Одно предложение о болезненной теме. Или один вопрос: «когда я впервые решила что я такая?» Почувствуй — не анализируй.<br><strong>Цель:</strong> память вышла из долгосрочного хранилища и стала лабильной. Окно открыто 4–6 часов.</div>
+        </div>
+      </div>
+      <div class="recon-step">
+        <div class="recon-n">3</div>
+        <div class="recon-content">
+          <div class="recon-title">Ввести новый нарратив с эмоцией <span style="font-size:10px;color:var(--cream3);font-weight:400;">сразу — пока окно открыто</span></div>
+          <div class="recon-body">Прочитай письмо из будущего. Или запиши: «Если бы я уже была той — что бы я думала об этом?» Или: возьми историю другой женщины которая прошла похожее. Добавь телесный опыт: ритмичное постукивание по коленям, ходьба, медленное дыхание.<br><strong>Цель:</strong> новая эмоция + новый нарратив входит в лабильную память и переписывает её окраску.</div>
+          <span class="recon-tool">Письма из Будущего = буквально новый нарратив с эмоциональным зарядом</span>
+        </div>
+      </div>
+      <div class="recon-step">
+        <div class="recon-n">4</div>
+        <div class="recon-content">
+          <div class="recon-title">Завершение и закрытие <span style="font-size:10px;color:var(--cream3);font-weight:400;">5 минут</span></div>
+          <div class="recon-body">Запиши одно предложение: что изменилось прямо сейчас. Произнеси вслух своё имя и новый нарратив. Ритуальное действие: задуй свечу, вдох-выдох.<br><strong>Цель:</strong> память реконсолидируется с новой записью. Цикл завершён.</div>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--amber4);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-top:14px;text-align:center;font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--cream2);">
+      Повторить 21 день. Каждый день. То что ощущается как фиксированное сегодня — это просто то что было наиболее укреплено.
+    </div>
+  </div>
+
+  <!-- Emotions that work -->
+  <div class="card" style="margin-top:20px;">
+    <span class="card-label">Какие именно эмоции нужны — и почему</span>
+    <div class="grid3" style="margin-top:12px;">
+      <div style="background:var(--bg4);border-radius:12px;padding:16px;">
+        <div style="font-size:12px;font-weight:600;color:var(--amber2);margin-bottom:8px;">🥇 Благодарность + Радость</div>
+        <div style="font-size:11.5px;line-height:1.7;color:var(--cream3);">Самая мощная комбинация. Дофаминовые эмоции — буквально говорят мозгу <strong>«это важно, запомнить»</strong>. Цементируют новый нейронный путь.<br><br>Как вызвать: вспомнить момент когда уже чувствовала себя именно такой. Не придумать — вспомнить настоящее. Даже маленький.</div>
+      </div>
+      <div style="background:var(--bg4);border-radius:12px;padding:16px;">
+        <div style="font-size:12px;font-weight:600;color:var(--cream);margin-bottom:8px;">🥈 Тихая уверенность + Спокойствие</div>
+        <div style="font-size:11.5px;line-height:1.7;color:var(--cream3);">Не возбуждение — именно тихая уверенность. Ощущение «это моя норма, я уже это имею».<br><br>Формулировки «Мне это нормально», «Я становлюсь…», «Это обычно для меня» работают быстрее — не вызывают сопротивления подсознания.</div>
+      </div>
+      <div style="background:var(--red-l);border:1px solid rgba(192,57,43,.25);border-radius:12px;padding:16px;">
+        <div style="font-size:12px;font-weight:600;color:#e74c3c;margin-bottom:8px;">⚠️ Важный нюанс — сопротивление</div>
+        <div style="font-size:11.5px;line-height:1.7;color:var(--cream3);">Если аффирмация звучит как ложь — мозг сопротивляется и эффект обратный.<br><br>Решение — <strong>рабочая аффирмация</strong>:<br>❌ «Я богатая» → ✅ «Я открываюсь к тому, что деньги — моя норма»<br>❌ «Я уверенная» → ✅ «Я становлюсь женщиной, для которой уверенность естественна»</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multisensory -->
+  <div class="card" style="margin-top:20px;">
+    <span class="card-label">Мультисенсорное кодирование — усилители эффекта</span>
+    <div class="card-body" style="margin-bottom:12px;">Чем больше каналов задействовано одновременно — тем глубже записывается установка. <strong>Сочетание голоса, движения и намерения активирует больше зон мозга одновременно.</strong></div>
+    <div class="grid2" style="gap:12px;">
+      <div style="background:var(--bg4);border-radius:12px;padding:14px;">
+        <div style="font-size:11.5px;font-weight:600;color:var(--cream);margin-bottom:6px;">🎵 Музыка — самый быстрый канал</div>
+        <div style="font-size:11px;line-height:1.65;color:var(--cream3);">Музыка проникает в эмоциональный мозг <strong>быстрее чем речь</strong>. Мозг запоминает ритм без сопротивления. Та музыка, которая ассоциируется с силой, свободой, победой — у каждой своя.</div>
+      </div>
+      <div style="background:var(--bg4);border-radius:12px;padding:14px;">
+        <div style="font-size:11.5px;font-weight:600;color:var(--cream);margin-bottom:6px;">🖼 Образы новой идентичности</div>
+        <div style="font-size:11px;line-height:1.65;color:var(--cream3);">Не чужие — свои воспоминания или образы которые резонируют именно с <em>твоей</em> новой идентичностью. Смотри на них пока слушаешь аудио.</div>
+      </div>
+      <div style="background:var(--bg4);border-radius:12px;padding:14px;">
+        <div style="font-size:11.5px;font-weight:600;color:var(--cream);margin-bottom:6px;">🕯 Свеча — альфа на заказ</div>
+        <div style="font-size:11px;line-height:1.65;color:var(--cream3);">Мерцание 8–12 Гц переводит мозг в <strong>альфа за 2–3 минуты</strong>. В альфа критический фильтр снижен — новая установка идёт прямо в лимбическую систему.</div>
+      </div>
+      <div style="background:var(--bg4);border-radius:12px;padding:14px;">
+        <div style="font-size:11.5px;font-weight:600;color:var(--cream);margin-bottom:6px;">✋ Рука на сердце + письмо от руки</div>
+        <div style="font-size:11px;line-height:1.65;color:var(--cream3);">Тактильный контакт активирует островковую кору — центр интероцепции. Письмо от руки: моторика + зрение = <strong>двойное воздействие</strong> на нейронные пути.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── S9: NEURO LIFEHACKS ─── -->
+<div class="section" id="s9">
+  <div class="sec-header">
+    <span class="sec-eyebrow">Нейролайфхаки</span>
+    <h2 class="sec-title">7 лайфхаков<br><em>смены идентичности</em></h2>
+    <p class="sec-sub">Мозг работает в окнах пластичности. Утро (тета) и вечер (альфа) — два момента в день когда критический фильтр снижен и новая идентичность записывается напрямую.</p>
+  </div>
+
+  <!-- Brain waves -->
+  <div class="zones" style="margin-bottom:24px;">
+    <div class="zone red">
+      <div class="zone-icon">⚡</div>
+      <div>
+        <div class="zone-name">Бета (активность)</div>
+        <div class="zone-desc">Работа, стресс, критическое мышление. <strong>Критический фильтр включён максимально.</strong> Новые установки не проходят.</div>
+      </div>
+    </div>
+    <div class="zone yellow">
+      <div class="zone-icon">🌅</div>
+      <div>
+        <div class="zone-name">Альфа (расслабление) · первые 15 мин после пробуждения и перед сном</div>
+        <div class="zone-desc">Расслабленное бодрствование. Критический фильтр <strong>снижен.</strong> Свеча переводит в альфа за 2–3 мин. Информация влияет на паттерны мышления сильнее, чем в любое другое время.</div>
+      </div>
+    </div>
+    <div class="zone green">
+      <div class="zone-icon">🌙</div>
+      <div>
+        <div class="zone-name">Тета · между сном и бодрствованием · 4–8 Гц</div>
+        <div class="zone-desc">В этом состоянии мозг записывал программу от 0 до 7 лет. <strong>Именно здесь живёт идентичность.</strong> Первые 5–10 минут после пробуждения и при засыпании. Окно максимальной пластичности.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 lifehacks -->
+  <div class="grid2">
+
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <span class="card-label">🌙 Лайфхак 1 · Вопрос перед сном</span>
+      <div class="card-title">Задание<br><em>подсознанию</em></div>
+      <div class="card-body">Подсознание обожает вопросы — и продолжает работать с ними во время сна, выдавая инсайты к утру.<br><br>
+      <strong>Формула:</strong> «Как мне стать женщиной, для которой [новая идентичность] — это норма?»<br><br>
+      Задавать лёжа в постели, закрывая глаза. Не анализировать — просто отпустить в темноту.<br><br>
+      <strong>По сегментам:</strong><br>
+      «Как мне стать той, кто заботится о себе без вины?» — Выгоревшая<br>
+      «Как стать той, кто доводит до конца?» — Мечтательница<br>
+      «Как стать той, кому можно хотеть большего?» — Застрявшая</div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--green2);">
+      <span class="card-label">☀️ Лайфхак 2 · Золотое окно утра</span>
+      <div class="card-title">Первые 5 минут<br><em>до телефона</em></div>
+      <div class="card-body">Первые 5 минут после пробуждения — тета-состояние. Мозг ещё не включил критический фильтр.<br><br>
+      Большинство людей в эти минуты берут телефон — и загружают тревогу, чужую жизнь, новости.<br><br>
+      <strong>Лайфхак:</strong> до телефона — одна фраза вслух, медленно, с рукой на сердце:<br>
+      «Я — женщина, для которой [новая идентичность]. Это моя норма.»<br><br>
+      Не нужно верить до конца. Просто вернуться — пока мозг ещё открыт. Каждое утреннее повторение — буквально кирпич в новом нейронном пути.</div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <span class="card-label">🕯 Лайфхак 3 · Ритуал со свечой</span>
+      <div class="card-title">Альфа-состояние<br><em>на заказ</em></div>
+      <div class="card-body">Переход из бета в альфа создаёт состояние чувствительности для новых установок.<br><br>
+      <strong>Алгоритм:</strong><br>
+      Смотришь на огонь 2–3 мин → мозг в альфа → произносишь фразу новой идентичности → она идёт прямо в лимбическую систему, минуя критический фильтр.<br><br>
+      Это не магия. Это физиология. Мерцание 8–12 Гц = диапазон альфа-волн мозга.</div>
+    </div>
+
+    <div class="card" style="border-left:3px solid #5dade2;">
+      <span class="card-label">🎭 Лайфхак 4 · «Действуй как если»</span>
+      <div class="card-title">Техника Годдара<br><em>+ нейронаука</em></div>
+      <div class="card-body">Мозг не различает реальный опыт и ярко воображаемый — нейронные пути активируются одинаково.<br><br>
+      <strong>Практика:</strong> 3 раза в день задавать вопрос:<br>
+      «Как бы действовала прямо сейчас женщина, которая уже [новая идентичность]?»<br>
+      И сделать одно маленькое действие из этой позиции.<br><br>
+      <strong>Примеры:</strong><br>
+      Женщина в опоре — пьёт кофе сидя, не стоя<br>
+      Женщина с границами — говорит «нет» одному маленькому «надо»<br>
+      Каждое такое действие — сигнал мозгу: «это моя норма»</div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--amber);">
+      <span class="card-label">✍️ Лайфхак 5 · Письмо от будущего «Я»</span>
+      <div class="card-title">Фирменный формат<br><em>нейробиологически мощный</em></div>
+      <div class="card-body">Подсознание хранит не факты, а эмоциональные события. Когда пишешь от лица будущего себя — мозг воспринимает это как реальный опыт и начинает строить нейронные пути под него.<br><br>
+      <strong>Ежедневная практика:</strong> одно предложение от будущего себя — утром или вечером.<br>
+      «Я — Ирина из 2027. [Новая идентичность как свершившийся факт]»<br><br>
+      <strong>Писать от руки — важно.</strong> Моторика + зрение = двойное воздействие на нейронные пути.</div>
+    </div>
+
+    <div class="card" style="border-left:3px solid #c39bd3;">
+      <span class="card-label">🔊 Лайфхак 6 · Аффирмации своим голосом</span>
+      <div class="card-title">В наушниках<br><em>при засыпании</em></div>
+      <div class="card-body">Собственный голос обходит сопротивление — мозг маркирует его как «своё». Аудио-установки в первые 30–45 минут засыпания записываются напрямую.<br><br>
+      <strong>Лайфхак:</strong> записать 3–5 фраз новой идентичности своим голосом. Включать при тихом засыпании, фоновая природа 15–20% громкости.<br><br>
+      <strong>Для продукта:</strong> это готовый инструмент — аудио «Новая я» под каждый сегмент. Женщина слышит свой голос + нейтральный природный фон = загрузка программы пока критический фильтр спит.</div>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--green2);grid-column:1/-1;">
+      <span class="card-label">🪞 Лайфхак 7 · Зеркало + взгляд в глаза</span>
+      <div class="card-title">Самая некомфортная техника<br><em>и именно поэтому — самая мощная</em></div>
+      <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>Контакт с собой в зеркале активирует зону мозга самовосприятия и идентичности. <strong>Дискомфорт — сигнал что старая идентичность меняется.</strong><br><br>
+        <strong>Практика:</strong> утром после умывания — смотришь себе в глаза 30 секунд и говоришь одну фразу:<br>
+        «Я тебя вижу. Ты — взрослая женщина. Тебе можно хотеть большего.»</div>
+        <div>Первые дни будет странно и смешно. Это нормально — мозг встречается с незнакомым образом себя. Потом начнёт принимать.<br><br>
+        <strong>Нейронаука:</strong> регулярный контакт в зеркале с позитивным утверждением создаёт новый нейронный ответ на образ себя — идентичность переписывается через зрительный канал.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Final daily protocol -->
+  <div class="highlight-box" style="margin-top:20px;">
+    <div class="hl-title">Итоговый дневной протокол — 10 минут утром + 7 вечером</div>
+    <p><strong>Утром (3 минуты) — тета-окно:</strong><br>
+    До телефона → зеркало + фраза новой идентичности → рука на сердце → одно предложение вслух<br><br>
+    <strong>Вечером (7 минут) — альфа-окно:</strong><br>
+    Свеча → 2 мин смотришь на огонь → тихая музыка → запись своим голосом → вызвать чувство благодарности (вспомнить один хороший момент) → слушаешь и просто принимаешь → вопрос в темноте: «Как мне стать той, для которой это норма?»<br><br>
+    <strong>Утром сажаешь семя. Вечером поливаешь. 21 день — появляется путь. 66 дней — путь становится дорогой.</strong></p>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<script>
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  event.target.classList.add('active');
+}
+// Update active nav on scroll
+const sections = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+const navItems = document.querySelectorAll('.nav-item');
+window.addEventListener('scroll',()=>{
+  let current = 's0';
+  sections.forEach(id=>{
+    const el = document.getElementById(id);
+    if(el && el.getBoundingClientRect().top < 120) current = id;
+  });
+  navItems.forEach((n,i)=>{
+    n.classList.toggle('active', sections[i]===current);
+  });
+});
+</script>
+</body>
+</html>

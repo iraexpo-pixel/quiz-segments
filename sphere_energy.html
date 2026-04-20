@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сфера Энергии · Ирина Исакова</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#FAF8F4;--stone:#E8E2D9;--sand:#D6CDBC;
+  --text:#2C2620;--soft:#6B5E52;--muted:#A0917F;
+  --accent:#6B8A6E;--accent-l:#EFF6F0;--accent-m:#D8EBD9;
+  --a:#C4956A;--a-l:#FDF5EC;
+  --b:#8E7BAA;--b-l:#F5F2FA;
+  --c:#6A8FA0;--c-l:#EFF5F8;
+  --d:#7A9E7E;--d-l:#F0F6F1;
+  --e:#B07070;--e-l:#FAF0F0;
+}
+html{font-size:15px}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding-bottom:60px}
+.header{padding:40px 20px 28px;text-align:center;border-bottom:1px solid var(--stone);background:linear-gradient(135deg,var(--accent-l) 0%,var(--cream) 60%)}
+.sphere-badge{display:inline-block;background:var(--accent);color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:14px}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;line-height:1.2;margin-bottom:8px}
+.header-title em{font-style:italic;font-weight:300}
+.principle-box{margin:16px 20px 0;background:#fff;border-radius:14px;padding:16px;border:1px solid var(--accent-m)}
+.principle-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.principle-caps{display:flex;gap:8px;flex-wrap:wrap}
+.p-cap{background:var(--accent-l);border:1px solid var(--accent-m);border-radius:8px;padding:8px 12px;flex:1;min-width:80px;text-align:center}
+.p-cap-title{font-size:10px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.p-cap-desc{font-size:11px;color:var(--soft)}
+.nav{display:flex;gap:6px;padding:14px 16px;overflow-x:auto;scrollbar-width:none;background:rgba(250,248,244,.96);backdrop-filter:blur(8px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--stone)}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex-shrink:0;border:1px solid transparent;background:none;font-family:'Jost',sans-serif;font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 13px;border-radius:20px;cursor:pointer;transition:all .2s}
+.nav-btn:hover,.nav-btn.active{background:#fff;border-color:var(--stone);color:var(--text)}
+.nav-btn[data-s="a"].active{color:var(--a);border-color:var(--a)}
+.nav-btn[data-s="b"].active{color:var(--b);border-color:var(--b)}
+.nav-btn[data-s="c"].active{color:var(--c);border-color:var(--c)}
+.nav-btn[data-s="d"].active{color:var(--d);border-color:var(--d)}
+.nav-btn[data-s="e"].active{color:var(--e);border-color:var(--e)}
+.cards{padding:16px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(44,38,32,.07);margin-bottom:14px;display:none}
+.card.active{display:block}.show-all .card{display:block}
+.card-head{padding:22px 20px 18px;position:relative}
+.card-head::after{content:'';position:absolute;bottom:0;left:20px;right:20px;height:1px;background:var(--stone)}
+.card-label{font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;margin-bottom:6px}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.1;margin-bottom:6px}
+.card-icon{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px}
+[data-seg="a"] .card-label,[data-seg="a"] .card-name{color:var(--a)}[data-seg="a"] .card-icon{background:var(--a-l)}
+[data-seg="b"] .card-label,[data-seg="b"] .card-name{color:var(--b)}[data-seg="b"] .card-icon{background:var(--b-l)}
+[data-seg="c"] .card-label,[data-seg="c"] .card-name{color:var(--c)}[data-seg="c"] .card-icon{background:var(--c-l)}
+[data-seg="d"] .card-label,[data-seg="d"] .card-name{color:var(--d)}[data-seg="d"] .card-icon{background:var(--d-l)}
+[data-seg="e"] .card-label,[data-seg="e"] .card-name{color:var(--e)}[data-seg="e"] .card-icon{background:var(--e-l)}
+.card-body{padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.s-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.pattern-box{padding:13px 15px;border-radius:11px;border-left:3px solid;font-family:'Cormorant Garamond',serif;font-size:15.5px;font-style:italic;line-height:1.55}
+[data-seg="a"] .pattern-box{background:var(--a-l);border-color:var(--a);color:var(--a)}
+[data-seg="b"] .pattern-box{background:var(--b-l);border-color:var(--b);color:var(--b)}
+[data-seg="c"] .pattern-box{background:var(--c-l);border-color:var(--c);color:var(--c)}
+[data-seg="d"] .pattern-box{background:var(--d-l);border-color:var(--d);color:var(--d)}
+[data-seg="e"] .pattern-box{background:var(--e-l);border-color:var(--e);color:var(--e)}
+.block-text{font-size:13.5px;line-height:1.65}.block-text strong{font-weight:600}
+.neuro-chip{display:inline-block;font-size:11.5px;font-weight:500;padding:5px 12px;border-radius:8px;margin-bottom:2px}
+[data-seg="a"] .neuro-chip{background:var(--a-l);color:var(--a)}[data-seg="b"] .neuro-chip{background:var(--b-l);color:var(--b)}[data-seg="c"] .neuro-chip{background:var(--c-l);color:var(--c)}[data-seg="d"] .neuro-chip{background:var(--d-l);color:var(--d)}[data-seg="e"] .neuro-chip{background:var(--e-l);color:var(--e)}
+.bridge-box{border-radius:12px;background:var(--accent-l);border:1px solid var(--accent-m);padding:14px 16px}
+.bridge-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.bridge-text{font-size:13.5px;line-height:1.65}.bridge-text strong{color:var(--accent);font-weight:600}
+.ready-box{background:var(--cream);border-radius:10px;padding:12px 14px;border:1px solid var(--sand);font-size:12.5px;line-height:1.6;color:var(--soft)}
+.ready-box::before{content:'✓  Точка готовности:';display:block;font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+.tool{font-size:11px;padding:4px 11px;border-radius:20px;background:var(--cream);border:1px solid var(--sand);color:var(--soft)}
+.transform{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid var(--stone)}
+.t-from{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.t-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic}
+[data-seg="a"] .t-text{color:var(--a)}[data-seg="b"] .t-text{color:var(--b)}[data-seg="c"] .t-text{color:var(--c)}[data-seg="d"] .t-text{color:var(--d)}[data-seg="e"] .t-text{color:var(--e)}
+.toggle-wrap{text-align:center;padding:8px 0 20px}
+.toggle-btn{border:1px solid var(--sand);background:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 22px;border-radius:20px;cursor:pointer;transition:all .2s}
+.toggle-btn:hover{background:#fff;color:var(--text);border-color:var(--stone)}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="sphere-badge">⚡ Сфера 5</div>
+  <h1 class="header-title">Энергия и ресурс:<br><em>Жить — не выживать</em></h1>
+  <div class="principle-box">
+    <div class="principle-label">Три взрослые способности для управления ресурсом</div>
+    <div class="principle-caps">
+      <div class="p-cap"><div class="p-cap-title">Цикличность</div><div class="p-cap-desc">Работа и отдых — не слабость</div></div>
+      <div class="p-cap"><div class="p-cap-title">Приоритетность</div><div class="p-cap-desc">Я решаю куда идёт моя энергия</div></div>
+      <div class="p-cap"><div class="p-cap-title">Сигнальность</div><div class="p-cap-desc">Я слышу когда достаточно</div></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" data-s="a" onclick="show('a',this)">🕯 Выгоревшая</button>
+  <button class="nav-btn" data-s="b" onclick="show('b',this)">🌸 Мечтательница</button>
+  <button class="nav-btn" data-s="c" onclick="show('c',this)">💫 Застрявшая</button>
+  <button class="nav-btn" data-s="d" onclick="show('d',this)">✨ Пробуждающаяся</button>
+  <button class="nav-btn" data-s="e" onclick="show('e',this)">🌊 Жертва</button>
+</nav>
+
+<div class="cards" id="cards">
+
+  <div class="card active" data-seg="a" id="c-a">
+    <div class="card-head"><div class="card-label">Тип А · Выгоревшая</div><div class="card-icon">🕯️</div><div class="card-name">Тело — общий ресурс</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с энергией</div><div class="pattern-box">«Отдых — это эгоизм. Я отдохну потом.»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Энергия принадлежит всем кроме неё. Отдыхает только когда физически падает. <strong>«Устала» воспринимает как слабость.</strong> Или: не чувствует усталости — диссоциировала от тела. Работает на кортизоле годами.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Аллостатическая нагрузка + Интероцепция отключена</div><div class="block-text" style="margin-top:8px">Хронический стресс структурно изменил мозг. Буквально не чувствует сигналов тела. Отдых не приносит восстановления — дофаминовая система не работает на «своё».</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>разрешение на отдых без причины</strong>. Не «я заслужила» — а «я устала и этого достаточно». Один раз лечь спать раньше чем все — и не объяснять.</div></div></div>
+      <div><div class="ready-box">Когда может сказать «я устала» — и не добавить «но ничего, справлюсь».</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Право на отдых без заслуг</span><span class="tool">Один вопрос к телу в день</span><span class="tool">Ранний сон без объяснений</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Жертвы — к Человеку</span></div>
+  </div>
+
+  <div class="card" data-seg="b" id="c-b">
+    <div class="card-head"><div class="card-label">Тип Б · Мечтательница</div><div class="card-icon">🌸</div><div class="card-name">Энергия непредсказуема</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с энергией</div><div class="pattern-box">«Я творческая — режим это клетка»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">То горит то гаснет. Нет режима, нет структуры. Живёт на вдохновении. Когда есть — делает всё. Когда нет — ничего. <strong>Хаос воспринимается как свобода — но истощает.</strong></div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Нет связи режим → энергия</div><div class="block-text" style="margin-top:8px">Орбитофронтальная кора слабо связывает «сейчас поберегу ресурс» и «потом будет больше сил». Дофамин расходуется импульсивно — на всё яркое сразу.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>один якорный ритуал в день</strong>. Не режим — якорь. Утренний кофе в тишине. Прогулка. Нервная система обучается: предсказуемость = безопасность = ресурс.</div></div></div>
+      <div><div class="ready-box">Когда выдерживает один неинтересный день — и не срывается в импульс.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Один якорный ритуал</span><span class="tool">Утренняя тишина 10 мин</span><span class="tool">Предсказуемый вечер</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Девочки — к Автору своей сказки</span></div>
+  </div>
+
+  <div class="card" data-seg="c" id="c-c">
+    <div class="card-head"><div class="card-label">Тип В · Застрявшая</div><div class="card-icon">💫</div><div class="card-name">Ресурс уходит в самокритику</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с энергией</div><div class="pattern-box">«Отдых надо заслужить. А я никогда не делаю достаточно.»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Тратит огромный ресурс на внутренний диалог. Физически может быть активна — <strong>эмоционально истощена</strong>. Перфекционизм: либо всё правильно, либо никак. Один пропущенный день = провал = бросает.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Кортизол от хронической самокритики</div><div class="block-text" style="margin-top:8px">Кортизол разрушает гиппокамп и дофаминовые рецепторы. Замороженный стыд требует ресурсов для поддержания. Нет навыка «достаточно хорошо».</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>опыт «достаточно хорошо»</strong>. 7 часов сна вместо 8 — и это нормально. 20-минутная прогулка вместо часовой — и это считается. Снизить планку «правильного отдыха».</div></div></div>
+      <div><div class="ready-box">Когда ложится спать без списка недоделанного — хотя бы раз в неделю.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">«Достаточно хорошо» как практика</span><span class="tool">Микро-отдых без вины</span><span class="tool">Тэппинг при самокритике</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Сомневающейся — к Реализованной</span></div>
+  </div>
+
+  <div class="card" data-seg="d" id="c-d">
+    <div class="card-head"><div class="card-label">Тип Г · Пробуждающаяся</div><div class="card-icon">✨</div><div class="card-name">Подъём → Истощение → Срыв</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с энергией</div><div class="pattern-box">«Я или горю — или потухаю. Середины нет.»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Умеет работать на пределе. Не умеет восстанавливаться — кажется слабостью. Цикл: <strong>интенсивный подъём → истощение → срыв → стыд → снова подъём</strong>. Отдых пугает — в тишине встречается с собой.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Пропущена цикличность как навык</div><div class="block-text" style="margin-top:8px">Нервная система не обучена переходить из активации в восстановление мягко — только через истощение. Истощение дофаминовой системы от сверхнагрузок.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>остановиться ДО истощения</strong>. Один раз уйти с работы вовремя. Один раз не ответить на сообщение сразу. Противоинтуитивно — и именно поэтому важно.</div></div></div>
+      <div><div class="ready-box">Когда берёт паузу — и не называет это ленью.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Стоп до падения</span><span class="tool">Одна пауза в день</span><span class="tool">«Я остановилась — и живу»</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Начинающей — к Устойчивой</span></div>
+  </div>
+
+  <div class="card" data-seg="e" id="c-e">
+    <div class="card-head"><div class="card-label">Тип Д · Жертва обстоятельств</div><div class="card-icon">🌊</div><div class="card-name">Хроническая усталость без дна</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с энергией</div><div class="pattern-box">«Не помню когда последний раз было хорошо»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Энергии нет. Сон не восстанавливает. <strong>Еда — единственный доступный источник удовольствия и энергии.</strong> Нет смысла восстанавливаться — непонятно зачем. Апатия к собственному ресурсу.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Анедония + истощённая дофаминовая система</div><div class="block-text" style="margin-top:8px">Хронический воспалительный процесс от многолетнего стресса. Нервная система в красной зоне постоянно. Ни от чего нет удовольствия — это физиология, не лень.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>один маленький сенсорный опыт удовольствия не через еду</strong>. Тёплая вода. Солнце на лице. Запах. Нервная система вспоминает что жить можно иначе.</div></div></div>
+      <div><div class="ready-box">Когда может назвать одно занятие дающее ей хоть немного сил — не еду.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Одно удовольствие не-еда</span><span class="tool">Тепло + тишина</span><span class="tool">Солнечный свет утром</span><span class="tool">Свеча как сенсорный якорь</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Выживающей — к Живущей</span></div>
+  </div>
+
+</div>
+<div class="toggle-wrap">
+  <button class="toggle-btn" id="tgl" onclick="toggleAll()">Показать все сегменты</button>
+</div>
+<script>
+let all=false;
+function show(s,btn){if(all){all=false;document.getElementById('cards').classList.remove('show-all');document.getElementById('tgl').textContent='Показать все сегменты';}document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('c-'+s).classList.add('active');btn.classList.add('active');}
+function toggleAll(){all=!all;document.getElementById('cards').classList.toggle('show-all',all);document.getElementById('tgl').textContent=all?'Свернуть':'Показать все сегменты';if(!all){document.querySelector('[data-s="a"]').classList.add('active');document.getElementById('c-a').classList.add('active');}else document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));}
+</script>
+</body>
+</html>

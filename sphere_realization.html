@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сфера Реализации · Ирина Исакова</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#FAF8F4;--stone:#E8E2D9;--sand:#D6CDBC;
+  --text:#2C2620;--soft:#6B5E52;--muted:#A0917F;
+  --accent:#7A6E5F;--accent-l:#F3EFE9;--accent-m:#E5DDD4;
+  --a:#C4956A;--a-l:#FDF5EC;
+  --b:#8E7BAA;--b-l:#F5F2FA;
+  --c:#6A8FA0;--c-l:#EFF5F8;
+  --d:#7A9E7E;--d-l:#F0F6F1;
+  --e:#B07070;--e-l:#FAF0F0;
+}
+html{font-size:15px}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding-bottom:60px}
+
+.header{padding:40px 20px 28px;text-align:center;border-bottom:1px solid var(--stone);background:linear-gradient(135deg,#F3EFE9 0%,var(--cream) 60%)}
+.sphere-badge{display:inline-block;background:var(--accent);color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:14px}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;line-height:1.2;margin-bottom:8px}
+.header-title em{font-style:italic;font-weight:300}
+.principle-box{margin:16px 20px 0;background:#fff;border-radius:14px;padding:16px;border:1px solid var(--accent-m)}
+.principle-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.principle-caps{display:flex;gap:8px;flex-wrap:wrap}
+.p-cap{background:var(--accent-l);border:1px solid var(--accent-m);border-radius:8px;padding:8px 12px;flex:1;min-width:80px;text-align:center}
+.p-cap-title{font-size:10px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.p-cap-desc{font-size:11px;color:var(--soft)}
+
+.nav{display:flex;gap:6px;padding:14px 16px;overflow-x:auto;scrollbar-width:none;background:rgba(250,248,244,.96);backdrop-filter:blur(8px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--stone)}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex-shrink:0;border:1px solid transparent;background:none;font-family:'Jost',sans-serif;font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 13px;border-radius:20px;cursor:pointer;transition:all .2s}
+.nav-btn:hover,.nav-btn.active{background:#fff;border-color:var(--stone);color:var(--text)}
+.nav-btn[data-s="a"].active{color:var(--a);border-color:var(--a)}
+.nav-btn[data-s="b"].active{color:var(--b);border-color:var(--b)}
+.nav-btn[data-s="c"].active{color:var(--c);border-color:var(--c)}
+.nav-btn[data-s="d"].active{color:var(--d);border-color:var(--d)}
+.nav-btn[data-s="e"].active{color:var(--e);border-color:var(--e)}
+
+.cards{padding:16px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(44,38,32,.07);margin-bottom:14px;display:none}
+.card.active{display:block}
+.show-all .card{display:block}
+
+.card-head{padding:22px 20px 18px;position:relative}
+.card-head::after{content:'';position:absolute;bottom:0;left:20px;right:20px;height:1px;background:var(--stone)}
+.card-label{font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;margin-bottom:6px}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.1;margin-bottom:6px}
+.card-icon{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px}
+[data-seg="a"] .card-label,[data-seg="a"] .card-name{color:var(--a)}
+[data-seg="a"] .card-icon{background:var(--a-l)}
+[data-seg="b"] .card-label,[data-seg="b"] .card-name{color:var(--b)}
+[data-seg="b"] .card-icon{background:var(--b-l)}
+[data-seg="c"] .card-label,[data-seg="c"] .card-name{color:var(--c)}
+[data-seg="c"] .card-icon{background:var(--c-l)}
+[data-seg="d"] .card-label,[data-seg="d"] .card-name{color:var(--d)}
+[data-seg="d"] .card-icon{background:var(--d-l)}
+[data-seg="e"] .card-label,[data-seg="e"] .card-name{color:var(--e)}
+[data-seg="e"] .card-icon{background:var(--e-l)}
+
+.card-body{padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.s-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.pattern-box{padding:13px 15px;border-radius:11px;border-left:3px solid;font-family:'Cormorant Garamond',serif;font-size:15.5px;font-style:italic;line-height:1.55}
+[data-seg="a"] .pattern-box{background:var(--a-l);border-color:var(--a);color:var(--a)}
+[data-seg="b"] .pattern-box{background:var(--b-l);border-color:var(--b);color:var(--b)}
+[data-seg="c"] .pattern-box{background:var(--c-l);border-color:var(--c);color:var(--c)}
+[data-seg="d"] .pattern-box{background:var(--d-l);border-color:var(--d);color:var(--d)}
+[data-seg="e"] .pattern-box{background:var(--e-l);border-color:var(--e);color:var(--e)}
+.block-text{font-size:13.5px;line-height:1.65}
+.block-text strong{font-weight:600}
+.neuro-chip{display:inline-block;font-size:11.5px;font-weight:500;padding:5px 12px;border-radius:8px;margin-bottom:2px}
+[data-seg="a"] .neuro-chip{background:var(--a-l);color:var(--a)}
+[data-seg="b"] .neuro-chip{background:var(--b-l);color:var(--b)}
+[data-seg="c"] .neuro-chip{background:var(--c-l);color:var(--c)}
+[data-seg="d"] .neuro-chip{background:var(--d-l);color:var(--d)}
+[data-seg="e"] .neuro-chip{background:var(--e-l);color:var(--e)}
+.bridge-box{border-radius:12px;background:var(--accent-l);border:1px solid var(--accent-m);padding:14px 16px}
+.bridge-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.bridge-text{font-size:13.5px;line-height:1.65}
+.bridge-text strong{color:var(--accent);font-weight:600}
+.ready-box{background:var(--cream);border-radius:10px;padding:12px 14px;border:1px solid var(--sand);font-size:12.5px;line-height:1.6;color:var(--soft)}
+.ready-box::before{content:'✓  Точка готовности:';display:block;font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+.tool{font-size:11px;padding:4px 11px;border-radius:20px;background:var(--cream);border:1px solid var(--sand);color:var(--soft)}
+.transform{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid var(--stone)}
+.t-from{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.t-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic}
+[data-seg="a"] .t-text{color:var(--a)}[data-seg="b"] .t-text{color:var(--b)}[data-seg="c"] .t-text{color:var(--c)}[data-seg="d"] .t-text{color:var(--d)}[data-seg="e"] .t-text{color:var(--e)}
+.toggle-wrap{text-align:center;padding:8px 0 20px}
+.toggle-btn{border:1px solid var(--sand);background:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 22px;border-radius:20px;cursor:pointer;transition:all .2s}
+.toggle-btn:hover{background:#fff;color:var(--text);border-color:var(--stone)}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="sphere-badge">🎯 Сфера 4</div>
+  <h1 class="header-title">Реализация:<br><em>Своё дело. Свой голос. Свой след</em></h1>
+  <div class="principle-box">
+    <div class="principle-label">Три взрослые способности для реализации</div>
+    <div class="principle-caps">
+      <div class="p-cap"><div class="p-cap-title">Разрешение</div><div class="p-cap-desc">Мои амбиции имеют право быть</div></div>
+      <div class="p-cap"><div class="p-cap-title">Авторство</div><div class="p-cap-desc">Я создаю, не жду</div></div>
+      <div class="p-cap"><div class="p-cap-title">Вклад</div><div class="p-cap-desc">То что я делаю — меняет что-то</div></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" data-s="a" onclick="show('a',this)">🕯 Выгоревшая</button>
+  <button class="nav-btn" data-s="b" onclick="show('b',this)">🌸 Мечтательница</button>
+  <button class="nav-btn" data-s="c" onclick="show('c',this)">💫 Застрявшая</button>
+  <button class="nav-btn" data-s="d" onclick="show('d',this)">✨ Пробуждающаяся</button>
+  <button class="nav-btn" data-s="e" onclick="show('e',this)">🌊 Жертва</button>
+</nav>
+
+<div class="cards" id="cards">
+
+  <div class="card active" data-seg="a" id="c-a">
+    <div class="card-head"><div class="card-label">Тип А · Выгоревшая</div><div class="card-icon">🕯️</div><div class="card-name">Реализации нет</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн в реализации</div><div class="pattern-box">«Сначала все — потом я. Потом никогда.»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Работает — потому что надо. Своё давно бросила ради семьи. Спрашиваешь «чего ты хочешь?» — долгая пауза. <strong>Не знает.</strong> Реализация воспринимается как эгоизм. Дофаминовая система не откликается на собственные желания.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Пропущена: Идентичность (задача 5) + Генеративность (задача 7)</div><div class="block-text" style="margin-top:8px">Нет ощущения что создаёт что-то своё. Не знает кто она без ролей — поэтому нет опоры для реализации.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>вспомнить себя до ролей</strong>. Что нравилось делать до того как стала мамой/женой? Любой ответ. Потом — одно маленькое действие из этого места.</div></div></div>
+      <div><div class="ready-box">Когда может потратить два часа в неделю на что-то только для себя — без вины.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">«Что нравилось до»</span><span class="tool">2 часа только моих</span><span class="tool">Письма о желаниях</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Жертвы — к Человеку</span></div>
+  </div>
+
+  <div class="card" data-seg="b" id="c-b">
+    <div class="card-head"><div class="card-label">Тип Б · Мечтательница</div><div class="card-icon">🌸</div><div class="card-name">Много идей — ноль воплощений</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн в реализации</div><div class="pattern-box">«Пока не начала — можно быть потенциально великой»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Блокнот полон планов. Начинает с воодушевлением — бросает как только рутина. «Это не моё предназначение». Ждёт «призыва» который придёт сам. <strong>Убеждена что реализация должна быть лёгкой всегда.</strong></div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Пропущено: Трудолюбие (задача 4)</div><div class="block-text" style="margin-top:8px">Нет нейронной связи усилие → результат. Дофаминовый пик в фантазии о реализованном себе — а не в процессе.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>довести до конца что-то маленькое</strong>. Написать 7 постов подряд. Сделать 10 звонков. Продать что-то за 50 гривен. Мозгу нужен опыт: «я начала и закончила».</div></div></div>
+      <div><div class="ready-box">Когда заканчивает один проект — каким бы маленьким он ни был.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">7-дневный мини-проект</span><span class="tool">Дневник завершений</span><span class="tool">Действие до дофамина</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Девочки — к Автору своей сказки</span></div>
+  </div>
+
+  <div class="card" data-seg="c" id="c-c">
+    <div class="card-head"><div class="card-label">Тип В · Застрявшая</div><div class="card-icon">💫</div><div class="card-name">Ниже своего уровня</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн в реализации</div><div class="pattern-box">«Кто я такая чтобы хотеть большего»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Самый острый сегмент. Работает на 60% своих возможностей. Боится занять своё место. <strong>Синдром самозванца как постоянный фон.</strong> Реализация = видимость = возможный провал = подтверждение что недостаточна.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Пропущена: Генеративность (задача 7) + Инициатива (задача 3)</div><div class="block-text" style="margin-top:8px">Страх успеха как нейропаттерн — миндалина активируется при приближении к цели. Замороженный стыд блокирует видимость.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>одно публичное действие — маленькое, несовершенное</strong>. Написать пост. Назвать свою цену. Опыт: «я была видна — и выжила».</div></div></div>
+      <div><div class="ready-box">Когда может сказать «я хочу большего» — без немедленного «но это наверное не для меня».</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Одно публичное действие</span><span class="tool">Моя настоящая цена</span><span class="tool">Письмо-разрешение</span><span class="tool">Дневник силы</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Сомневающейся — к Реализованной</span></div>
+  </div>
+
+  <div class="card" data-seg="d" id="c-d">
+    <div class="card-head"><div class="card-label">Тип Г · Пробуждающаяся</div><div class="card-icon">✨</div><div class="card-name">Реализуется через насилие</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн в реализации</div><div class="pattern-box">«Если достигну — докажу что я нормальная»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Ближе всех к результату. Запускает проект — за шаг до результата бросает. Или: реализуется — но через «надо» вместо «хочу». <strong>Выгорает от собственных достижений.</strong> Реализация как доказательство — не как выражение.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Пропущена: Интеграция знания и действия</div><div class="block-text" style="margin-top:8px">Реализация из страха («докажу») истощает дофаминовую систему быстрее чем пополняет. Саботаж именно когда «почти».</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>реализация ради радости а не доказательства</strong>. Один проект из удовольствия. Мозгу нужен опыт что делать своё — приятно само по себе.</div></div></div>
+      <div><div class="ready-box">Когда делает что-то своё — и не думает что скажут другие хотя бы 10 минут.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Проект ради радости</span><span class="tool">«Я делаю — мне нравится»</span><span class="tool">Удержание маленького успеха</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Начинающей — к Устойчивой</span></div>
+  </div>
+
+  <div class="card" data-seg="e" id="c-e">
+    <div class="card-head"><div class="card-label">Тип Д · Жертва обстоятельств</div><div class="card-icon">🌊</div><div class="card-name">Апатия к своему будущему</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн в реализации</div><div class="pattern-box">«Пробовала — не вышло — больше не буду»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Реализации нет — и желания нет. Если было что-то своё — давно похоронено. «Какая реализация — выжить бы». <strong>Любая попытка кажется бессмысленной до того как начата.</strong></div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Пропущена: Инициатива (задача 3) + Базовое доверие</div><div class="block-text" style="margin-top:8px">Выученная беспомощность в реализации. Анедония распространяется на собственные проекты — они не дают дофамина. «Мои действия ничего не меняют».</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>один акт создания чего угодно</strong>. Сварить что-то новое. Посадить цветок. Написать одно предложение. Мозгу нужен опыт: «я создала — это существует».</div></div></div>
+      <div><div class="ready-box">Когда делает что-то и говорит «я это сделала» — без немедленного обесценивания.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Создать что-то маленькое</span><span class="tool">Дневник «я создала»</span><span class="tool">Один завершённый результат</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Выживающей — к Живущей</span></div>
+  </div>
+
+</div>
+<div class="toggle-wrap">
+  <button class="toggle-btn" id="tgl" onclick="toggleAll()">Показать все сегменты</button>
+</div>
+<script>
+let all=false;
+function show(s,btn){if(all){all=false;document.getElementById('cards').classList.remove('show-all');document.getElementById('tgl').textContent='Показать все сегменты';}document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('c-'+s).classList.add('active');btn.classList.add('active');}
+function toggleAll(){all=!all;document.getElementById('cards').classList.toggle('show-all',all);document.getElementById('tgl').textContent=all?'Свернуть':'Показать все сегменты';if(!all){document.querySelector('[data-s="a"]').classList.add('active');document.getElementById('c-a').classList.add('active');}else document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));}
+</script>
+</body>
+</html>

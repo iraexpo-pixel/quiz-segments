@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Дозревание по сегментам · Ирина Исакова</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF8F4;
+    --warm-white: #FFFDF9;
+    --stone: #E8E2D9;
+    --sand: #D6CDBC;
+    --text: #2C2620;
+    --text-soft: #6B5E52;
+    --text-muted: #A0917F;
+
+    --a: #C4956A;
+    --b: #8E7BAA;
+    --c: #6A8FA0;
+    --d: #7A9E7E;
+    --e: #B07070;
+
+    --a-light: #FDF5EC;
+    --b-light: #F5F2FA;
+    --c-light: #EFF5F8;
+    --d-light: #F0F6F1;
+    --e-light: #FAF0F0;
+  }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 48px;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,248,244,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--stone);
+    display: flex; gap: 6px;
+    padding: 10px 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    background: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 6px 12px; border-radius: 20px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .nav-btn.active, .nav-btn:hover { color: var(--text); background: white; border-color: var(--stone); }
+  .nav-btn[data-seg="a"].active { color: var(--a); border-color: var(--a); background: var(--a-light); }
+  .nav-btn[data-seg="b"].active { color: var(--b); border-color: var(--b); background: var(--b-light); }
+  .nav-btn[data-seg="c"].active { color: var(--c); border-color: var(--c); background: var(--c-light); }
+  .nav-btn[data-seg="d"].active { color: var(--d); border-color: var(--d); background: var(--d-light); }
+  .nav-btn[data-seg="e"].active { color: var(--e); border-color: var(--e); background: var(--e-light); }
+
+  /* HEADER */
+  .page-header { padding: 28px 20px 16px; text-align: center; }
+  .page-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; font-weight: 400;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .page-header .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300; font-style: italic;
+    color: var(--text-soft); margin-top: 6px;
+  }
+
+  /* SEGMENTS */
+  .segments { padding: 0 16px; }
+  .segment { background: white; border-radius: 20px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 2px 14px rgba(44,38,32,0.07); display: none; }
+  .segment.active { display: block; }
+  .show-all .segment { display: block; }
+
+  /* HEAD */
+  .seg-head { padding: 22px 20px 18px; position: relative; }
+  .seg-head::after { content: ''; position: absolute; bottom: 0; left: 20px; right: 20px; height: 1px; background: var(--stone); }
+  .seg-type { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 6px; }
+  .seg-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; line-height: 1.1; margin-bottom: 6px; }
+  .seg-tagline { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: var(--text-soft); line-height: 1.5; }
+  .seg-icon { position: absolute; top: 18px; right: 18px; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+
+  [data-segment="a"] .seg-type, [data-segment="a"] .seg-name { color: var(--a); }
+  [data-segment="a"] .seg-icon { background: var(--a-light); }
+  [data-segment="b"] .seg-type, [data-segment="b"] .seg-name { color: var(--b); }
+  [data-segment="b"] .seg-icon { background: var(--b-light); }
+  [data-segment="c"] .seg-type, [data-segment="c"] .seg-name { color: var(--c); }
+  [data-segment="c"] .seg-icon { background: var(--c-light); }
+  [data-segment="d"] .seg-type, [data-segment="d"] .seg-name { color: var(--d); }
+  [data-segment="d"] .seg-icon { background: var(--d-light); }
+  [data-segment="e"] .seg-type, [data-segment="e"] .seg-name { color: var(--e); }
+  [data-segment="e"] .seg-icon { background: var(--e-light); }
+
+  /* BODY */
+  .seg-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .seg-divider { border-bottom: 1px solid var(--stone); padding-bottom: 16px; }
+  .seg-divider:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .section-label { font-size: 9px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+
+  /* STAGES */
+  .stages-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .stage-pill { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: var(--cream); border: 1px solid var(--sand); color: var(--text-soft); }
+
+  /* PATTERN */
+  .pattern-box { padding: 12px 14px; border-radius: 12px; border-left: 3px solid; font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; line-height: 1.5; }
+  [data-segment="a"] .pattern-box { background: var(--a-light); border-color: var(--a); color: var(--a); }
+  [data-segment="b"] .pattern-box { background: var(--b-light); border-color: var(--b); color: var(--b); }
+  [data-segment="c"] .pattern-box { background: var(--c-light); border-color: var(--c); color: var(--c); }
+  [data-segment="d"] .pattern-box { background: var(--d-light); border-color: var(--d); color: var(--d); }
+  [data-segment="e"] .pattern-box { background: var(--e-light); border-color: var(--e); color: var(--e); }
+
+  /* STEPS */
+  .steps-list { display: flex; flex-direction: column; gap: 10px; }
+  .step-item { display: flex; gap: 10px; align-items: flex-start; }
+  .step-num { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: white; }
+  [data-segment="a"] .step-num { background: var(--a); }
+  [data-segment="b"] .step-num { background: var(--b); }
+  [data-segment="c"] .step-num { background: var(--c); }
+  [data-segment="d"] .step-num { background: var(--d); }
+  [data-segment="e"] .step-num { background: var(--e); }
+  .step-text { font-size: 13px; line-height: 1.55; color: var(--text-soft); }
+  .step-text strong { color: var(--text); }
+
+  /* FORMULA */
+  .formula-flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .formula-item { font-size: 11px; font-weight: 500; padding: 5px 10px; border-radius: 20px; background: var(--cream); border: 1px solid var(--sand); color: var(--text-soft); }
+  .formula-arrow { color: var(--text-muted); font-size: 12px; }
+
+  /* TOOLS */
+  .tools-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tool-tag { font-size: 11px; padding: 4px 10px; border-radius: 6px; background: var(--cream); border: 1px solid var(--sand); color: var(--text-soft); }
+
+  /* TRANSFORM BAR */
+  .transform-bar { padding: 14px 20px; display: flex; align-items: center; gap: 10px; }
+  [data-segment="a"] .transform-bar { background: var(--a-light); }
+  [data-segment="b"] .transform-bar { background: var(--b-light); }
+  [data-segment="c"] .transform-bar { background: var(--c-light); }
+  [data-segment="d"] .transform-bar { background: var(--d-light); }
+  [data-segment="e"] .transform-bar { background: var(--e-light); }
+  .transform-label { font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); flex-shrink: 0; }
+  .transform-text { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; }
+  [data-segment="a"] .transform-text { color: var(--a); }
+  [data-segment="b"] .transform-text { color: var(--b); }
+  [data-segment="c"] .transform-text { color: var(--c); }
+  [data-segment="d"] .transform-text { color: var(--d); }
+  [data-segment="e"] .transform-text { color: var(--e); }
+
+  /* FORMULA UNIVERSAL BLOCK */
+  .universal-block { margin: 0 16px 16px; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 2px 14px rgba(44,38,32,0.07); }
+  .universal-title { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+  .formula-steps { display: flex; flex-direction: column; gap: 8px; }
+  .formula-step { display: flex; gap: 10px; align-items: flex-start; }
+  .formula-step-num { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--stone); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; color: var(--text-soft); }
+  .formula-step-text { font-size: 13px; line-height: 1.5; color: var(--text-soft); }
+  .formula-step-text strong { color: var(--text); }
+
+  /* TOGGLE */
+  .toggle-wrap { text-align: center; padding: 8px 16px 0; }
+  .toggle-all { background: none; border: 1px solid var(--sand); color: var(--text-muted); font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 20px; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+  .toggle-all:hover { border-color: var(--text-soft); color: var(--text); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="nav-btn active" data-seg="a" onclick="showSeg('a', this)">🕯️ Выгоревшая</button>
+  <button class="nav-btn" data-seg="b" onclick="showSeg('b', this)">🌸 Мечтательница</button>
+  <button class="nav-btn" data-seg="c" onclick="showSeg('c', this)">🌊 Застрявшая</button>
+  <button class="nav-btn" data-seg="d" onclick="showSeg('d', this)">✨ Пробуждающаяся</button>
+  <button class="nav-btn" data-seg="e" onclick="showSeg('e', this)">🌿 Жертва обстоятельств</button>
+</nav>
+
+<div class="page-header">
+  <h1>Ментальное взросление</h1>
+  <div class="subtitle">Дозревание по сегментам</div>
+</div>
+
+<div class="universal-block">
+  <div class="universal-title">Универсальная формула дозревания</div>
+  <div class="formula-steps">
+    <div class="formula-step"><div class="formula-step-num">1</div><div class="formula-step-text"><strong>Безопасность нервной системы</strong> — вентральный вагус, тепло, ритм, дыхание</div></div>
+    <div class="formula-step"><div class="formula-step-num">2</div><div class="formula-step-text"><strong>Телесный опыт</strong> — разморозка через тело, не через голову</div></div>
+    <div class="formula-step"><div class="formula-step-num">3</div><div class="formula-step-text"><strong>Новый нарратив</strong> — переписывание ложных убеждений об идентичности</div></div>
+    <div class="formula-step"><div class="formula-step-num">4</div><div class="formula-step-text"><strong>Завершённый цикл</strong> — малый, но осознанный. Каждый раз строит «я справляюсь»</div></div>
+    <div class="formula-step"><div class="formula-step-num">5</div><div class="formula-step-text"><strong>Новая идентичность</strong> — накопленные доказательства перестраивают нейросеть</div></div>
+  </div>
+</div>
+
+<div class="segments" id="segments">
+
+  <!-- A: ВЫГОРЕВШАЯ -->
+  <div class="segment active" data-segment="a" id="seg-a">
+    <div class="seg-head">
+      <div class="seg-type">Тип А</div>
+      <div class="seg-icon">🕯️</div>
+      <div class="seg-name">«Выгоревшая»</div>
+      <div class="seg-tagline">«Меня нет. Есть мама, жена, дочь — но меня нет»</div>
+    </div>
+    <div class="seg-body">
+      <div class="seg-divider">
+        <div class="section-label">Пропущенные стадии</div>
+        <div class="stages-row">
+          <span class="stage-pill">Автономия (1–3 года)</span>
+          <span class="stage-pill">Идентичность (12–18 лет)</span>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Застрявший паттерн</div>
+        <div class="pattern-box">«Моя воля не существует отдельно от других»</div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Процесс дозревания — 4 шага</div>
+        <div class="steps-list">
+          <div class="step-item"><span class="step-num">1</span><span class="step-text"><strong>Обнаружить себя в теле.</strong> Восстановление интероцепции: «Мне сейчас тепло или холодно? Я голодна? Устала?»</span></div>
+          <div class="step-item"><span class="step-num">2</span><span class="step-text"><strong>Первые акты автономии — крошечные.</strong> Выбрать чашку. Выбрать музыку. Мозг строит путь «моё желание → действие → безопасно»</span></div>
+          <div class="step-item"><span class="step-num">3</span><span class="step-text"><strong>Работа с виной.</strong> Замечать — называть — не подчиняться. Письмо внутреннему критику. Диалог с «хорошей девочкой»</span></div>
+          <div class="step-item"><span class="step-num">4</span><span class="step-text"><strong>Восстановление желаний.</strong> Список «100 вещей, которые мне нравятся» — вкусы, запахи, цвета, ощущения. Картография себя</span></div>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Ключевые письма</div>
+        <div class="tools-row">
+          <span class="tool-tag">Письмо 2 — Опора в себе</span>
+          <span class="tool-tag">Письмо 7 — Не роль, а суть</span>
+          <span class="tool-tag">Письмо 8 — Не долг, а дар</span>
+          <span class="tool-tag">Письмо 19 — Право хотеть</span>
+        </div>
+      </div>
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Отдающей — к Живущей для себя</span>
+    </div>
+  </div>
+
+  <!-- B: МЕЧТАТЕЛЬНИЦА -->
+  <div class="segment" data-segment="b" id="seg-b">
+    <div class="seg-head">
+      <div class="seg-type">Тип Б</div>
+      <div class="seg-icon">🌸</div>
+      <div class="seg-name">«Мечтательница»</div>
+      <div class="seg-tagline">«Я столько всего хочу. Но всё как-то не начинается»</div>
+    </div>
+    <div class="seg-body">
+      <div class="seg-divider">
+        <div class="section-label">Пропущенные стадии</div>
+        <div class="stages-row">
+          <span class="stage-pill">Инициатива (3–6 лет)</span>
+          <span class="stage-pill">Трудолюбие (6–12 лет)</span>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Застрявший паттерн</div>
+        <div class="pattern-box">«Начинать небезопасно. Усилие не приводит к результату»</div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Процесс дозревания — 4 шага</div>
+        <div class="steps-list">
+          <div class="step-item"><span class="step-num">1</span><span class="step-text"><strong>Игра без ставок.</strong> Творческие практики без цели: рисование, лепка, танец. Снизить тревогу инициативы</span></div>
+          <div class="step-item"><span class="step-num">2</span><span class="step-text"><strong>Микроцикл 1-3-7.</strong> Одно действие сегодня → три дня подряд → семь дней. Каждый завершённый цикл — осознанно отметить</span></div>
+          <div class="step-item"><span class="step-num">3</span><span class="step-text"><strong>Декатастрофизация провала.</strong> Намеренно сделать что-то «неправильно» — и пережить, что ничего страшного не случилось</span></div>
+          <div class="step-item"><span class="step-num">4</span><span class="step-text"><strong>Внутренний поддерживающий родитель.</strong> Письма дают тот голос, которого не было в детстве — «тебе можно начинать»</span></div>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Ключевые письма</div>
+        <div class="tools-row">
+          <span class="tool-tag">Письмо 12 — Не жертва, а архитектор</span>
+          <span class="tool-tag">Письмо 15 — Авторство</span>
+          <span class="tool-tag">Письмо 16 — Не ожидание, а действие</span>
+          <span class="tool-tag">Письмо 17 — Иллюзии спасителя</span>
+        </div>
+      </div>
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Мечтающей — к Создающей</span>
+    </div>
+  </div>
+
+  <!-- C: ЗАСТРЯВШАЯ -->
+  <div class="segment" data-segment="c" id="seg-c">
+    <div class="seg-head">
+      <div class="seg-type">Тип В</div>
+      <div class="seg-icon">🌊</div>
+      <div class="seg-name">«Застрявшая»</div>
+      <div class="seg-tagline">«Я знаю, что надо что-то менять. Но страшно ошибиться снова»</div>
+    </div>
+    <div class="seg-body">
+      <div class="seg-divider">
+        <div class="section-label">Пропущенные стадии</div>
+        <div class="stages-row">
+          <span class="stage-pill">Трудолюбие (6–12 лет)</span>
+          <span class="stage-pill">Генеративность (взрослость)</span>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Застрявший паттерн</div>
+        <div class="pattern-box">«Мои большие желания опасны. Я недостаточна для них»</div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Процесс дозревания — 4 шага</div>
+        <div class="steps-list">
+          <div class="step-item"><span class="step-num">1</span><span class="step-text"><strong>Работа с миндалиной через тело.</strong> 5 минут тэппинга ДО любого «страшного» действия — снизить кортизол заранее</span></div>
+          <div class="step-item"><span class="step-num">2</span><span class="step-text"><strong>Экспозиция страха микродозами.</strong> Каждую неделю — одно действие чуть страшнее предыдущего. Мозг перекалибрует «опасно» → «справляюсь»</span></div>
+          <div class="step-item"><span class="step-num">3</span><span class="step-text"><strong>Список доказательств силы.</strong> Ежедневно — один факт «я справилась». Строит новую нейронную сеть идентичности</span></div>
+          <div class="step-item"><span class="step-num">4</span><span class="step-text"><strong>Разрешение от авторитета.</strong> Её психика ждёт разрешения снаружи. Письма — это и есть голос: «Тебе можно хотеть большего»</span></div>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Ключевые письма</div>
+        <div class="tools-row">
+          <span class="tool-tag">Письмо 6 — Уникальное несовершенство</span>
+          <span class="tool-tag">Письмо 13 — Страх ошибок</span>
+          <span class="tool-tag">Письмо 19 — Право хотеть</span>
+        </div>
+      </div>
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Сомневающейся — к Реализованной</span>
+    </div>
+  </div>
+
+  <!-- D: ПРОБУЖДАЮЩАЯСЯ -->
+  <div class="segment" data-segment="d" id="seg-d">
+    <div class="seg-head">
+      <div class="seg-type">Тип Г</div>
+      <div class="seg-icon">✨</div>
+      <div class="seg-name">«Пробуждающаяся»</div>
+      <div class="seg-tagline">«Я готова. Но боюсь, что снова не получится»</div>
+    </div>
+    <div class="seg-body">
+      <div class="seg-divider">
+        <div class="section-label">Пропущенные стадии</div>
+        <div class="stages-row">
+          <span class="stage-pill">Интеграция знания</span>
+          <span class="stage-pill">Телесный опыт</span>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Застрявший паттерн</div>
+        <div class="pattern-box">«Понимание = изменение» — иллюзия безопасного роста</div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Процесс дозревания — 4 шага</div>
+        <div class="steps-list">
+          <div class="step-item"><span class="step-num">1</span><span class="step-text"><strong>Детокс от информации.</strong> Одна неделя без новых книг, курсов, подкастов. Только практика — разрыв петли дофамина от новизны</span></div>
+          <div class="step-item"><span class="step-num">2</span><span class="step-text"><strong>Телесный якорь перед действием.</strong> Любое намерение — начинать с тела: встать, три вдоха, ноги на пол. Тело участвует в намерении</span></div>
+          <div class="step-item"><span class="step-num">3</span><span class="step-text"><strong>Дневник действий, не мыслей.</strong> «Я сделала» вместо «я поняла». Фокус с когниции на поведение — укрепляет нейронную сеть действия</span></div>
+          <div class="step-item"><span class="step-num">4</span><span class="step-text"><strong>Практика незнания.</strong> Намеренно сделать что-то не зная как. Мозг учится действовать без полной информации — это и есть взрослость</span></div>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Ключевые письма</div>
+        <div class="tools-row">
+          <span class="tool-tag">Письмо 16 — Не ожидание, а действие</span>
+          <span class="tool-tag">Письмо 18 — Свобода выбора</span>
+          <span class="tool-tag">Письмо 21 — Опора в будущем</span>
+        </div>
+      </div>
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Знающей — к Действующей</span>
+    </div>
+  </div>
+
+  <!-- E: ЖЕРТВА -->
+  <div class="segment" data-segment="e" id="seg-e">
+    <div class="seg-head">
+      <div class="seg-type">Тип Д</div>
+      <div class="seg-icon">🌿</div>
+      <div class="seg-name">«Жертва обстоятельств»</div>
+      <div class="seg-tagline">«Жизнь происходит со мной. Нет сил даже хотеть»</div>
+    </div>
+    <div class="seg-body">
+      <div class="seg-divider">
+        <div class="section-label">Пропущенные стадии</div>
+        <div class="stages-row">
+          <span class="stage-pill">Базовое доверие (0–1 год)</span>
+          <span class="stage-pill">Автономия (1–3 года)</span>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Застрявший паттерн</div>
+        <div class="pattern-box">«Мир опасен. Я не управляю ничем. Желания = боль»</div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Процесс дозревания — 4 шага</div>
+        <div class="steps-list">
+          <div class="step-item"><span class="step-num">1</span><span class="step-text"><strong>Только безопасность.</strong> Никаких целей — только регуляция НС. Тэппинг, дыхание, тепло, природа. Это фундамент, без него ничего не работает</span></div>
+          <div class="step-item"><span class="step-num">2</span><span class="step-text"><strong>Микроагентность.</strong> Крошечные акты выбора: я выбрала эту чашку. НС начинает получать сигнал: «мои действия имеют значение»</span></div>
+          <div class="step-item"><span class="step-num">3</span><span class="step-text"><strong>Работа с обидами через тело.</strong> Письмо обиды — и физическое действие с ним (сжечь, порвать). Тело завершает незавершённое</span></div>
+          <div class="step-item"><span class="step-num">4</span><span class="step-text"><strong>Один маленький результат в неделю.</strong> Фиксировать. Перечитывать. Накапливать — это строит новую идентичность через доказательства</span></div>
+        </div>
+      </div>
+      <div class="seg-divider">
+        <div class="section-label">Ключевые письма</div>
+        <div class="tools-row">
+          <span class="tool-tag">Письмо 1 — Отпускание контроля</span>
+          <span class="tool-tag">Письмо 2 — Опора в себе</span>
+          <span class="tool-tag">Письмо 3 — Опора в прошлом</span>
+          <span class="tool-tag">Письмо 11 — Отпускание обид</span>
+        </div>
+      </div>
+    </div>
+    <div class="transform-bar">
+      <span class="transform-label">Путь</span>
+      <span class="transform-text">От Выживающей — к Живущей</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="toggle-wrap">
+  <button class="toggle-all" id="toggleAll" onclick="toggleAll()">Показать все сегменты</button>
+</div>
+
+<script>
+  let allVisible = false;
+  function showSeg(seg, btn) {
+    if (allVisible) {
+      allVisible = false;
+      document.getElementById('segments').classList.remove('show-all');
+      document.getElementById('toggleAll').textContent = 'Показать все сегменты';
+    }
+    document.querySelectorAll('.segment').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('seg-' + seg).classList.add('active');
+    btn.classList.add('active');
+  }
+  function toggleAll() {
+    allVisible = !allVisible;
+    const wrap = document.getElementById('segments');
+    const btn = document.getElementById('toggleAll');
+    if (allVisible) {
+      wrap.classList.add('show-all');
+      btn.textContent = 'Свернуть';
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    } else {
+      wrap.classList.remove('show-all');
+      btn.textContent = 'Показать все сегменты';
+      document.querySelector('[data-seg="a"]').classList.add('active');
+      document.getElementById('seg-a').classList.add('active');
+      document.querySelectorAll('.segment').forEach((s, i) => { if (i > 0) s.classList.remove('active'); });
+    }
+  }
+</script>
+</body>
+</html>

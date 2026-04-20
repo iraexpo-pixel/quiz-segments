@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сфера Идентичности · Ирина Исакова</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#FAF8F4;--stone:#E8E2D9;--sand:#D6CDBC;
+  --text:#2C2620;--soft:#6B5E52;--muted:#A0917F;
+  --accent:#8A7060;--accent-l:#F5F0EB;--accent-m:#E8DDD4;
+  --a:#C4956A;--a-l:#FDF5EC;
+  --b:#8E7BAA;--b-l:#F5F2FA;
+  --c:#6A8FA0;--c-l:#EFF5F8;
+  --d:#7A9E7E;--d-l:#F0F6F1;
+  --e:#B07070;--e-l:#FAF0F0;
+}
+html{font-size:15px}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding-bottom:60px}
+.header{padding:40px 20px 28px;text-align:center;border-bottom:1px solid var(--stone);background:linear-gradient(135deg,var(--accent-l) 0%,var(--cream) 60%)}
+.sphere-badge{display:inline-block;background:var(--accent);color:#fff;font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:14px}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;line-height:1.2;margin-bottom:8px}
+.header-title em{font-style:italic;font-weight:300}
+.principle-box{margin:16px 20px 0;background:#fff;border-radius:14px;padding:16px;border:1px solid var(--accent-m)}
+.principle-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.principle-caps{display:flex;gap:8px;flex-wrap:wrap}
+.p-cap{background:var(--accent-l);border:1px solid var(--accent-m);border-radius:8px;padding:8px 12px;flex:1;min-width:80px;text-align:center}
+.p-cap-title{font-size:10px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.p-cap-desc{font-size:11px;color:var(--soft)}
+.nav{display:flex;gap:6px;padding:14px 16px;overflow-x:auto;scrollbar-width:none;background:rgba(250,248,244,.96);backdrop-filter:blur(8px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--stone)}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex-shrink:0;border:1px solid transparent;background:none;font-family:'Jost',sans-serif;font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 13px;border-radius:20px;cursor:pointer;transition:all .2s}
+.nav-btn:hover,.nav-btn.active{background:#fff;border-color:var(--stone);color:var(--text)}
+.nav-btn[data-s="a"].active{color:var(--a);border-color:var(--a)}
+.nav-btn[data-s="b"].active{color:var(--b);border-color:var(--b)}
+.nav-btn[data-s="c"].active{color:var(--c);border-color:var(--c)}
+.nav-btn[data-s="d"].active{color:var(--d);border-color:var(--d)}
+.nav-btn[data-s="e"].active{color:var(--e);border-color:var(--e)}
+.cards{padding:16px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(44,38,32,.07);margin-bottom:14px;display:none}
+.card.active{display:block}.show-all .card{display:block}
+.card-head{padding:22px 20px 18px;position:relative}
+.card-head::after{content:'';position:absolute;bottom:0;left:20px;right:20px;height:1px;background:var(--stone)}
+.card-label{font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;margin-bottom:6px}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.1;margin-bottom:6px}
+.card-icon{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px}
+[data-seg="a"] .card-label,[data-seg="a"] .card-name{color:var(--a)}[data-seg="a"] .card-icon{background:var(--a-l)}
+[data-seg="b"] .card-label,[data-seg="b"] .card-name{color:var(--b)}[data-seg="b"] .card-icon{background:var(--b-l)}
+[data-seg="c"] .card-label,[data-seg="c"] .card-name{color:var(--c)}[data-seg="c"] .card-icon{background:var(--c-l)}
+[data-seg="d"] .card-label,[data-seg="d"] .card-name{color:var(--d)}[data-seg="d"] .card-icon{background:var(--d-l)}
+[data-seg="e"] .card-label,[data-seg="e"] .card-name{color:var(--e)}[data-seg="e"] .card-icon{background:var(--e-l)}
+.card-body{padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.s-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.pattern-box{padding:13px 15px;border-radius:11px;border-left:3px solid;font-family:'Cormorant Garamond',serif;font-size:15.5px;font-style:italic;line-height:1.55}
+[data-seg="a"] .pattern-box{background:var(--a-l);border-color:var(--a);color:var(--a)}
+[data-seg="b"] .pattern-box{background:var(--b-l);border-color:var(--b);color:var(--b)}
+[data-seg="c"] .pattern-box{background:var(--c-l);border-color:var(--c);color:var(--c)}
+[data-seg="d"] .pattern-box{background:var(--d-l);border-color:var(--d);color:var(--d)}
+[data-seg="e"] .pattern-box{background:var(--e-l);border-color:var(--e);color:var(--e)}
+.block-text{font-size:13.5px;line-height:1.65}.block-text strong{font-weight:600}
+.neuro-chip{display:inline-block;font-size:11.5px;font-weight:500;padding:5px 12px;border-radius:8px;margin-bottom:2px}
+[data-seg="a"] .neuro-chip{background:var(--a-l);color:var(--a)}[data-seg="b"] .neuro-chip{background:var(--b-l);color:var(--b)}[data-seg="c"] .neuro-chip{background:var(--c-l);color:var(--c)}[data-seg="d"] .neuro-chip{background:var(--d-l);color:var(--d)}[data-seg="e"] .neuro-chip{background:var(--e-l);color:var(--e)}
+.bridge-box{border-radius:12px;background:var(--accent-l);border:1px solid var(--accent-m);padding:14px 16px}
+.bridge-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.bridge-text{font-size:13.5px;line-height:1.65}.bridge-text strong{color:var(--accent);font-weight:600}
+.ready-box{background:var(--cream);border-radius:10px;padding:12px 14px;border:1px solid var(--sand);font-size:12.5px;line-height:1.6;color:var(--soft)}
+.ready-box::before{content:'✓  Точка готовности:';display:block;font-size:9px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+.tool{font-size:11px;padding:4px 11px;border-radius:20px;background:var(--cream);border:1px solid var(--sand);color:var(--soft)}
+.transform{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid var(--stone)}
+.t-from{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.t-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic}
+[data-seg="a"] .t-text{color:var(--a)}[data-seg="b"] .t-text{color:var(--b)}[data-seg="c"] .t-text{color:var(--c)}[data-seg="d"] .t-text{color:var(--d)}[data-seg="e"] .t-text{color:var(--e)}
+.toggle-wrap{text-align:center;padding:8px 0 20px}
+.toggle-btn{border:1px solid var(--sand);background:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 22px;border-radius:20px;cursor:pointer;transition:all .2s}
+.toggle-btn:hover{background:#fff;color:var(--text);border-color:var(--stone)}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="sphere-badge">🌍 Сфера 6</div>
+  <h1 class="header-title">Идентичность:<br><em>Кто я — без ролей, без масок</em></h1>
+  <div class="principle-box">
+    <div class="principle-label">Три взрослые способности для зрелой идентичности</div>
+    <div class="principle-caps">
+      <div class="p-cap"><div class="p-cap-title">Ценности</div><div class="p-cap-desc">Я знаю что важно — мне, не другим</div></div>
+      <div class="p-cap"><div class="p-cap-title">Голос</div><div class="p-cap-desc">У меня есть своя точка зрения</div></div>
+      <div class="p-cap"><div class="p-cap-title">Авторство</div><div class="p-cap-desc">Я автор своей жизни</div></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" data-s="a" onclick="show('a',this)">🕯 Выгоревшая</button>
+  <button class="nav-btn" data-s="b" onclick="show('b',this)">🌸 Мечтательница</button>
+  <button class="nav-btn" data-s="c" onclick="show('c',this)">💫 Застрявшая</button>
+  <button class="nav-btn" data-s="d" onclick="show('d',this)">✨ Пробуждающаяся</button>
+  <button class="nav-btn" data-s="e" onclick="show('e',this)">🌊 Жертва</button>
+</nav>
+
+<div class="cards" id="cards">
+
+  <div class="card active" data-seg="a" id="c-a">
+    <div class="card-head"><div class="card-label">Тип А · Выгоревшая</div><div class="card-icon">🕯️</div><div class="card-name">Пустота без ролей</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с идентичностью</div><div class="pattern-box">«Я мама троих. Я жена Андрея. Я — это мои роли.»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Идентичность полностью растворена в ролях. Спроси «кто ты» — растеряется. <strong>Вне ролей — физически ощущаемая пустота.</strong> Никогда не отвечала на вопрос «кто я» для себя. Сначала дочь родителей. Потом жена и мать. Паузы не было.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Зона идентичности активирована только через роли</div><div class="block-text" style="margin-top:8px">Нет нейронных путей «я вне функции». Медиальная префронтальная кора не знает как реагировать на вопрос о себе — нет опыта.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>список «это моё» без объяснений</strong>. Цвет. Вкус. Ощущение. Музыка. Время суток. Это и есть начало идентичности — без ролей.</div></div></div>
+      <div><div class="ready-box">Когда может ответить на «что ты любишь» — не думая что скажут другие.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Список «это моё»</span><span class="tool">Один вопрос в день о себе</span><span class="tool">Письма к себе-до-ролей</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Жертвы — к Человеку</span></div>
+  </div>
+
+  <div class="card" data-seg="b" id="c-b">
+    <div class="card-head"><div class="card-label">Тип Б · Мечтательница</div><div class="card-icon">🌸</div><div class="card-name">Фантазия о великой себе</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с идентичностью</div><div class="pattern-box">«Во мне спит что-то великое. Меня просто ещё не раскрыли.»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Идентичность как фантазия о себе. Реальное «я» — размытое и неудобное. Легко перенимает чужие ценности, взгляды, стиль. <strong>Страх обнаружить что под «особенностью» — обычный человек.</strong></div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Пропущена: Идентичность (задача 5)</div><div class="block-text" style="margin-top:8px">Не пройдена в подростковом возрасте. Нет нейронных якорей «это точно моё». Идентичность строится через отражение в других — нестабильная конструкция.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>один конкретный «это не моё»</strong> с удержанием дискомфорта от разочарования. Отказ от чужой роли, мнения, стиля. Идентичность формируется через отказы не меньше чем через выборы.</div></div></div>
+      <div><div class="ready-box">Когда может сказать «мне не нравится» то что все хвалят — и не оправдываться.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">«Это точно не моё»</span><span class="tool">Один отказ без объяснений</span><span class="tool">Дневник настоящих реакций</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Девочки — к Автору своей сказки</span></div>
+  </div>
+
+  <div class="card" data-seg="c" id="c-c">
+    <div class="card-head"><div class="card-label">Тип В · Застрявшая</div><div class="card-icon">💫</div><div class="card-name">Идентичность через потенциал</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с идентичностью</div><div class="pattern-box">«Кем я могу быть» важнее чем «кто я есть»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Идентичность держится на потенциале — не на реальности. «Я человек который мог бы». Без потенциала — кто она? Не знает. <strong>Поэтому так важно продолжать накапливать курсы</strong> — это и есть она. Реальное «я» кажется недостаточным.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Зона идентичности активирована через статус/знания</div><div class="block-text" style="margin-top:8px">Нейронная петля: «я недостаточна → надо знать больше → знаю больше → всё равно недостаточна». Каждый раз когда не реализует потенциал — удар по идентичности.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>один выбор из ценностей а не из ожиданий</strong>. «Я выбираю это потому что это важно для меня» — не «потому что так правильно». Идентичность начинает строиться на реальном «я».</div></div></div>
+      <div><div class="ready-box">Когда делает что-то «не умное» и «не статусное» — и при этом чувствует себя собой.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Один выбор из себя</span><span class="tool">«Что важно мне — не другим»</span><span class="tool">Дневник настоящих ценностей</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Сомневающейся — к Реализованной</span></div>
+  </div>
+
+  <div class="card" data-seg="d" id="c-d">
+    <div class="card-head"><div class="card-label">Тип Г · Пробуждающаяся</div><div class="card-icon">✨</div><div class="card-name">Болезненный переход</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с идентичностью</div><div class="pattern-box">«Старое "я" не работает. Новое ещё не сложилось. Я не знаю кто я теперь.»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">Идентичность в процессе перестройки — болезненно. Отпустила старые паттерны — обнаружила пустоту. <strong>Воспринимает переходный период как регресс</strong>. Нормальный этап трансформации — но ощущается как потеря почвы.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Нейронная перестройка идентичности</div><div class="block-text" style="margin-top:8px">Старые нейронные пути идентичности ослаблены. Новые ещё не укреплены. Мозг без знакомой идентичности воспринимает это как угрозу — нормальная реакция в процессе трансформации.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>принять что «я в процессе» это и есть идентичность прямо сейчас</strong>. Нужен свидетель трансформации — дневник, сообщество, письма. Нервной системе нужна точка опоры в переходе.</div></div></div>
+      <div><div class="ready-box">Когда может сказать «я меняюсь» — без ужаса, с любопытством.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">Дневник трансформации</span><span class="tool">«Я в процессе — это нормально»</span><span class="tool">Сообщество как свидетель</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Начинающей — к Устойчивой</span></div>
+  </div>
+
+  <div class="card" data-seg="e" id="c-e">
+    <div class="card-head"><div class="card-label">Тип Д · Жертва обстоятельств</div><div class="card-icon">🌊</div><div class="card-name">Я = мои обстоятельства</div></div>
+    <div class="card-body">
+      <div><div class="s-label">Паттерн с идентичностью</div><div class="pattern-box">«Я такая потому что жизнь такая. Я персонаж в чужой истории.»</div></div>
+      <div><div class="s-label">Как это выглядит</div><div class="block-text">«Я» — это обстоятельства. Идентичность пассивная — сформированная тем что случилось, а не тем что выбрала. <strong>Нет ощущения что она автор своей истории.</strong> Признать что может влиять — значит взять ответственность. Это страшнее чем оставаться жертвой.</div></div>
+      <div><div class="s-label">Нейробиологический блок</div><div class="neuro-chip">Выученная беспомощность + идентичность «я не влияю»</div><div class="block-text" style="margin-top:8px">Медиальная префронтальная кора не связывает «я» с «агентностью». Идентичность строится на обидах и обстоятельствах — это единственный доступный материал.</div></div>
+      <div><div class="bridge-box"><div class="bridge-label">Мостик</div><div class="bridge-text">Сначала — <strong>одно предложение про себя начинающееся с «я выбрала» или «я сделала»</strong>. Зафиксировать. Записать. Мозгу нужен новый якорь: «я делаю — значит я есть».</div></div></div>
+      <div><div class="ready-box">Когда может рассказать историю о себе где она — не жертва, а человек который сделал выбор.</div></div>
+      <div><div class="s-label">Инструменты</div><div class="tools"><span class="tool">«Я выбрала / я сделала»</span><span class="tool">История авторства</span><span class="tool">Дневник выборов</span><span class="tool">Один маленький выбор в день</span></div></div>
+    </div>
+    <div class="transform"><span class="t-from">Путь</span><span class="t-text">от Выживающей — к Живущей</span></div>
+  </div>
+
+</div>
+<div class="toggle-wrap">
+  <button class="toggle-btn" id="tgl" onclick="toggleAll()">Показать все сегменты</button>
+</div>
+<script>
+let all=false;
+function show(s,btn){if(all){all=false;document.getElementById('cards').classList.remove('show-all');document.getElementById('tgl').textContent='Показать все сегменты';}document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('c-'+s).classList.add('active');btn.classList.add('active');}
+function toggleAll(){all=!all;document.getElementById('cards').classList.toggle('show-all',all);document.getElementById('tgl').textContent=all?'Свернуть':'Показать все сегменты';if(!all){document.querySelector('[data-s="a"]').classList.add('active');document.getElementById('c-a').classList.add('active');}else document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));}
+</script>
+</body>
+</html>

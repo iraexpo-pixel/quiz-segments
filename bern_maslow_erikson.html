@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Три системы зрелости · Исакова</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#FAF8F4;--white:#FFFDF9;--stone:#E8E2D9;--sand:#D6CDBC;
+  --text:#2C2620;--soft:#6B5E52;--muted:#A0917F;
+  --a:#C4956A;--a-l:#FDF5EC;--a-m:#F5E8D5;
+  --b:#8E7BAA;--b-l:#F5F2FA;--b-m:#E8E2F5;
+  --c:#6A8FA0;--c-l:#EFF5F8;--c-m:#D8ECF3;
+  --d:#7A9E7E;--d-l:#F0F6F1;--d-m:#D5EBD8;
+  --e:#B07070;--e-l:#FAF0F0;--e-m:#F0D5D5;
+  --bern:#7E9B8A;--bern-l:#EEF5F1;
+  --maslow:#9B8A6E;--maslow-l:#F5F0E8;
+  --erik:#7A8A9B;--erik-l:#EEF1F5;
+  --ira:#A07090;--ira-l:#F5EEF5;
+}
+html{font-size:15px}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);padding-bottom:60px}
+
+/* HEADER */
+.header{padding:44px 20px 32px;text-align:center;background:var(--white);border-bottom:1px solid var(--stone)}
+.header-eye{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:14px}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.25;margin-bottom:10px}
+.header-title em{font-style:italic;font-weight:300}
+.header-sub{font-size:12px;color:var(--muted);line-height:1.6;max-width:360px;margin:0 auto}
+
+/* SECTION LABEL */
+.sec-label{font-size:9px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);padding:22px 20px 10px}
+
+/* THREE SYSTEMS */
+.systems{display:flex;flex-direction:column;gap:12px;padding:0 16px}
+.sys-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 14px rgba(44,38,32,.07)}
+.sys-head{padding:18px 18px 14px;border-bottom:1px solid var(--stone);display:flex;align-items:flex-start;gap:14px}
+.sys-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-top:2px}
+.sys-head-text{}
+.sys-author{font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:4px}
+.sys-name{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;line-height:1.15;margin-bottom:4px}
+.sys-tagline{font-size:12px;color:var(--soft);font-style:italic;line-height:1.5}
+.sys-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.sys-row{display:flex;gap:10px;align-items:flex-start}
+.sys-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.sys-text{font-size:13px;line-height:1.65;color:var(--text)}
+.sys-text strong{font-weight:600}
+
+.bern .sys-author,.bern .sys-dot{color:var(--bern)}
+.bern .sys-icon{background:var(--bern-l)}
+.bern .sys-dot{background:var(--bern)}
+.maslow .sys-author,.maslow .sys-dot{color:var(--maslow)}
+.maslow .sys-icon{background:var(--maslow-l)}
+.maslow .sys-dot{background:var(--maslow)}
+.erik .sys-author{color:var(--erik)}
+.erik .sys-icon{background:var(--erik-l)}
+.erik .sys-dot{background:var(--erik)}
+.ira .sys-author{color:var(--ira)}
+.ira .sys-icon{background:var(--ira-l)}
+.ira .sys-dot{background:var(--ira)}
+
+/* ОБЩЕЕ ЯДРО */
+.core-block{margin:0 16px;background:#fff;border-radius:18px;box-shadow:0 2px 14px rgba(44,38,32,.07);overflow:hidden}
+.core-head{padding:18px 18px 14px;border-bottom:1px solid var(--stone);text-align:center}
+.core-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:4px}
+.core-sub{font-size:11px;color:var(--muted);font-style:italic}
+.core-body{padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.core-item{background:var(--cream);border-radius:12px;padding:12px 14px}
+.core-item-title{font-size:9.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.core-item-text{font-size:13px;line-height:1.65}
+
+/* СВОДНАЯ ТАБЛИЦА */
+.matrix{margin:0 16px;background:#fff;border-radius:18px;box-shadow:0 2px 14px rgba(44,38,32,.07);overflow:hidden}
+.matrix-head{padding:18px 18px 14px;border-bottom:1px solid var(--stone);text-align:center}
+.matrix-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
+.matrix-sub{font-size:11px;color:var(--muted);font-style:italic;margin-top:4px}
+.matrix-body{padding:8px 0}
+.mrow{padding:14px 18px;border-bottom:1px solid var(--stone);display:flex;flex-direction:column;gap:8px}
+.mrow:last-child{border-bottom:none}
+.mrow-stage{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:2px}
+.mrow-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+.pill{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:500;letter-spacing:.04em}
+.pill-bern{background:var(--bern-l);color:var(--bern)}
+.pill-maslow{background:var(--maslow-l);color:var(--maslow)}
+.pill-seg{font-size:10.5px;padding:4px 12px;border-radius:20px;font-weight:600}
+.pill-a{background:var(--a-l);color:var(--a)}
+.pill-b{background:var(--b-l);color:var(--b)}
+.pill-c{background:var(--c-l);color:var(--c)}
+.pill-d{background:var(--d-l);color:var(--d)}
+.pill-e{background:var(--e-l);color:var(--e)}
+.mrow-desc{font-size:12.5px;line-height:1.65;color:var(--soft)}
+
+/* ВЗРОСЛЫЙ ПО БЕРНУ детально */
+.bern-states{margin:0 16px;background:#fff;border-radius:18px;box-shadow:0 2px 14px rgba(44,38,32,.07);overflow:hidden}
+.bs-head{padding:18px 18px 14px;border-bottom:1px solid var(--stone);text-align:center}
+.bs-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
+.bs-sub{font-size:11px;color:var(--muted);font-style:italic;margin-top:4px}
+.bs-body{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.bs-state{border-radius:12px;padding:13px 15px}
+.bs-state-name{font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px}
+.bs-state-text{font-size:13px;line-height:1.65}
+.bs-state-subs{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.bs-sub-pill{font-size:10.5px;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.1);color:var(--text)}
+.bs-parent{background:#FEF8F0}
+.bs-parent .bs-state-name{color:#B07830}
+.bs-adult{background:#EEF5F1}
+.bs-adult .bs-state-name{color:var(--bern)}
+.bs-child{background:#F5F2FA}
+.bs-child .bs-state-name{color:#7A6090}
+.bs-arrow{text-align:center;font-size:22px;color:var(--sand);padding:4px 0}
+
+/* МАСЛОУ 15 */
+.maslow-15{margin:0 16px;background:#fff;border-radius:18px;box-shadow:0 2px 14px rgba(44,38,32,.07);overflow:hidden}
+.m15-head{padding:18px 18px 14px;border-bottom:1px solid var(--stone);text-align:center}
+.m15-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600}
+.m15-sub{font-size:11px;color:var(--muted);font-style:italic;margin-top:4px}
+.m15-body{padding:14px 18px;display:flex;flex-direction:column;gap:7px}
+.m15-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:10px;background:var(--cream)}
+.m15-num{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--maslow);flex-shrink:0;min-width:22px;line-height:1.2}
+.m15-text{font-size:13px;line-height:1.6}
+.m15-text strong{font-weight:600}
+.m15-text em{font-style:italic;color:var(--soft);font-size:12px}
+
+/* ГЛАВНЫЙ ВЫВОД */
+.conclusion{margin:0 16px;background:#fff;border-radius:18px;box-shadow:0 2px 14px rgba(44,38,32,.07);overflow:hidden}
+.conc-head{padding:20px 18px 16px;text-align:center;border-bottom:1px solid var(--stone)}
+.conc-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;margin-bottom:5px}
+.conc-sub{font-size:11px;color:var(--muted);font-style:italic}
+.conc-body{padding:18px 18px;display:flex;flex-direction:column;gap:12px}
+.conc-block{border-radius:12px;padding:14px 16px;border-left:3px solid}
+.conc-block-title{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px}
+.conc-block-text{font-size:13px;line-height:1.7}
+.cb-bern{background:var(--bern-l);border-color:var(--bern)}
+.cb-bern .conc-block-title{color:var(--bern)}
+.cb-maslow{background:var(--maslow-l);border-color:var(--maslow)}
+.cb-maslow .conc-block-title{color:var(--maslow)}
+.cb-erik{background:var(--erik-l);border-color:var(--erik)}
+.cb-erik .conc-block-title{color:var(--erik)}
+.cb-ira{background:var(--ira-l);border-color:var(--ira)}
+.cb-ira .conc-block-title{color:var(--ira)}
+.conc-quote{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;text-align:center;color:var(--soft);line-height:1.6;padding:6px 10px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-eye">Ирина Исакова · Научное основание методологии</span>
+  <div class="header-title">Три системы о зрелости<br><em>Берн · Маслоу · Эриксон</em></div>
+  <div class="header-sub">Как классическая психология подтверждает и расширяет методологию ментального взросления</div>
+</div>
+
+<!-- ═══ ТРИ СИСТЕМЫ ═══ -->
+<div class="sec-label">Три автора — одна идея</div>
+<div class="systems">
+
+  <div class="sys-card bern">
+    <div class="sys-head">
+      <div class="sys-icon">🔵</div>
+      <div class="sys-head-text">
+        <div class="sys-author">Эрик Берн · Трансактный анализ · 1950–70-е</div>
+        <div class="sys-name">Взрослая позиция</div>
+        <div class="sys-tagline">«Ты живёшь по сценарию, написанному в детстве. Но можешь его переписать»</div>
+      </div>
+    </div>
+    <div class="sys-body">
+      <div class="sys-row"><div class="sys-dot" style="background:var(--bern)"></div><div class="sys-text">Три эго-состояния: <strong>Родитель</strong> (интроецированные программы), <strong>Ребёнок</strong> (эмоциональные реакции из детства), <strong>Взрослый</strong> (осознанная позиция «здесь и сейчас»)</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--bern)"></div><div class="sys-text"><strong>Зрелость по Берну</strong> — доминирование Взрослого при сохранном доступе к Ребёнку и Родителю. Не подавление, а интеграция</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--bern)"></div><div class="sys-text"><strong>Жизненный сценарий</strong> — бессознательная программа, принятая в детстве как стратегия выживания. Психотерапия — это переписывание сценария</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--bern)"></div><div class="sys-text"><strong>Связь с твоей системой:</strong> каждый из 5 сегментов застрял в определённом эго-состоянии. Работа с письмами и практиками — это активация Взрослого</div></div>
+    </div>
+  </div>
+
+  <div class="sys-card maslow">
+    <div class="sys-head">
+      <div class="sys-icon">🟡</div>
+      <div class="sys-head-text">
+        <div class="sys-author">Абрахам Маслоу · Гуманистическая психология · 1954–1970</div>
+        <div class="sys-name">Самоактуализация</div>
+        <div class="sys-tagline">«Есть ориентир — вот как выглядит психологически здоровый человек»</div>
+      </div>
+    </div>
+    <div class="sys-body">
+      <div class="sys-row"><div class="sys-dot" style="background:var(--maslow)"></div><div class="sys-text">Пирамида потребностей: физиология → безопасность → принадлежность → признание → <strong>самоактуализация</strong>. Каждый уровень — база для следующего</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--maslow)"></div><div class="sys-text"><strong>15 признаков зрелой личности</strong> — описание того, как выглядит человек, реализовавший свой потенциал. Это не идеал, это ориентир</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--maslow)"></div><div class="sys-text">Самоактуализация — <strong>не цель, а процесс</strong>: «стать всем, чем человек способен стать». Движение, а не пункт назначения</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--maslow)"></div><div class="sys-text"><strong>Связь с твоей системой:</strong> твои 5 сегментов застряли на разных уровнях пирамиды. Путь к реализации идёт снизу вверх — именно поэтому сначала безопасность (тело), потом рост (смысл)</div></div>
+    </div>
+  </div>
+
+  <div class="sys-card erik">
+    <div class="sys-head">
+      <div class="sys-icon">🟢</div>
+      <div class="sys-head-text">
+        <div class="sys-author">Эрик Эриксон · Эпигенетическая теория развития · 1950–80-е</div>
+        <div class="sys-name">8 задач взросления</div>
+        <div class="sys-tagline">«Есть задачи каждого возраста. Не решила вовремя — тащишь как долг»</div>
+      </div>
+    </div>
+    <div class="sys-body">
+      <div class="sys-row"><div class="sys-dot" style="background:var(--erik)"></div><div class="sys-text"><strong>8 стадий</strong>, каждая со своим кризисом и задачей: от базового доверия (0–1 год) до интеграции (65+). Пропущенная задача не исчезает — она ждёт</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--erik)"></div><div class="sys-text">Взросление возможно в любом возрасте. Пропущенные стадии можно <strong>пройти повторно</strong> — через терапию, практики, новый опыт</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--erik)"></div><div class="sys-text"><strong>Берн — ученик Эриксона.</strong> Эго-состояния Берна — это, по сути, застывшие стадии Эриксона, ставшие психологическими позициями</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--erik)"></div><div class="sys-text"><strong>Связь с твоей системой:</strong> «Письма из Будущего» — это 21 письмо, каждое из которых прорабатывает непройденную задачу взросления через живой опыт, а не через знание</div></div>
+    </div>
+  </div>
+
+  <div class="sys-card ira">
+    <div class="sys-head">
+      <div class="sys-icon">✦</div>
+      <div class="sys-head-text">
+        <div class="sys-author">Ирина Исакова · Методология ментального взросления · 2024–2025</div>
+        <div class="sys-name">Пять точек застревания</div>
+        <div class="sys-tagline">«Вот пять типичных мест, где женщины останавливаются. И путь через каждое»</div>
+      </div>
+    </div>
+    <div class="sys-body">
+      <div class="sys-row"><div class="sys-dot" style="background:var(--ira)"></div><div class="sys-text">Прикладная версия трёх систем — адаптированная для женщин 35–45, без академического языка, с <strong>телесным и сенсорным входом</strong></div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--ira)"></div><div class="sys-text">5 сегментов = 5 типичных точек незакрытых задач + 5 доминирующих эго-состояний + 5 уровней пирамиды, на которых застряли</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--ira)"></div><div class="sys-text"><strong>Уникальное:</strong> вход через тело и сенсорику (свеча, тэппинг, дыхание) — обходит сопротивление интеллекта и работает на уровне нервной системы</div></div>
+      <div class="sys-row"><div class="sys-dot" style="background:var(--ira)"></div><div class="sys-text">Коробка → Марафон → Клуб = Стадия 1 (безопасность) → Стадия 3 (новый опыт) → Стадия 4 (идентичность). <strong>Полный терапевтический маршрут</strong></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ ЭГО-СОСТОЯНИЯ БЕРНА ДЕТАЛЬНО ═══ -->
+<div class="sec-label">Берн детально: три состояния и их связь с сегментами</div>
+<div class="bern-states">
+  <div class="bs-head">
+    <div class="bs-title">Структура личности по Берну</div>
+    <div class="bs-sub">Зрелость — не отказ от Ребёнка и Родителя, а доминирование Взрослого</div>
+  </div>
+  <div class="bs-body">
+    <div class="bs-state bs-parent">
+      <div class="bs-state-name">Родитель — интроецированные программы</div>
+      <div class="bs-state-text">Записи первых 5 лет жизни от значимых взрослых. То, что «надо», «нельзя», «должна». Два варианта: <strong>Заботливый</strong> (поддерживает) и <strong>Контролирующий</strong> (критикует, стыдит, запрещает).</div>
+      <div class="bs-state-subs">
+        <span class="bs-sub-pill">🔴 Выгоревшая — Контролирующий Родитель внутри: «хорошая мать жертвует собой»</span>
+        <span class="bs-sub-pill">🔵 Застрявшая — Родитель говорит: «кто ты такая, чтобы хотеть большего?»</span>
+      </div>
+    </div>
+    <div class="bs-arrow">↕</div>
+    <div class="bs-state bs-adult">
+      <div class="bs-state-name">Взрослый — позиция «здесь и сейчас» · ЦЕЛЬ</div>
+      <div class="bs-state-text">Интегрированная позиция: объективность, ответственность, способность договариваться. Не бесчувственность — а полный доступ к эмоциям при сохранении осознанности. <strong>Это то, к чему ведут все твои практики.</strong></div>
+      <div class="bs-state-subs">
+        <span class="bs-sub-pill">✨ Пробуждающаяся — уже формирует Взрослую позицию</span>
+        <span class="bs-sub-pill">Все сегменты → через практики → к Взрослому</span>
+      </div>
+    </div>
+    <div class="bs-arrow">↕</div>
+    <div class="bs-state bs-child">
+      <div class="bs-state-name">Ребёнок — эмоциональная, чувствующая часть</div>
+      <div class="bs-state-text"><strong>Свободный Ребёнок</strong> — спонтанность, творчество, радость (ценнейшая часть!). <strong>Адаптивный Ребёнок</strong> — угождение, страх не соответствовать. У всех 5 сегментов — гиперактивный Адаптивный Ребёнок.</div>
+      <div class="bs-state-subs">
+        <span class="bs-sub-pill">🟡 Мечтательница — Свободный Ребёнок без структуры Взрослого</span>
+        <span class="bs-sub-pill">🌊 Жертва — Адаптивный Ребёнок в режиме замирания</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ МАСЛОУ 15 ПРИЗНАКОВ ═══ -->
+<div class="sec-label">Маслоу: 15 признаков зрелой личности</div>
+<div class="maslow-15">
+  <div class="m15-head">
+    <div class="m15-title">Самоактуализирующаяся личность</div>
+    <div class="m15-sub">«Мотивация и личность», Абрахам Маслоу, 1954/1970</div>
+  </div>
+  <div class="m15-body">
+    <div class="m15-item"><div class="m15-num">1</div><div class="m15-text"><strong>Точное восприятие реальности</strong> — видит мир как есть, терпима к неопределённости <em>· у сегментов нарушено через страх и избегание</em></div></div>
+    <div class="m15-item"><div class="m15-num">2</div><div class="m15-text"><strong>Принятие себя, других и природы</strong> — без самобичевания и осуждения <em>· Застрявшая и Жертва — нарушено</em></div></div>
+    <div class="m15-item"><div class="m15-num">3</div><div class="m15-text"><strong>Спонтанность и естественность</strong> — поведение без искусственности и игры ролей <em>· Выгоревшая — полностью потеряно</em></div></div>
+    <div class="m15-item"><div class="m15-num">4</div><div class="m15-text"><strong>Центрированность на задаче, а не на себе</strong> — есть миссия и смысл <em>· Мечтательница застряла в нарциссической петле</em></div></div>
+    <div class="m15-item"><div class="m15-num">5</div><div class="m15-text"><strong>Потребность в уединении</strong> — способность быть с собой <em>· Выгоревшая — полностью утрачено</em></div></div>
+    <div class="m15-item"><div class="m15-num">6</div><div class="m15-text"><strong>Автономия</strong> — независимость от внешнего одобрения <em>· ключевой дефицит у всех 5 сегментов</em></div></div>
+    <div class="m15-item"><div class="m15-num">7</div><div class="m15-text"><strong>Свежесть восприятия</strong> — способность видеть обычное с удивлением <em>· восстанавливается через ритуалы и тело</em></div></div>
+    <div class="m15-item"><div class="m15-num">8</div><div class="m15-text"><strong>Пиковые переживания</strong> — моменты экстаза, единства, глубокого смысла <em>· Жертва — анедония мешает их чувствовать</em></div></div>
+    <div class="m15-item"><div class="m15-num">9</div><div class="m15-text"><strong>Социальный интерес</strong> — глубокое отождествление с людьми, желание помогать <em>· доступно после нахождения себя</em></div></div>
+    <div class="m15-item"><div class="m15-num">10</div><div class="m15-text"><strong>Немногочисленные, но глубокие связи</strong> — качество важнее количества <em>· все сегменты нуждаются в поддерживающем сообществе</em></div></div>
+    <div class="m15-item"><div class="m15-num">11</div><div class="m15-text"><strong>Демократический характер</strong> — уважение к любому человеку вне статуса</div></div>
+    <div class="m15-item"><div class="m15-num">12</div><div class="m15-text"><strong>Различение средств и целей</strong> — понимание разницы между путём и назначением <em>· Застрявшая путает процесс с результатом</em></div></div>
+    <div class="m15-item"><div class="m15-num">13</div><div class="m15-text"><strong>Философский юмор</strong> — смеётся над жизнью, не над людьми</div></div>
+    <div class="m15-item"><div class="m15-num">14</div><div class="m15-text"><strong>Творческость</strong> — делает любое дело со своим стилем и свободой <em>· блокирована стыдом у Застрявшей</em></div></div>
+    <div class="m15-item"><div class="m15-num">15</div><div class="m15-text"><strong>Сопротивление энкультурации</strong> — живёт по внутренним ценностям, а не по давлению общества <em>· финальный признак взросления</em></div></div>
+  </div>
+</div>
+
+<!-- ═══ СВОДНАЯ МАТРИЦА ═══ -->
+<div class="sec-label">Сводная карта: три системы × пять сегментов</div>
+<div class="matrix">
+  <div class="matrix-head">
+    <div class="matrix-title">Где застряла каждая</div>
+    <div class="matrix-sub">Эриксон + Берн + Маслоу в одной точке</div>
+  </div>
+  <div class="matrix-body">
+
+    <div class="mrow">
+      <div class="mrow-stage">Стадия 1 — Базовое доверие (0–1 год)</div>
+      <div class="mrow-pills">
+        <span class="pill pill-bern">Берн: Адаптивный Ребёнок — мир опасен</span>
+        <span class="pill pill-maslow">Маслоу: уровень 1–2 — выживание</span>
+        <span class="pill-seg pill-e">🌊 Жертва обстоятельств</span>
+      </div>
+      <div class="mrow-desc">Мир воспринимается как несправедливый и опасный. Выученная беспомощность. Нет базового ощущения, что действия что-то меняют. Жизненный сценарий Берна: «Жизнь происходит со мной».</div>
+    </div>
+
+    <div class="mrow">
+      <div class="mrow-stage">Стадия 2 — Автономия (1–3 года)</div>
+      <div class="mrow-pills">
+        <span class="pill pill-bern">Берн: дофамин на одобрение, нет «нет»</span>
+        <span class="pill pill-maslow">Маслоу: признак #6 — автономия заблокирована</span>
+        <span class="pill-seg pill-a">🔴 Выгоревшая</span>
+      </div>
+      <div class="mrow-desc">Идентичность растворена в ролях. «Хорошая мать жертвует собой» — Контролирующий Родитель изнутри. Адаптивный Ребёнок угождает, чтобы быть любимой. Граница тела не сформирована.</div>
+    </div>
+
+    <div class="mrow">
+      <div class="mrow-stage">Стадия 3 — Инициатива (3–6 лет)</div>
+      <div class="mrow-pills">
+        <span class="pill pill-bern">Берн: Контролирующий Родитель — «не высовывайся»</span>
+        <span class="pill pill-maslow">Маслоу: признак #3 — спонтанность заморожена</span>
+        <span class="pill-seg pill-b">🟡 Мечтательница</span>
+      </div>
+      <div class="mrow-desc">Желание = угроза. Дофамин расходуется на фантазию, потому что реальное действие несёт риск осуждения. Ждёт спасителя, потому что Взрослый не сформирован — есть только Ребёнок.</div>
+    </div>
+
+    <div class="mrow">
+      <div class="mrow-stage">Стадия 4 — Трудолюбие (6–12 лет)</div>
+      <div class="mrow-pills">
+        <span class="pill pill-bern">Берн: сценарий «я недостаточна»</span>
+        <span class="pill pill-maslow">Маслоу: признак #4 — нет центрации на задаче</span>
+        <span class="pill-seg pill-c">🔵 Застрявшая</span>
+      </div>
+      <div class="mrow-desc">Усилия не вознаграждались — мозг решил: «мои действия не приводят к результату». Саморазвитие как суррогат создания. Стыд + зависимость от саморазвития = нейронная ловушка.</div>
+    </div>
+
+    <div class="mrow">
+      <div class="mrow-stage">Стадии 5–7 — Идентичность, Близость, Генеративность</div>
+      <div class="mrow-pills">
+        <span class="pill pill-bern">Берн: Взрослый формируется, но неустойчив</span>
+        <span class="pill pill-maslow">Маслоу: признаки #1, #6, #14 — в процессе</span>
+        <span class="pill-seg pill-d">✨ Пробуждающаяся</span>
+      </div>
+      <div class="mrow-desc">Уже прошла через боль и осознание. Взрослая позиция формируется. Главная задача — удержать себя в точке «почти», не сорваться. Нужен свидетель трансформации и структура поддержки.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ ГЛАВНЫЙ ВЫВОД ═══ -->
+<div class="sec-label">Главный вывод</div>
+<div class="conclusion">
+  <div class="conc-head">
+    <div class="conc-title">Три системы говорят об одном</div>
+    <div class="conc-sub">разными языками — для разных аудиторий</div>
+  </div>
+  <div class="conc-body">
+    <div class="conc-block cb-erik">
+      <div class="conc-block-title">Эриксон</div>
+      <div class="conc-block-text">«Есть задачи взросления. Не решила вовремя — они не исчезли. Их можно пройти в любом возрасте через живой опыт, а не через знание.»</div>
+    </div>
+    <div class="conc-block cb-bern">
+      <div class="conc-block-title">Берн</div>
+      <div class="conc-block-text">«Ты живёшь по сценарию, написанному в детстве. Взрослая позиция — это не отказ от чувств, а способность действовать осознанно даже в присутствии страха.»</div>
+    </div>
+    <div class="conc-block cb-maslow">
+      <div class="conc-block-title">Маслоу</div>
+      <div class="conc-block-text">«Вот как выглядит психологически здоровый человек — 15 конкретных признаков. Это не идеал и не редкость. Это то, к чему движется любой, кто честно работает с собой.»</div>
+    </div>
+    <div class="conc-block cb-ira">
+      <div class="conc-block-title">Ирина Исакова</div>
+      <div class="conc-block-text">«Вот пять типичных точек, где женщины 35–45 останавливаются. Вот практики для каждой. Вход через тело — не через голову. Потому что знание без переживания не меняет поведение.»</div>
+    </div>
+    <div class="conc-quote">«Письма из Будущего» — это не просто коробка со свечами.<br>Это прикладная версия трёх великих систем о зрелости.</div>
+  </div>
+</div>
+
+</body>
+</html>

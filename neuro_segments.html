@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Нейробиология 5 сегментов · Ирина Исакова</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#FAF8F4;--white:#FFFDF9;--stone:#E8E2D9;--sand:#D6CDBC;
+  --text:#2C2620;--soft:#6B5E52;--muted:#A0917F;
+  --a:#C4956A;--a-l:#FDF5EC;--a-m:#F5E8D5;
+  --b:#8E7BAA;--b-l:#F5F2FA;--b-m:#E8E2F5;
+  --c:#6A8FA0;--c-l:#EFF5F8;--c-m:#D8ECF3;
+  --d:#7A9E7E;--d-l:#F0F6F1;--d-m:#D5EBD8;
+  --e:#B07070;--e-l:#FAF0F0;--e-m:#F0D5D5;
+}
+html{font-size:15px}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;padding-bottom:60px}
+
+/* HEADER */
+.header{padding:40px 20px 28px;text-align:center;border-bottom:1px solid var(--stone)}
+.header-eyebrow{display:block;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.2;margin-bottom:8px}
+.header-title em{font-style:italic;font-weight:300}
+.header-sub{font-size:11px;color:var(--muted);letter-spacing:.1em}
+
+/* NAV */
+.nav{display:flex;gap:6px;padding:14px 16px;overflow-x:auto;scrollbar-width:none;background:rgba(250,248,244,.96);backdrop-filter:blur(8px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--stone)}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex-shrink:0;border:1px solid transparent;background:none;font-family:'Jost',sans-serif;font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 13px;border-radius:20px;cursor:pointer;transition:all .2s}
+.nav-btn:hover{background:#fff;border-color:var(--stone);color:var(--text)}
+.nav-btn.active{background:#fff;color:var(--text)}
+.nav-btn[data-s="a"].active{color:var(--a);border-color:var(--a)}
+.nav-btn[data-s="b"].active{color:var(--b);border-color:var(--b)}
+.nav-btn[data-s="c"].active{color:var(--c);border-color:var(--c)}
+.nav-btn[data-s="d"].active{color:var(--d);border-color:var(--d)}
+.nav-btn[data-s="e"].active{color:var(--e);border-color:var(--e)}
+
+/* CARDS */
+.cards{padding:16px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(44,38,32,.07);margin-bottom:14px;display:none}
+.card.active{display:block}
+.show-all .card{display:block}
+
+/* CARD HEAD */
+.card-head{padding:22px 20px 18px;position:relative}
+.card-head::after{content:'';position:absolute;bottom:0;left:20px;right:20px;height:1px;background:var(--stone)}
+.card-label{font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;margin-bottom:6px}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1.1;margin-bottom:6px}
+.card-quote{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--soft);line-height:1.5}
+.card-icon{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px}
+
+[data-seg="a"] .card-label{color:var(--a)}
+[data-seg="a"] .card-name{color:var(--a)}
+[data-seg="a"] .card-icon{background:var(--a-l)}
+[data-seg="b"] .card-label{color:var(--b)}
+[data-seg="b"] .card-name{color:var(--b)}
+[data-seg="b"] .card-icon{background:var(--b-l)}
+[data-seg="c"] .card-label{color:var(--c)}
+[data-seg="c"] .card-name{color:var(--c)}
+[data-seg="c"] .card-icon{background:var(--c-l)}
+[data-seg="d"] .card-label{color:var(--d)}
+[data-seg="d"] .card-name{color:var(--d)}
+[data-seg="d"] .card-icon{background:var(--d-l)}
+[data-seg="e"] .card-label{color:var(--e)}
+[data-seg="e"] .card-name{color:var(--e)}
+[data-seg="e"] .card-icon{background:var(--e-l)}
+
+/* BODY */
+.card-body{padding:18px 20px;display:flex;flex-direction:column;gap:16px}
+
+/* SECTION */
+.s-label{font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+
+/* NEURO BLOCK — основной */
+.neuro-main{padding:14px 16px;border-radius:12px;border-left:3px solid;font-size:13.5px;line-height:1.65}
+[data-seg="a"] .neuro-main{background:var(--a-l);border-color:var(--a);color:var(--text)}
+[data-seg="b"] .neuro-main{background:var(--b-l);border-color:var(--b);color:var(--text)}
+[data-seg="c"] .neuro-main{background:var(--c-l);border-color:var(--c);color:var(--text)}
+[data-seg="d"] .neuro-main{background:var(--d-l);border-color:var(--d);color:var(--text)}
+[data-seg="e"] .neuro-main{background:var(--e-l);border-color:var(--e);color:var(--text)}
+.neuro-main strong{font-weight:600}
+
+/* BLIND ZONE — слепая зона (новое) */
+.blind-zone{border-radius:12px;padding:14px 16px;font-size:13.5px;line-height:1.65}
+[data-seg="a"] .blind-zone{background:var(--a-m)}
+[data-seg="b"] .blind-zone{background:var(--b-m)}
+[data-seg="c"] .blind-zone{background:var(--c-m)}
+[data-seg="d"] .blind-zone{background:var(--d-m)}
+[data-seg="e"] .blind-zone{background:var(--e-m)}
+.blind-zone-title{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
+[data-seg="a"] .blind-zone-title{color:var(--a)}
+[data-seg="b"] .blind-zone-title{color:var(--b)}
+[data-seg="c"] .blind-zone-title{color:var(--c)}
+[data-seg="d"] .blind-zone-title{color:var(--d)}
+[data-seg="e"] .blind-zone-title{color:var(--e)}
+
+/* CONTENT IDEA */
+.content-box{background:var(--cream);border-radius:12px;padding:14px 16px;font-size:13px;line-height:1.7;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--soft);border:1px solid var(--stone)}
+.content-box::before{content:'✦  Идея для контента:';display:block;font-family:'Jost',sans-serif;font-size:9px;font-style:normal;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+
+/* TOOLS */
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+.tool{font-size:11px;padding:4px 11px;border-radius:20px;background:var(--cream);border:1px solid var(--sand);color:var(--soft);font-weight:400}
+
+/* TRANSFORM BAR */
+.transform{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid var(--stone)}
+.t-from{font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.t-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic}
+[data-seg="a"] .t-text{color:var(--a)}
+[data-seg="b"] .t-text{color:var(--b)}
+[data-seg="c"] .t-text{color:var(--c)}
+[data-seg="d"] .t-text{color:var(--d)}
+[data-seg="e"] .t-text{color:var(--e)}
+
+/* TOGGLE */
+.toggle-wrap{text-align:center;padding:8px 0 20px}
+.toggle-btn{border:1px solid var(--sand);background:none;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 22px;border-radius:20px;cursor:pointer;transition:all .2s}
+.toggle-btn:hover{background:#fff;color:var(--text);border-color:var(--stone)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-eyebrow">Ирина Исакова · Ментальное взросление женщин</span>
+  <h1 class="header-title">Нейробиология 5 сегментов:<br><em>слепые зоны и механизмы</em></h1>
+  <p class="header-sub">Углублённый анализ · Прикладные концепции</p>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" data-s="a" onclick="show('a',this)">🕯 Выгоревшая</button>
+  <button class="nav-btn" data-s="b" onclick="show('b',this)">🌸 Мечтательница</button>
+  <button class="nav-btn" data-s="c" onclick="show('c',this)">💫 Застрявшая</button>
+  <button class="nav-btn" data-s="d" onclick="show('d',this)">✨ Пробуждающаяся</button>
+  <button class="nav-btn" data-s="e" onclick="show('e',this)">🌊 Жертва</button>
+</nav>
+
+<div class="cards" id="cards">
+
+  <!-- A: ВЫГОРЕВШАЯ -->
+  <div class="card active" data-seg="a" id="c-a">
+    <div class="card-head">
+      <div class="card-label">Тип А</div>
+      <div class="card-icon">🕯️</div>
+      <div class="card-name">«Выгоревшая»</div>
+      <div class="card-quote">«Меня нет. Есть мама, жена, дочь — но меня нет»</div>
+    </div>
+    <div class="card-body">
+
+      <div>
+        <div class="s-label">Нейробиологический механизм</div>
+        <div class="neuro-main">
+          <strong>Аллостатическая нагрузка:</strong> хронический стресс структурно изменил мозг — гиппокамп уменьшился в объёме, префронтальная кора потеряла связи. Интероцепция отключена. <strong>Мозг в режиме «я должна»</strong> вместо «я хочу».
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Слепая зона</div>
+        <div class="blind-zone">
+          <div class="blind-zone-title">Угасание дофаминовой системы на собственные желания</div>
+          Годы жизни для других → система вознаграждения перестаёт откликаться на <em>собственные</em> желания. «Я не знаю чего хочу» — это не потеря себя. Это нейрохимия: дофамин больше не выделяется на «моё». Это <strong>обратимо</strong>.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Реакция выживания</div>
+        <div class="neuro-main">🟤 <strong>Фаун (угождение)</strong> — хроническая реакция. Говорит «да» когда хочет «нет». Дофамин завязан на одобрение: «меня любят = я в безопасности». Тело — общий ресурс, не своё пространство.
+        </div>
+      </div>
+
+      <div class="content-box">«Я не знаю чего хочу» — это не потеря себя. Это угасание дофаминовой системы от многолетней жизни для других. Мозг перестаёт выделять дофамин на твои желания — потому что ты его так обучила. Это обратимо. Но нужно время и практика.»</div>
+
+      <div>
+        <div class="s-label">Инструменты восстановления</div>
+        <div class="tools">
+          <span class="tool">Микроакты автономии</span>
+          <span class="tool">Интероцепция</span>
+          <span class="tool">Свеча + тишина</span>
+          <span class="tool">Список 100 желаний</span>
+          <span class="tool">Дыхание 4-7-8</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform">
+      <span class="t-from">Путь трансформации</span>
+      <span class="t-text">от Жертвы — к Человеку</span>
+    </div>
+  </div>
+
+  <!-- B: МЕЧТАТЕЛЬНИЦА -->
+  <div class="card" data-seg="b" id="c-b">
+    <div class="card-head">
+      <div class="card-label">Тип Б</div>
+      <div class="card-icon">🌸</div>
+      <div class="card-name">«Мечтательница»</div>
+      <div class="card-quote">«Хочу как в сказке — но чтобы кто-то другой её организовал»</div>
+    </div>
+    <div class="card-body">
+
+      <div>
+        <div class="s-label">Нейробиологический механизм</div>
+        <div class="neuro-main">
+          Пропущена связь <strong>усилие → результат</strong>. Орбитофронтальная кора не выстроила путь «я делаю → приходит». Мозг ищет спасителя — нет нейронных путей самостоятельного действия.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Слепая зона</div>
+        <div class="blind-zone">
+          <div class="blind-zone-title">Дофаминовая ловушка предвкушения</div>
+          Пик дофамина приходится на <em>фантазию</em>, а не на действие. Мозг получил награду в воображении — и теряет мотивацию делать. Реальное действие кажется пресным рядом с яркой картинкой идеальной жизни. Это не лень — это <strong>нейрохимия предвкушения</strong>.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Реакция выживания</div>
+        <div class="neuro-main">🟡 <strong>Беги — в фантазию.</strong> Уход от реальности в мир желаний. Дофамин расходуется на мечты. Реальные задачи остаются нетронутыми — потому что мозг уже «получил» награду.</div>
+      </div>
+
+      <div class="content-box">«Мечтательница не ленится. Её мозг уже получил дофамин от мечты — и теперь реальное действие кажется пресным. Это не слабость воли. Это дофаминовая ловушка. Выход — маленькое действие сразу после мечты, пока дофамин ещё высокий.»</div>
+
+      <div>
+        <div class="s-label">Инструменты</div>
+        <div class="tools">
+          <span class="tool">Завершённые микроциклы</span>
+          <span class="tool">Действие сразу после мечты</span>
+          <span class="tool">Дневник «я сделала»</span>
+          <span class="tool">5-дневный челлендж</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform">
+      <span class="t-from">Путь трансформации</span>
+      <span class="t-text">от Девочки — к Автору своей сказки</span>
+    </div>
+  </div>
+
+  <!-- C: ЗАСТРЯВШАЯ -->
+  <div class="card" data-seg="c" id="c-c">
+    <div class="card-head">
+      <div class="card-label">Тип В</div>
+      <div class="card-icon">💫</div>
+      <div class="card-name">«Застрявшая»</div>
+      <div class="card-quote">«Я всё знаю. Я всё понимаю. И всё равно — то же самое утро»</div>
+    </div>
+    <div class="card-body">
+
+      <div>
+        <div class="s-label">Нейробиологический механизм</div>
+        <div class="neuro-main">
+          <strong>Префронтальная кора</strong> активна (мышление), <strong>лимбическая система</strong> не затронута (поведение). «Знание без переживания» не создаёт нейронные пути. Гиперактивная миндалина блокирует движение вперёд.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Слепая зона</div>
+        <div class="blind-zone">
+          <div class="blind-zone-title">Замороженный стыд + зависимость от саморазвития</div>
+          Стыд активирует одновременно систему угрозы (бей-беги) И торможения (замри) — два сигнала нейтрализуют друг друга, человек не двигается. Плюс: <strong>нейробиологическая зависимость от саморазвития</strong> — дофамин от нового курса заменяет реальное действие.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Реакция выживания</div>
+        <div class="neuro-main">🔵 <strong>Замри</strong> + 🟡 <strong>Беги в знание.</strong> Саботаж действия через бесконечную подготовку. «Ещё один курс — и точно начну». Знает всё — делает ничего.</div>
+      </div>
+
+      <div class="content-box">«Саморазвитие может стать зависимостью. Буквально. Мозг получает дофамин от нового курса — как от новой игры. Заканчивать скучно. Начинать — кайф. Если ты начинаешь и бросаешь снова и снова — это не слабость воли. Это нейрохимия. Её можно перестроить.»</div>
+
+      <div>
+        <div class="s-label">Инструменты</div>
+        <div class="tools">
+          <span class="tool">Детокс от информации</span>
+          <span class="tool">Одно дело до конца</span>
+          <span class="tool">Телесный якорь перед действием</span>
+          <span class="tool">Дневник «я сделала»</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform">
+      <span class="t-from">Путь трансформации</span>
+      <span class="t-text">от Знающей — к Действующей</span>
+    </div>
+  </div>
+
+  <!-- D: ПРОБУЖДАЮЩАЯСЯ -->
+  <div class="card" data-seg="d" id="c-d">
+    <div class="card-head">
+      <div class="card-label">Тип Г</div>
+      <div class="card-icon">✨</div>
+      <div class="card-name">«Пробуждающаяся»</div>
+      <div class="card-quote">«Я готова. Но боюсь, что снова не получится»</div>
+    </div>
+    <div class="card-body">
+
+      <div>
+        <div class="s-label">Нейробиологический механизм</div>
+        <div class="neuro-main">
+          <strong>Префронтальная кора</strong> активна, <strong>лимбическая система</strong> не затронута. «Знание без переживания» не создаёт нейронные пути. Срывается не в начале — а когда <em>почти</em>. Это нейронная память о боли.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Слепая зона</div>
+        <div class="blind-zone">
+          <div class="blind-zone-title">Страх успеха как нейрологический паттерн</div>
+          Мозг ассоциирует <em>приближение к цели</em> с угрозой — потому что именно здесь раньше происходили срывы. <strong>«Предвкушение потери»:</strong> миндалина активируется не при неудаче, а при приближении к успеху. Порог интеграции: нужен эмоционально заряженный повторяющийся опыт.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Реакция выживания</div>
+        <div class="neuro-main">🔵 <strong>Замри перед финишем.</strong> Саботаж именно когда «почти». Нейронная память: «в прошлый раз когда было хорошо — потом стало хуже». Мозг защищает от повторения через остановку.</div>
+      </div>
+
+      <div class="content-box">«Она срывается не в начале пути. Она срывается когда уже почти. Именно тогда — тревога максимальная. Мозг помнит: "в прошлый раз я тоже была почти — и упала". Это не слабость. Это нейронная память о боли. Ей нужен не пинок — а поддержка именно в точке "почти".»</div>
+
+      <div>
+        <div class="s-label">Инструменты</div>
+        <div class="tools">
+          <span class="tool">Свидетель трансформации</span>
+          <span class="tool">Соматика</span>
+          <span class="tool">Письма как ритуал</span>
+          <span class="tool">Удержание маленького успеха</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform">
+      <span class="t-from">Путь трансформации</span>
+      <span class="t-text">от Начинающей — к Устойчивой</span>
+    </div>
+  </div>
+
+  <!-- E: ЖЕРТВА -->
+  <div class="card" data-seg="e" id="c-e">
+    <div class="card-head">
+      <div class="card-label">Тип Д</div>
+      <div class="card-icon">🌊</div>
+      <div class="card-name">«Жертва обстоятельств»</div>
+      <div class="card-quote">«Жизнь происходит со мной. Нет сил даже хотеть»</div>
+    </div>
+    <div class="card-body">
+
+      <div>
+        <div class="s-label">Нейробиологический механизм</div>
+        <div class="neuro-main">
+          <strong>Дорсальный вагус</strong> (режим замирания). Отключение лимбической системы как защита от боли. <strong>Анедония</strong> — снижение способности испытывать удовольствие. Дофаминовые рецепторы снизили чувствительность от хронического стресса.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Слепая зона</div>
+        <div class="blind-zone">
+          <div class="blind-zone-title">Выученная беспомощность как нейронная программа</div>
+          После многократного убеждения что её действия не меняют результат — мозг буквально <em>перестаёт инициировать действия</em>. Это не апатия характера — это нейронная программа выживания. Самое важное: <strong>она сохраняется даже когда обстоятельства изменились</strong>.
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Реакция выживания</div>
+        <div class="neuro-main">🔵 <strong>Замри — глубокий.</strong> Апатия, анедония, «нет смысла пробовать». Еда — единственный доступный источник дофамина. Выход только через тело, сенсорный опыт — не через голову.</div>
+      </div>
+
+      <div class="content-box">«Выученная беспомощность — это не характер. Это нейронная программа которую мозг установил чтобы тебя защитить. После многих раз когда "не получилось". Мозг решил: лучше не пробовать. Перепрограммирование начинается не с мотивации. С маленького телесного опыта. С одной свечи. С одной минуты тишины.»</div>
+
+      <div>
+        <div class="s-label">Инструменты</div>
+        <div class="tools">
+          <span class="tool">Сенсорная реабилитация</span>
+          <span class="tool">Свеча как якорь</span>
+          <span class="tool">Тэппинг</span>
+          <span class="tool">Микроагентность</span>
+          <span class="tool">Одно удовольствие не-еда</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="transform">
+      <span class="t-from">Путь трансформации</span>
+      <span class="t-text">от Выживающей — к Живущей</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="toggle-wrap">
+  <button class="toggle-btn" id="tgl" onclick="toggleAll()">Показать все сегменты</button>
+</div>
+
+<script>
+let all=false;
+function show(s,btn){
+  if(all){all=false;document.getElementById('cards').classList.remove('show-all');document.getElementById('tgl').textContent='Показать все сегменты';}
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('c-'+s).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleAll(){
+  all=!all;
+  document.getElementById('cards').classList.toggle('show-all',all);
+  document.getElementById('tgl').textContent=all?'Свернуть':'Показать все сегменты';
+  if(!all){document.querySelector('[data-s="a"]').classList.add('active');document.getElementById('c-a').classList.add('active');}
+  else document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+}
+</script>
+</body>
+</html>
