@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ирина Исакова · Рабочий портал</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #0e0c09;
+  --bg2:    #161209;
+  --bg3:    #1e1a10;
+  --bg4:    #262118;
+  --amber:  #c8922a;
+  --amber2: #e8b84b;
+  --ag:     rgba(200,146,42,0.14);
+  --ag2:    rgba(200,146,42,0.07);
+  --cream:  #f5efe6;
+  --cream2: #d4c9b8;
+  --soft:   #8c7a62;
+  --border: rgba(200,146,42,0.18);
+  --border2:rgba(200,146,42,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Raleway',sans-serif; background:var(--bg); color:var(--cream); min-height:100vh; }
+
+/* HERO */
+.hero {
+  position:relative;
+  padding: 60px 48px 48px;
+  border-bottom:1px solid var(--border);
+  background: radial-gradient(ellipse at 65% 0%, rgba(200,146,42,0.09) 0%, transparent 55%);
+  display:flex; align-items:flex-end; justify-content:space-between;
+  flex-wrap:wrap; gap:24px;
+}
+.hero-eyebrow { font-size:9px; letter-spacing:.35em; text-transform:uppercase; color:var(--amber); display:block; margin-bottom:14px; }
+.hero-title { font-family:'Cormorant Garamond',serif; font-size:clamp(38px,5vw,66px); font-weight:300; line-height:1.05; color:var(--cream); }
+.hero-title em { font-style:italic; color:var(--amber2); }
+.hero-sub { margin-top:14px; font-size:13px; line-height:1.8; color:var(--soft); max-width:480px; }
+.hero-stats { display:flex; gap:32px; flex-shrink:0; padding-bottom:6px; }
+.stat { text-align:center; }
+.stat-n { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:300; color:var(--amber2); line-height:1; display:block; }
+.stat-l { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); margin-top:4px; display:block; }
+
+/* MAIN */
+.main { max-width:1200px; margin:0 auto; padding:52px 48px 80px; }
+
+/* CATEGORY */
+.category { margin-bottom:52px; }
+.cat-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--border2); }
+.cat-icon { font-size:17px; }
+.cat-name { font-size:9px; letter-spacing:.28em; text-transform:uppercase; color:var(--amber); font-weight:500; }
+.cat-count { margin-left:auto; font-size:10px; color:var(--soft); background:var(--bg3); border:1px solid var(--border2); border-radius:20px; padding:2px 10px; }
+
+/* GRID */
+.grid { display:grid; gap:14px; }
+.g2 { grid-template-columns:repeat(2,1fr); }
+.g3 { grid-template-columns:repeat(3,1fr); }
+.g4 { grid-template-columns:repeat(4,1fr); }
+.g6 { grid-template-columns:repeat(6,1fr); }
+@media(max-width:960px){ .g4,.g6{ grid-template-columns:repeat(3,1fr); } }
+@media(max-width:720px){ .g2,.g3,.g4,.g6{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:440px){ .g2,.g3,.g4,.g6{ grid-template-columns:1fr; } }
+
+/* CARD */
+.card {
+  background:var(--bg3); border:1px solid var(--border2); border-radius:16px;
+  padding:20px; cursor:pointer; text-decoration:none; display:block;
+  transition:background .2s, border-color .2s, transform .18s, box-shadow .2s;
+  position:relative; overflow:hidden;
+}
+.card:hover { background:var(--bg4); border-color:var(--border); transform:translateY(-3px); box-shadow:0 10px 36px rgba(0,0,0,.45); }
+.card:hover .arr { opacity:1; transform:translate(2px,-2px); }
+.ci { font-size:22px; margin-bottom:12px; display:block; }
+.cn { font-size:12.5px; font-weight:600; color:var(--cream); margin-bottom:5px; line-height:1.3; }
+.cd { font-size:11px; line-height:1.65; color:var(--soft); }
+.arr { position:absolute; top:16px; right:16px; font-size:14px; color:var(--amber); opacity:0; transition:opacity .2s, transform .2s; }
+
+/* WIDE CARD */
+.card-wide {
+  grid-column:span 2;
+  display:flex; gap:20px; align-items:center;
+  border-color:var(--border);
+  background:linear-gradient(135deg,var(--bg3),var(--bg4));
+  padding:22px 26px;
+}
+@media(max-width:720px){ .card-wide{ grid-column:span 1; flex-direction:column; align-items:flex-start; } }
+.cw-icon { font-size:34px; flex-shrink:0; }
+.cw-name { font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:400; color:var(--cream); margin-bottom:5px; line-height:1.2; }
+.cw-name em { font-style:italic; color:var(--amber2); }
+.cw-desc { font-size:11.5px; line-height:1.7; color:var(--soft); }
+.cw-tag { display:inline-block; margin-top:8px; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--amber); background:var(--ag); border:1px solid rgba(200,146,42,.2); border-radius:20px; padding:3px 10px; }
+
+/* NEURO CARD */
+.card-neuro { border-color:rgba(200,146,42,.28); background:linear-gradient(135deg,var(--bg3),rgba(200,146,42,0.04)); }
+.card-neuro:hover { border-color:rgba(200,146,42,.5); }
+
+/* FOOTER */
+.footer { border-top:1px solid var(--border2); padding:22px 48px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.footer-text { font-size:10.5px; color:var(--soft); }
+.footer-mark { font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--amber); }
+
+/* ANIM */
+@keyframes fadeup { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
+.category { animation:fadeup .5s ease both; }
+.category:nth-child(1){animation-delay:.04s} .category:nth-child(2){animation-delay:.08s}
+.category:nth-child(3){animation-delay:.12s} .category:nth-child(4){animation-delay:.16s}
+.category:nth-child(5){animation-delay:.20s} .category:nth-child(6){animation-delay:.24s}
+.category:nth-child(7){animation-delay:.28s}
+
+@media(max-width:600px){ .main,.hero{ padding-left:20px; padding-right:20px; } }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <span class="hero-eyebrow">Рабочий портал · Личная база знаний</span>
+    <h1 class="hero-title">Ирина<br><em>Исакова</em></h1>
+    <p class="hero-sub">Все инфографики, методология, воронка и материалы проекта. Кликай на карточку — откроется в новой вкладке.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-n">15</span><span class="stat-l">страниц</span></div>
+    <div class="stat"><span class="stat-n">21</span><span class="stat-l">письмо</span></div>
+    <div class="stat"><span class="stat-n">5</span><span class="stat-l">сегментов</span></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ПРОДУКТ -->
+  <div class="category">
+    <div class="cat-header">
+      <span class="cat-icon">📦</span>
+      <span class="cat-name">Продукт</span>
+      <span class="cat-count">4 страницы</span>
+    </div>
+    <div class="grid g4">
+      <a class="card card-wide" href="ru.html" target="_blank">
+        <div class="cw-icon">📦</div>
+        <div>
+          <div class="cw-name">Лендинг <em>RU</em></div>
+          <div class="cw-desc">Письма из Будущего — основная продающая страница на русском языке</div>
+          <span class="cw-tag">Флагман</span>
+        </div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card card-wide" href="ua.html" target="_blank">
+        <div class="cw-icon">📦</div>
+        <div>
+          <div class="cw-name">Лендинг <em>UA</em></div>
+          <div class="cw-desc">Листи з Майбутнього — продающая страница на украинском языке</div>
+          <span class="cw-tag">Флагман</span>
+        </div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="offer.html" target="_blank">
+        <span class="ci">✍️</span>
+        <div class="cn">Оффер</div>
+        <div class="cd">Описание продукта и ценностное предложение</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="info-services.html" target="_blank">
+        <span class="ci">🗂</span>
+        <div class="cn">Услуги и инфопродукты</div>
+        <div class="cd">Продуктовая линейка</div>
+        <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ВОРОНКА -->
+  <div class="category">
+    <div class="cat-header">
+      <span class="cat-icon">🎯</span>
+      <span class="cat-name">Воронка</span>
+      <span class="cat-count">1 страница</span>
+    </div>
+    <div class="grid g4">
+      <a class="card card-wide" href="isakova_quiz_v2.html" target="_blank">
+        <div class="cw-icon">🎯</div>
+        <div>
+          <div class="cw-name">Квиз <em>v2</em></div>
+          <div class="cw-desc">«Почему ты всё знаешь — но ничего не меняется?» Распределяет по 5 сегментам</div>
+          <span class="cw-tag">Точка входа</span>
+        </div>
+        <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- МЕТОДОЛОГИЯ -->
+  <div class="category">
+    <div class="cat-header">
+      <span class="cat-icon">🧠</span>
+      <span class="cat-name">Методология</span>
+      <span class="cat-count">3 страницы</span>
+    </div>
+    <div class="grid g3">
+      <a class="card" href="segments_light.html" target="_blank">
+        <span class="ci">👥</span>
+        <div class="cn">5 сегментов ЦА</div>
+        <div class="cd">Профили, боли, триггеры и трансформационная дуга каждого сегмента</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="8_этапов.html" target="_blank">
+        <span class="ci">🌿</span>
+        <div class="cn">8 этапов взросления</div>
+        <div class="cd">По Эриксону + авторская методология ментального взросления</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="bern_maslow_erikson.html" target="_blank">
+        <span class="ci">📐</span>
+        <div class="cn">Берн · Маслоу · Эриксон</div>
+        <div class="cd">Теоретическая база и научное обоснование методологии</div>
+        <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- НЕЙРОНАУКА -->
+  <div class="category">
+    <div class="cat-header">
+      <span class="cat-icon">🔬</span>
+      <span class="cat-name">Нейронаука · Инфографики</span>
+      <span class="cat-count">5 страниц</span>
+    </div>
+    <div class="grid g3">
+      <a class="card card-neuro" href="neuro_rewiring.html" target="_blank">
+        <span class="ci">🔬</span>
+        <div class="cn">Нейроперепрошивка идентичности</div>
+        <div class="cd">Бей/беги/замри · моргание · реконсолидация · 5 протоколов · аудио-скрипты · перезапись нарратива · 7 нейролайфхаков</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card card-neuro" href="knowledge_base.html" target="_blank">
+        <span class="ci">📚</span>
+        <div class="cn">База знаний</div>
+        <div class="cd">Наука об идентичности · 10 женщин из истории · образовательный маршрут · воспринимаемая ценность</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="neuro_segments.html" target="_blank">
+        <span class="ci">🧬</span>
+        <div class="cn">Нейросегменты</div>
+        <div class="cd">Нейробиологические паттерны поведения по каждому сегменту ЦА</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="fear_stages.html" target="_blank">
+        <span class="ci">🌑</span>
+        <div class="cn">Стадии страха</div>
+        <div class="cd">Паттерны замри / беги / бей и протоколы работы с каждым</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="mental_reprogramming.html" target="_blank">
+        <span class="ci">⚡</span>
+        <div class="cn">Ментальное перепрограммирование</div>
+        <div class="cd">Инструменты и практики перепрограммирования убеждений</div>
+        <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- СФЕРЫ -->
+  <div class="category">
+    <div class="cat-header">
+      <span class="cat-icon">🌸</span>
+      <span class="cat-name">Сферы жизни</span>
+      <span class="cat-count">6 страниц</span>
+    </div>
+    <div class="grid g6">
+      <a class="card" href="sphere_identity.html" target="_blank">
+        <span class="ci">🔮</span>
+        <div class="cn">Идентичность</div>
+        <div class="cd">Кто я есть</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="sphere_energy.html" target="_blank">
+        <span class="ci">⚡</span>
+        <div class="cn">Энергия</div>
+        <div class="cd">Ресурс и восстановление</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="sphere_relations.html" target="_blank">
+        <span class="ci">🤝</span>
+        <div class="cn">Отношения</div>
+        <div class="cd">Связи и границы</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="sphere_body.html" target="_blank">
+        <span class="ci">🌸</span>
+        <div class="cn">Тело</div>
+        <div class="cd">Соматика и ресурс</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="sphere_realization.html" target="_blank">
+        <span class="ci">🎨</span>
+        <div class="cn">Реализация</div>
+        <div class="cd">Призвание и смысл</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="sphere_money.html" target="_blank">
+        <span class="ci">💛</span>
+        <div class="cn">Деньги</div>
+        <div class="cd">Финансовая зрелость</div>
+        <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ИНФОГРАФИКИ -->
+  <div class="category">
+    <div class="cat-header">
+      <span class="cat-icon">📊</span>
+      <span class="cat-name">Инфографики · Визуальные материалы</span>
+      <span class="cat-count">4 страницы</span>
+    </div>
+    <div class="grid g4">
+      <a class="card" href="infographic_1_dozrevanie.html" target="_blank">
+        <span class="ci">🌱</span>
+        <div class="cn">Дозревание</div>
+        <div class="cd">Инфографика процесса ментального взросления</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="infographic_3_formats.html" target="_blank">
+        <span class="ci">🗺</span>
+        <div class="cn">Форматы работы</div>
+        <div class="cd">Карта форматов по каждому сегменту</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="infographic_5segments.html" target="_blank">
+        <span class="ci">👁</span>
+        <div class="cn">5 сегментов · визуал</div>
+        <div class="cd">Визуальная инфографика пяти типов аудитории</div>
+        <span class="arr">↗</span>
+      </a>
+      <a class="card" href="product_map_isakova.html" target="_blank">
+        <span class="ci">🗂</span>
+        <div class="cn">Карта продуктов</div>
+        <div class="cd">Полная продуктовая линейка и путь клиента</div>
+        <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- СЕРВИС -->
+  <div class="category">
+    <div class="cat-header">
+      <span class="cat-icon">⚙️</span>
+      <span class="cat-name">Сервис</span>
+      <span class="cat-count">1 страница</span>
+    </div>
+    <div class="grid g4">
+      <a class="card" href="privacy.html" target="_blank">
+        <span class="ci">🔒</span>
+        <div class="cn">Политика конфиденциальности</div>
+        <div class="cd">Юридический документ</div>
+        <span class="arr">↗</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span class="footer-text">Ирина Исакова · Ментальное взросление женщин · Личный портал</span>
+  <span class="footer-mark">Письма из Будущего ✦</span>
+</div>
+
+</body>
+</html>
